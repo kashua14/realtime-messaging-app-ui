@@ -2,4 +2,4 @@
 Messaging application
 
 # For Whom
-for only ucu
+for only ucu staff 
