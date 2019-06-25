@@ -1,5 +1,5 @@
 # UCU-MESSENGER
 Messaging application
 
-#for whom
+# For Whom
 for only ucu
