@@ -3,13 +3,6 @@ import PropTypes from "prop-types";
 
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import Icon from "@material-ui/core/Icon";
-
-// @material-ui/icons
-import Face from "@material-ui/icons/Face";
-import Email from "@material-ui/icons/Email";
-// import LockOutline from "@material-ui/icons/LockOutline";
 
 // core components
 import GridContainer from "../components/Grid/GridContainer.jsx";
@@ -24,15 +17,155 @@ import CardFooter from "../components/Card/CardFooter.jsx";
 import loginPageStyle from "../assets/jss/material-dashboard-pro-react/views/loginPageStyle.jsx";
 
 import badge from "../assets/img/ucu_badge.png"
+import bgImage from "../assets/img/bg-pricing.jpeg";
+
+import { login } from '../util/APIUtils';
 
 class Login extends React.Component {
   constructor(props) {
     super(props);
     // we use this to make the card to appear after the page has been rendered
     this.state = {
-      cardAnimaton: "cardHidden"
+      cardAnimaton: "cardHidden",
+      loginEmail:"",
+      loginEmailState:"",
+      loginPassword:"",
+      loginPasswordState:""
     };
+    this.handleLogin = this.handleLogin.bind(this);
   }
+  verifyEmail(value) {
+    var emailRex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (emailRex.test(value)) {
+      return true;
+    }
+    return false;
+  }
+  // function that verifies if a string has a given length or not
+  verifyLength(value, length) {
+    if (value.length >= length) {
+      return true;
+    }
+    return false;
+  }
+  change(event, stateName, type, stateNameEqualTo, maxValue) {
+    switch (type) {
+      case "email":
+        if (this.verifyEmail(event.target.value)) {
+          this.setState({ [stateName + "State"]: "success" });
+        } else {
+          this.setState({ [stateName + "State"]: "error" });
+        }
+        break;
+      case "password":
+        if (this.verifyLength(event.target.value, 6)) {
+          this.setState({ [stateName + "State"]: "success" });
+        } else {
+          this.setState({ [stateName + "State"]: "error" });
+        }
+        break;
+      case "checkbox":
+        if (event.target.checked) {
+          this.setState({ [stateName + "State"]: "success" });
+        } else {
+          this.setState({ [stateName + "State"]: "error" });
+        }
+        break;
+      case "length":
+        if (this.verifyLength(event.target.value, stateNameEqualTo)) {
+          this.setState({ [stateName + "State"]: "success" });
+        } else {
+          this.setState({ [stateName + "State"]: "error" });
+        }
+        break;
+      case "max-length":
+        if (!this.verifyLength(event.target.value, stateNameEqualTo + 1)) {
+          this.setState({ [stateName + "State"]: "success" });
+        } else {
+          this.setState({ [stateName + "State"]: "error" });
+        }
+        break;
+      case "min-value":
+        if (
+          this.verifyNumber(event.target.value) &&
+          event.target.value >= stateNameEqualTo
+        ) {
+          this.setState({ [stateName + "State"]: "success" });
+        } else {
+          this.setState({ [stateName + "State"]: "error" });
+        }
+        break;
+      case "max-value":
+        if (
+          this.verifyNumber(event.target.value) &&
+          event.target.value <= stateNameEqualTo
+        ) {
+          this.setState({ [stateName + "State"]: "success" });
+        } else {
+          this.setState({ [stateName + "State"]: "error" });
+        }
+        break;
+      case "range":
+        if (
+          this.verifyNumber(event.target.value) &&
+          event.target.value >= stateNameEqualTo &&
+          event.target.value <= maxValue
+        ) {
+          this.setState({ [stateName + "State"]: "success" });
+        } else {
+          this.setState({ [stateName + "State"]: "error" });
+        }
+        break;
+      default:
+        break;
+    }
+    switch (type) {
+      case "checkbox":
+        this.setState({ [stateName]: event.target.checked });
+        break;
+      default:
+        this.setState({ [stateName]: event.target.value });
+        break;
+    }
+  }
+  loginClick() {
+    if (this.state.loginEmailState === "") {
+      this.setState({ loginEmailState: "error" });
+    }
+    if (this.state.loginPasswordState === "") {
+      this.setState({ loginPasswordState: "error" });
+    }
+  }
+  typeClick() {
+    if (this.state.requiredState === "") {
+      this.setState({ requiredState: "error" });
+    }
+    if (this.state.typeEmailState === "") {
+      this.setState({ typeEmailState: "error" });
+    }
+    if (this.state.numberState === "") {
+      this.setState({ numberState: "error" });
+    }
+    
+  }
+
+  handleLogin(event) {
+    event.preventDefault();
+
+    const loginRequest = {
+      usernameOrEmail: this.state.loginEmail,
+      password: this.state.loginPassword
+    };
+    //console.log(loginRequest)
+    login(loginRequest)
+      .then(response => {
+        this.props.history.push("/dashboard");
+        alert("Welcome! to the MIS Messenger");
+      }).catch(error => {
+        alert(error.message || 'Sorry! Something went wrong. Please try again!');
+      });
+  }
+
   componentDidMount() {
     // we add a hidden class to the card and after 700 ms we delete it and the transition appears
     this.timeOutFunction = setTimeout(
@@ -49,10 +182,24 @@ class Login extends React.Component {
   render() {
     const { classes } = this.props;
     return (
+      <div
+        style={{
+          backgroundImage: `url(${bgImage})`,
+          backgroundPosition: "center",
+          backgroundSize: 'cover',
+          backgroundRepeat: 'no-repeat',
+          width: '100 %',
+          height: 'auto',
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0
+        }}>
       <div className={classes.container}>
         <GridContainer justify="center">
           <GridItem xs={12} sm={6} md={4}>
-            <form>
+            <form onSubmit={this.handleLogin}>
               <Card login className={classes[this.state.cardAnimaton]}>
                 <CardHeader
                   className={`${classes.cardHeader} ${classes.textCenter}`}
@@ -63,53 +210,38 @@ class Login extends React.Component {
           
                 </CardHeader>
                 <CardBody>
+                  
                   <CustomInput
-                    labelText="First Name.."
-                    id="firstname"
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                    inputProps={{
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <Face className={classes.inputAdornmentIcon} />
-                        </InputAdornment>
-                      )
-                    }}
-                  />
-                  <CustomInput
-                    labelText="Email..."
+                    success={this.state.loginEmailState === "success"}
+                    error={this.state.loginEmailState === "error"}
+                    labelText="Email"
                     id="email"
                     formControlProps={{
                       fullWidth: true
                     }}
                     inputProps={{
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <Email className={classes.inputAdornmentIcon} />
-                        </InputAdornment>
-                      )
+                      onChange: event =>
+                        this.change(event, "loginEmail", "email"),
+                      type: "text"
                     }}
                   />
                   <CustomInput
+                    success={this.state.loginPasswordState === "success"}
+                    error={this.state.loginPasswordState === "error"}
                     labelText="Password"
                     id="password"
                     formControlProps={{
                       fullWidth: true
                     }}
                     inputProps={{
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <Icon className={classes.inputAdornmentIcon}>
-                            lock_outline
-                          </Icon>
-                        </InputAdornment>
-                      )
+                      onChange: event =>
+                        this.change(event, "loginPassword", "password"),
+                      type: "password"
                     }}
                   />
                 </CardBody>
                 <CardFooter className={classes.justifyContentCenter}>
-                  <Button color="rose" simple size="lg" block>
+                  <Button type="submit" color="rose" simple size="lg" block>
                     Log in
                   </Button>
                 </CardFooter>
@@ -117,6 +249,7 @@ class Login extends React.Component {
             </form>
           </GridItem>
         </GridContainer>
+      </div>
       </div>
     );
   }

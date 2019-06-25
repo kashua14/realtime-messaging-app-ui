@@ -16,22 +16,19 @@ import CardHeader from "../components/Card/CardHeader.jsx";
 import CardBody from "../components/Card/CardBody.jsx";
 
 import CardFooter from "../components/Card/CardFooter.jsx";
-import badge from "../assets/img/ucu_badge.png"
+import badge from "../assets/img/ucu_badge.png";
+import bgImage from "../assets/img/bg-pricing.jpeg";
 
 import loginPageStyle from "../assets/jss/material-dashboard-pro-react/views/loginPageStyle";
-import {
-  NAME_MIN_LENGTH, NAME_MAX_LENGTH,
-  USERNAME_MIN_LENGTH, USERNAME_MAX_LENGTH,
-  EMAIL_MAX_LENGTH,
-  PASSWORD_MIN_LENGTH, PASSWORD_MAX_LENGTH
-} from '../constants';
-
-import { notification } from 'antd';
 
 class Signup extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      registerName:"",
+      registerNameState: "",
+      registerUsername: "",
+      registerUsernameState: "",
       registerEmail: "",
       registerEmailState: "",
       registerPassword: "",
@@ -54,6 +51,9 @@ class Signup extends React.Component {
     this.registerClick = this.registerClick.bind(this);
     this.loginClick = this.loginClick.bind(this);
     this.typeClick = this.typeClick.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.validateUsernameAvailability = this.validateUsernameAvailability.bind(this);
+    this.validateEmailAvailability = this.validateEmailAvailability.bind(this);
   }
 
   verifyEmail(value) {
@@ -79,6 +79,21 @@ class Signup extends React.Component {
   }
   change(event, stateName, type, stateNameEqualTo, maxValue) {
     switch (type) {
+      case "name":
+        if (this.verifyLength(event.target.value, 4)) {
+          this.setState({ [stateName + "State"]: "success" });
+        } else {
+          this.setState({ [stateName + "State"]: "error" });
+        }
+        break;
+      case "username":
+        if (this.verifyLength(event.target.value, 3)) {
+          this.setState({ [stateName + "State"]: "success" });
+        } else {
+          this.setState({ [stateName + "State"]: "error" });
+        }
+        break;
+
       case "email":
         if (this.verifyEmail(event.target.value)) {
           this.setState({ [stateName + "State"]: "success" });
@@ -87,7 +102,7 @@ class Signup extends React.Component {
         }
         break;
       case "password":
-        if (this.verifyLength(event.target.value, 1)) {
+        if (this.verifyLength(event.target.value, 6)) {
           this.setState({ [stateName + "State"]: "success" });
         } else {
           this.setState({ [stateName + "State"]: "error" });
@@ -235,13 +250,42 @@ class Signup extends React.Component {
     }
   }
 
+  handleSubmit(event) {
+    event.preventDefault();
 
+    const signupRequest = {
+      name: this.state.registerName,
+      username: this.state.registerUsername,
+      email: this.state.registerEmail,
+      password: this.state.registerPassword
+    };
+    signup(signupRequest)
+      .then(response => {
+        this.props.history.push("/login");
+        alert("Thank you! You're successfully registered. Please Login to continue!");
+      }).catch(error => {
+        alert(error.message || 'Sorry! Something went wrong. Please try again!');
+      });
+  }
 
   render() {
     const { classes } = this.props;
     return (
+      <div 
+        style={{
+          backgroundImage: `url(${bgImage})`,
+          backgroundPosition: "center",
+          backgroundSize: 'cover',
+          backgroundRepeat: 'no-repeat', 
+          width: '100 %',
+          height: 'auto',
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom:0
+        }}>
       <div className={classes.container}>
-        <img alt="bg" style={{ backgroundImage: `url(require("  "))`, }} />
         <GridContainer justify="center">
           <GridItem xs={12} sm={6} md={4}>
             <form onSubmit={this.handleSubmit}>
@@ -253,22 +297,36 @@ class Signup extends React.Component {
                   <img src={badge} alt='ucu badge' style={{ width: '100px' }} className={classes.loginlogo} />
                 </CardHeader>
               <CardBody>
-                  <CustomInput
-                    success={this.state.registerEmailState === "success"}
-                    error={this.state.registerEmailState === "error"}
-                    labelText="Username *"
-                    id="registerusername"
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                    inputProps={{
-                      onChange: event =>
-                        this.change(event, "registerUsername", "Username"),
-                      type: "Username"
-                    }}
-                  />
-                    
-                      <CustomInput
+                    <CustomInput
+                      success={this.state.registerNameState === "success"}
+                      error={this.state.registerNameState === "error"}
+                      labelText="Full Name *"
+                      id="registername"
+                      formControlProps={{
+                        fullWidth: true
+                      }}
+                      inputProps={{
+                        onChange: event =>
+                          this.change(event, "registerName", "name"),
+                        type: "text"
+                      }}
+                    />
+                    <CustomInput
+                      success={this.state.registerUsernameState === "success"}
+                      error={this.state.registerUsernameState === "error"}
+                      labelText="Username *"
+                      id="registerusername"
+                      formControlProps={{
+                        fullWidth: true
+                      }}
+                      inputProps={{
+                        onChange: event =>
+                          this.change(event, "registerUsername", "username"),
+                        onBlur: event => this.validateUsernameAvailability(),
+                        type: "text"
+                      }}
+                    />
+                    <CustomInput
                     success={this.state.registerEmailState === "success"}
                     error={this.state.registerEmailState === "error"}
                     labelText="Email Address *"
@@ -279,49 +337,54 @@ class Signup extends React.Component {
                     inputProps={{
                       onChange: event =>
                         this.change(event, "registerEmail", "email"),
+                      onBlur: event => this.validateEmailAvailability(),
                       type: "email"
                     }}
-                      />
-                  <CustomInput
-                    success={this.state.registerPasswordState === "success"}
-                    error={this.state.registerPasswordState === "error"}
-                    labelText="Password *"
-                    id="registerpassword"
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                    inputProps={{
-                      onChange: event =>
-                        this.change(event, "registerPassword", "password"),
-                      type: "password"
-                    }}
-                  />
-                  <CustomInput
-                    success={
-                      this.state.registerConfirmPasswordState === "success"
-                    }
-                    error={this.state.registerConfirmPasswordState === "error"}
-                    labelText="Confirm Password *"
-                    id="registerconfirmpassword"
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                    inputProps={{
-                      onChange: event =>
-                        this.change(
-                          event,
-                          "registerConfirmPassword",
-                          "equalTo",
-                          "registerPassword"
-                        ),
-                      type: "password"
-                    }}
-                  />
+                    />
+                    <CustomInput
+                      success={this.state.registerPasswordState === "success"}
+                      error={this.state.registerPasswordState === "error"}
+                      labelText="Password *"
+                      id="registerpassword"
+                      formControlProps={{
+                        fullWidth: true
+                      }}
+                      inputProps={{
+                        onChange: event =>
+                          this.change(event, "registerPassword", "password"),
+                        type: "password"
+                      }}
+                    />
+                    <CustomInput
+                      success={
+                        this.state.registerConfirmPasswordState === "success"
+                      }
+                      error={this.state.registerConfirmPasswordState === "error"}
+                      labelText="Confirm Password *"
+                      id="registerconfirmpassword"
+                      formControlProps={{
+                        fullWidth: true
+                      }}
+                      inputProps={{
+                        onChange: event =>
+                          this.change(
+                            event,
+                            "registerConfirmPassword",
+                            "equalTo",
+                            "registerPassword"
+                          ),
+                        type: "password"
+                      }}
+                    />
                   <div className={classes.formCategory}>
                     <small>*</small> Required fields
                 </div>
                     <CardFooter className={classes.justifyContentCenter}>
-                      <Button type='submit' color="rose" simple size="lg" block
+                      <Button 
+                      type='submit' 
+                      color="rose" 
+                      simple size="lg" 
+                      block
                       onClick={this.registerClick}
                       >
                         Register
@@ -333,8 +396,120 @@ class Signup extends React.Component {
           </GridItem>
         </GridContainer>
       </div>
+     </div>
     );
   }
+
+  validateUsernameAvailability() {
+    // First check for client side errors in username
+    const usernameValue = this.state.registerUsername;
+    const usernameValidation = this.verifyLength(usernameValue);
+
+    if (usernameValidation.registerUsernameState === 'error') {
+      this.setState({
+        registerUsername: {
+          value: usernameValue,
+          ...usernameValidation
+        }
+      });
+      return;
+    }
+
+    this.setState({
+      registerUsername: {
+        value: usernameValue,
+        registerUsernameState: 'validating',
+        errorMsg: null
+      }
+    });
+
+    checkUsernameAvailability(usernameValue)
+      .then(response => {
+        if (response.available) {
+          this.setState({
+            registerUsername: {
+              value: usernameValue,
+              registerUsernameState: 'success',
+              errorMsg: null
+            }
+          });
+        } else {
+          this.setState({
+            registerUsername: {
+              value: usernameValue,
+              registerUsernameState: 'error',
+              errorMsg: 'This username is already taken'
+            }
+            
+          });
+          alert("This Username is already taken!");
+        }
+      }).catch(error => {
+        // Marking validateStatus as success, Form will be recchecked at server
+        this.setState({
+          registerUsername: {
+            value: usernameValue,
+            registerUsernameState: 'success',
+            errorMsg: null
+          }
+        });
+      });
+  }
+
+  validateEmailAvailability() {
+    // First check for client side errors in email
+    const emailValue = this.state.registerEmail;
+    const emailValidation = this.verifyEmail(emailValue);
+
+    if (emailValidation.registerEmailState === 'error') {
+      this.setState({
+        registerEmail: {
+          value: emailValue,
+          ...emailValidation
+        }
+      });
+      return;
+    }
+
+    this.setState({
+      registerEmail: {
+        value: emailValue,
+        registerEmailState: 'validating',
+        errorMsg: null
+      }
+    });
+
+    checkEmailAvailability(emailValue)
+      .then(response => {
+        if (response.available) {
+          this.setState({
+            registerEmail: {
+              value: emailValue,
+              registerEmailState: 'success',
+              errorMsg: null
+            }
+          });
+        } else {
+          this.setState({
+            registerEmail: {
+              value: emailValue,
+              registerEmailState: 'error'
+            }
+          });
+          alert("This Email is already registered");
+        }
+      }).catch(error => {
+        // Marking validateStatus as success, Form will be recchecked at server
+        this.setState({
+          registerEmail: {
+            value: emailValue,
+            registerEmailState: 'success',
+            errorMsg: null
+          }
+        });
+      });
+  }
+
 }
 
 Signup.propTypes = {

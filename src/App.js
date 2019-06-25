@@ -30,11 +30,6 @@ class App extends Component {
     this.loadCurrentUser = this.loadCurrentUser.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
 
-    notification.config({
-      placement: 'topRight',
-      top: 70,
-      duration: 3,
-    });
   }
 
   loadCurrentUser() {
@@ -70,18 +65,15 @@ class App extends Component {
     this.props.history.push(redirectTo);
 
     notification[notificationType]({
-      message: 'Polling App',
+      message: 'MIS Messenger',
       description: description,
     });
   }
 
   handleLogin() {
-    notification.success({
-      message: 'Polling App',
-      description: "You're successfully logged in.",
-    });
+    alert("You're successfully logged in.")
     this.loadCurrentUser();
-    this.props.history.push("/NewPoll");
+    this.props.history.push("/dashboard");
   }
 
 
