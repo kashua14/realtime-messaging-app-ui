@@ -259,6 +259,7 @@ class Signup extends React.Component {
       email: this.state.registerEmail,
       password: this.state.registerPassword
     };
+    console.log(signupRequest);
     signup(signupRequest)
       .then(response => {
         this.props.history.push("/login");
@@ -407,8 +408,8 @@ class Signup extends React.Component {
 
     if (usernameValidation.registerUsernameState === 'error') {
       this.setState({
-        registerUsername: {
-          value: usernameValue,
+        username: {
+          registerUsername: usernameValue,
           ...usernameValidation
         }
       });
@@ -416,8 +417,8 @@ class Signup extends React.Component {
     }
 
     this.setState({
-      registerUsername: {
-        value: usernameValue,
+      username: {
+        registerUsername: usernameValue,
         registerUsernameState: 'validating',
         errorMsg: null
       }
@@ -427,16 +428,16 @@ class Signup extends React.Component {
       .then(response => {
         if (response.available) {
           this.setState({
-            registerUsername: {
-              value: usernameValue,
+            username: {
+              registerUsername: usernameValue,
               registerUsernameState: 'success',
               errorMsg: null
             }
           });
         } else {
           this.setState({
-            registerUsername: {
-              value: usernameValue,
+            username: {
+              registerUsername: usernameValue,
               registerUsernameState: 'error',
               errorMsg: 'This username is already taken'
             }
@@ -447,8 +448,8 @@ class Signup extends React.Component {
       }).catch(error => {
         // Marking validateStatus as success, Form will be recchecked at server
         this.setState({
-          registerUsername: {
-            value: usernameValue,
+          username: {
+            registerUsername: usernameValue,
             registerUsernameState: 'success',
             errorMsg: null
           }
@@ -463,8 +464,8 @@ class Signup extends React.Component {
 
     if (emailValidation.registerEmailState === 'error') {
       this.setState({
-        registerEmail: {
-          value: emailValue,
+        email: {
+          registerEmail: emailValue,
           ...emailValidation
         }
       });
@@ -472,8 +473,8 @@ class Signup extends React.Component {
     }
 
     this.setState({
-      registerEmail: {
-        value: emailValue,
+      email: {
+        registerEmail: emailValue,
         registerEmailState: 'validating',
         errorMsg: null
       }
@@ -483,16 +484,16 @@ class Signup extends React.Component {
       .then(response => {
         if (response.available) {
           this.setState({
-            registerEmail: {
-              value: emailValue,
+            email: {
+              registerEmail: emailValue,
               registerEmailState: 'success',
               errorMsg: null
             }
           });
         } else {
           this.setState({
-            registerEmail: {
-              value: emailValue,
+            email: {
+              registerEmail: emailValue,
               registerEmailState: 'error'
             }
           });
@@ -501,8 +502,8 @@ class Signup extends React.Component {
       }).catch(error => {
         // Marking validateStatus as success, Form will be recchecked at server
         this.setState({
-          registerEmail: {
-            value: emailValue,
+          email: {
+            registerEmail: emailValue,
             registerEmailState: 'success',
             errorMsg: null
           }

@@ -10,6 +10,7 @@ import './App.css'
 import { getCurrentUser } from './util/APIUtils';
 import { ACCESS_TOKEN } from './constants';
 
+import Dashboard from './Pages/Dashboard';
 import Login from './Pages/Login';
 import Signup from './Pages/Signup';
 import Profile from './Pages/profile/Profile';
@@ -83,6 +84,8 @@ class App extends Component {
     }
     return (
       <Switch>
+        <Route path="/dashboard"
+          render={(props) => <Dashboard component={Dashboard} {...props} />}></Route>
         <Route path="/login"
           render={(props) => <Login onLogin={this.handleLogin} {...props} />}></Route>
         <Route path="/signup" component={Signup}></Route>
