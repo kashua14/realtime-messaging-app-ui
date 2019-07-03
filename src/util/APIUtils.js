@@ -33,6 +33,13 @@ export function getAllPolls(page, size) {
     });
 }
 
+export function getAllUsers() {
+    return request({
+        url: API_BASE_URL + "/dashboard",
+        method: 'GET'
+    });
+}
+
 export function createPoll(pollData) {
     return request({
         url: API_BASE_URL + "/polls",

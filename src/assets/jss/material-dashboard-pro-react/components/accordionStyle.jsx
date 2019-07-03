@@ -1,4 +1,4 @@
-import { primaryColor } from "assets/jss/material-dashboard-pro-react.jsx";
+import { primaryColor } from "../../material-dashboard-pro-react.jsx";
 
 const accordionStyle = theme => ({
   root: {
