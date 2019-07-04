@@ -6,10 +6,10 @@ import cx from "classnames";
 import withStyles from "@material-ui/core/styles/withStyles";
 
 // core components
-import GridContainer from "components/Grid/GridContainer.jsx";
-import GridItem from "components/Grid/GridItem";
+import GridContainer from "../Grid/GridContainer.jsx";
+import GridItem from "../Grid/GridItem";
 
-import instructionStyle from "assets/jss/material-dashboard-pro-react/components/instructionStyle.jsx";
+import instructionStyle from "../../assets/jss/material-dashboard-pro-react/components/instructionStyle.jsx";
 
 function Instruction({ ...props }) {
   const {

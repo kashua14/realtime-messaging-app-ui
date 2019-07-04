@@ -20,6 +20,7 @@ import badge from "../assets/img/ucu_badge.png"
 import bgImage from "../assets/img/bg-pricing.jpeg";
 
 import { login } from '../util/APIUtils';
+import { ACCESS_TOKEN } from '../constants';
 
 class Login extends React.Component {
   constructor(props) {
@@ -159,10 +160,14 @@ class Login extends React.Component {
     //console.log(loginRequest)
     login(loginRequest)
       .then(response => {
-        this.props.history.push("/dashboard");
-        alert("Welcome! to the MIS Messenger");
+        localStorage.setItem(ACCESS_TOKEN, response.accessToken);
+        this.props.onLogin();
       }).catch(error => {
-        alert(error.message || 'Sorry! Something went wrong. Please try again!');
+        if (error.status === 401) {
+          alert('Your Username or Password is incorrect. Please try again!');
+        } else {
+          alert(error.message || 'Sorry! Something went wrong. Please try again!');
+        }
       });
   }
 

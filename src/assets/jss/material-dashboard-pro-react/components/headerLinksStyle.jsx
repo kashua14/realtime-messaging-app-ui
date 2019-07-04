@@ -7,7 +7,7 @@ import {
   dangerColor
 } from "../../material-dashboard-pro-react.jsx";
 
-import customDropdownStyle from "assets/jss/material-dashboard-pro-react/components/customDropdownStyle.jsx";
+import customDropdownStyle from "./customDropdownStyle.jsx";
 
 const headerLinksStyle = theme => ({
   ...customDropdownStyle(theme),
