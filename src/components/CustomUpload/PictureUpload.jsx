@@ -1,6 +1,6 @@
 import React from "react";
 
-import defaultImage from "assets/img/default-avatar.png";
+import defaultImage from "../../assets/img/default-avatar.png";
 
 class PictureUpload extends React.Component {
   constructor(props) {
@@ -34,14 +34,13 @@ class PictureUpload extends React.Component {
     return (
       <div className="picture-container">
         <div className="picture">
-          <img
+          <img 
+            style={{ width:'100%', align: 'center' }}
             src={this.state.imagePreviewUrl}
             className="picture-src"
             alt="..."
           />
-          <input type="file" onChange={e => this.handleImageChange(e)} />
         </div>
-        <h6 className="description">Choose Picture</h6>
       </div>
     );
   }
