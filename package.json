@@ -8,6 +8,7 @@
     "antd": "^3.19.6",
     "chartist": "0.10.1",
     "history": "4.7.2",
+    "install-link": "^0.1.2",
     "moment": "2.22.2",
     "node-sass-chokidar": "1.3.3",
     "nouislider": "12.0.0",

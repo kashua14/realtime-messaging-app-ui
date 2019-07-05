@@ -1,12 +1,11 @@
 import React from "react";
-import PropTypes from "prop-types"; 
+import PropTypes from "prop-types";
 
 // react plugin for creating vector maps
 //import { VectorMap } from "react-jvectormap";
 
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
-// import Tooltip from "@material-ui/core/Tooltip";
 // import Icon from "@material-ui/core/Icon";
 
 // // @material-ui/icons
@@ -26,6 +25,8 @@ import withStyles from "@material-ui/core/styles/withStyles";
 // import Language from "@material-ui/icons/Language";
 
 // core components
+import CustomInput from "../components/CustomInput/CustomInput.jsx";
+import Button from "../components/CustomButtons/Button.jsx";
 // import GridContainer from "../components/Grid/GridContainer.jsx";
 // import GridItem from "../components/Grid/GridItem.jsx";
 // import Button from "../components/CustomButtons/Button.jsx";
@@ -36,10 +37,11 @@ import withStyles from "@material-ui/core/styles/withStyles";
 // import CardBody from "../components/Card/CardBody.jsx";
 // import CardFooter from "../components/Card/CardFooter.jsx";
 
-
+//import PictureUpload from "../components/CustomUpload/PictureUpload.jsx";
 import dashboardStyle from "../assets/jss/material-dashboard-pro-react/views/dashboardStyle";
 import { getAllUsers } from '../util/APIUtils'
-
+import defaultImage from "../assets/img/default-avatar.png";
+import  './myStyles.css'
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -47,7 +49,8 @@ class Dashboard extends React.Component {
     this.state = {
       value: 0,
       cardAnimation: 'cardHidden',
-      users: []
+      users: [],
+      imagePreviewUrl: defaultImage
     }; 
     this.displayUsers = this.displayUsers.bind(this);
   }
@@ -86,43 +89,55 @@ class Dashboard extends React.Component {
   render() {
 
     const items = this.state.users.map((user, key) => 
-    <li key={user.id} 
-    style={{
-      padding: 7, 
-      borderBottom: '2px solid grey',
-      margin: '2px',
-      borderLeft: '5px solid grey',
-      fontWeight: 'bold',
-      fontSize: 20
-    }}
-    >
-      {user.username}
-    </li>
+    <a href='/'>
+      <li key={user.id} style={{ borderTop: '1px solid #aaa' }} >
+          <div style={{ boxSizing: 'border-box' , display:'inline-block', textAlign: 'center', }}>
+              <img 
+                style={{ margin:'5px 0px', width: '40px', height: 'auto', align: 'middle', border:' 4px solid #CCCCCC', borderRadius: '50%'}}
+                src={this.state.imagePreviewUrl}
+                alt="..."
+              />
+              <div style={{ textAlign:'center', float: 'right' }}>
+                <h3 style={{ margin: '20px' }} >{user.username}</h3>
+              </div>
+          </div>
+      </li>
+    </a>
     )
     return (
-      <div 
-        // style={{
-        //   backgroundImage: `url(${bgImage})`,
-        //   backgroundPosition: "center",
-        //   backgroundSize: 'cover',
-        //   backgroundRepeat: 'no-repeat',
-        //   width: '100%',
-        //   height: 'auto',
-        //   position: 'fixed',
-        //   top: 0,
-        //   left: 0,
-        //   right: 0,
-        //   bottom: 0,
-        // }}
-      >
-        <div style={{ float: 'left' }} >
-          <h2 style={{ textAlign: 'center'}} >CONNECTED USERS</h2>
-          <ul style={{ listStyleType: 'none' }}>
-            { items }
-          </ul>
+      <div style={{ boxSizing: 'border-box'}} >
+        <div style={{ backgroundColor:'#bbb', margin: 0, width:'20%', height: '100%', float: 'left', padding : '0px 15px', borderRight: '2px solid black' }} >
+          <h4 style={{ textAlign: 'center', padding: 0 }} >CONNECTED USERS</h4>
+          <div>
+            <ul style={{ listStyleType: 'none', padding: 0 }}>
+              { items }
+            </ul>
+          </div>
         </div>
-        <div>
-          <h2 style={{ textAlign: 'center' }} >CHAT-ROOM</h2>
+        <div style={{ boxSizing: 'border-box', backgroundColor:'#aa2',  width:'auto', height: '100%', padding : '0px 15px'}} >
+          <div>
+            <h2 style={{ textAlign: 'center', backgroundColor:'rose' }} >CHAT-ROOM</h2>
+          </div>
+          <div style={{ height: '500px', overflowY: 'auto' }}>
+            <p>body</p>
+          </div>
+          <div style={{ bottom: 0, right:0, position: 'absolute', backgroundColor: '#bbb' }}>
+              <CustomInput
+                  labelText="Type your Message here..."
+                  id="message"
+                  formControlProps={{
+                    fullWidth: false
+                  }}
+                  inputProps={{
+                    onChange: event =>
+                      this.change(event, "loginEmail", "email"),
+                      type: "text"
+                    }}
+                />
+              <Button type="submit" color="rose"  size="sm" inline>
+                Send
+              </Button>
+          </div>
         </div>
       </div>
     );
