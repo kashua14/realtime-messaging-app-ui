@@ -436,23 +436,18 @@ class Signup extends React.Component {
           });
         } else {
           this.setState({
-            username: {
               registerUsername: usernameValue,
               registerUsernameState: 'error',
               errorMsg: 'This username is already taken'
-            }
-            
           });
           alert("This Username is already taken!");
         }
       }).catch(error => {
         // Marking validateStatus as success, Form will be recchecked at server
         this.setState({
-          username: {
             registerUsername: usernameValue,
             registerUsernameState: 'success',
             errorMsg: null
-          }
         });
       });
   }
@@ -484,18 +479,15 @@ class Signup extends React.Component {
       .then(response => {
         if (response.available) {
           this.setState({
-            email: {
               registerEmail: emailValue,
               registerEmailState: 'success',
               errorMsg: null
-            }
           });
         } else {
           this.setState({
-            email: {
               registerEmail: emailValue,
-              registerEmailState: 'error'
-            }
+              registerEmailState: 'error',
+              errorMsg: 'This Email is already registered'
           });
           alert("This Email is already registered");
         }

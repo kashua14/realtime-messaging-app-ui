@@ -106,28 +106,25 @@ class Dashboard extends React.Component {
     )
     return (
       <div style={{ boxSizing: 'border-box'}} >
-        <div style={{ backgroundColor:'#bbb', margin: 0, width:'20%', height: '100%', float: 'left', padding : '0px 15px', borderRight: '2px solid black' }} >
+        <div style={{ backgroundColor:'#bbb', margin: 0, width:'20%', height: '100%', float: 'left', padding : '0px 15px', borderRight: '2px solid #ccc' }} >
           <h4 style={{ textAlign: 'center', padding: 0 }} >CONNECTED USERS</h4>
-          <div>
-            <ul style={{ listStyleType: 'none', padding: 0 }}>
-              { items }
-            </ul>
-          </div>
+            <div>
+              <ul style={{ listStyleType: 'none', padding: 0 }}>
+                { items }
+              </ul>
+            </div>
         </div>
-        <div style={{ boxSizing: 'border-box', backgroundColor:'#aa2',  width:'auto', height: '100%', padding : '0px 15px'}} >
-          <div>
-            <h2 style={{ textAlign: 'center', backgroundColor:'rose' }} >CHAT-ROOM</h2>
+        <div style={{ backgroundColor:'#aa2', width:'auto', height: '100%'}} >
+          <div style={{ backgroundColor:'#ccc', padding: '8px' }}>
+            <h2 style={{ textAlign: 'center'}} >CHAT-ROOM</h2>
           </div>
-          <div style={{ height: '500px', overflowY: 'auto' }}>
+          <div style={{ paddingLeft: '10px', height: '500px', overflowY: 'auto' }}>
             <p>body</p>
           </div>
-          <div style={{ bottom: 0, right:0, position: 'absolute', backgroundColor: '#bbb' }}>
+          <div style={{ backgroundColor: '#bbb'}}>
               <CustomInput
                   labelText="Type your Message here..."
                   id="message"
-                  formControlProps={{
-                    fullWidth: false
-                  }}
                   inputProps={{
                     onChange: event =>
                       this.change(event, "loginEmail", "email"),

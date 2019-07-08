@@ -48,7 +48,7 @@ const customInputStyle = {
     color: successColor + " !important"
   },
   formControl: {
-    margin: "0 0 17px 0",
+    margin: "0 5px 17px 5px",
     paddingTop: "27px",
     position: "relative",
     verticalAlign: "unset",
