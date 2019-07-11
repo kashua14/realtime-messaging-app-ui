@@ -85,34 +85,6 @@ class Dashboard extends React.Component {
         <div>
           { isOpen && <App /> }
         </div>
-        <div >
-
-        </div>
-        {/* <div style={{ boxSizing: 'border-box', backgroundColor:'#aa2',  width:'auto', height: '100%', padding : '0px 15px'}} >
-           <div>
-            <h2 style={{ textAlign: 'center', backgroundColor:'rose' }} >CHAT-ROOM</h2>
-          </div>
-          <div style={{ height: '500px', overflowY: 'auto' }}>
-            <p>body</p>
-          </div> */}
-          {/* <div style={{ bottom: 0, right:0, position: 'absolute', backgroundColor: '#bbb' }}>
-              <CustomInput
-                  labelText="Type your Message here..."
-                  id="message"
-                  formControlProps={{
-                    fullWidth: false
-                  }}
-                  inputProps={{
-                    onChange: event =>
-                      this.change(event, "loginEmail", "email"),
-                      type: "text"
-                    }}
-                />
-              <Button type="submit" color="rose"  size="sm" inline>
-                Send
-              </Button>
-          </div> 
-        </div>*/}
       </div>
     );
   }
