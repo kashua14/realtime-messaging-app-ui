@@ -45,6 +45,7 @@ import dashboardStyle from "../assets/jss/material-dashboard-pro-react/views/das
 import Chats from "./Chats.jsx";
 
 class Dashboard extends React.Component {
+  _isMounted = false;
   constructor(props) {
     super(props);
     this.state = {
@@ -63,15 +64,19 @@ class Dashboard extends React.Component {
   }
 
   componentDidMount(){
+    this._isMounted = true;
     this.timeOutFunction = setTimeout(
       function() {
-        this.setState({ cardAnimation: "" });
+        if (this._isMounted) {
+         this.setState({ cardAnimation: "" });
+        }
       }.bind(this),
       700
     );
   }
 
   componentWillMount(){
+    this._isMounted = false;
     clearTimeout(this.timeOutFunction);
     this.timeOutFunction = null;
   }
@@ -79,8 +84,8 @@ class Dashboard extends React.Component {
   render() {
     return (
       <div style={{ boxSizing: 'border-box', background: 'rgba(0,0,0,0.6)', width: '100%', height: '100vh'}} >
-        <div style={{ height: '100vh' }} >
-          <Chats />
+        <div  >
+          <Chats style={{ minHeight: '100%', position: 'absolute' }} />
         </div>
       </div>
     );

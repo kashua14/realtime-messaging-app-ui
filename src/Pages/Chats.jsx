@@ -8,10 +8,11 @@ import PropTypes from "prop-types";
 import withStyles from "@material-ui/core/styles/withStyles";
 // import Icon from "@material-ui/core/Icon";
 
-// // @material-ui/icons
-// // import ContentCopy from "@material-ui/icons/ContentCopy";
+// @material-ui/icons
+import Box from 'react-styled-box';
+// import ContentCopy from "@material-ui/icons/ContentCopy";
 // import Store from "@material-ui/icons/Store";
-// // import InfoOutline from "@material-ui/icons/InfoOutline";
+// import InfoOutline from "@material-ui/icons/InfoOutline";
 // import Warning from "@material-ui/icons/Warning";
 // import DateRange from "@material-ui/icons/DateRange";
 // import LocalOffer from "@material-ui/icons/LocalOffer";
@@ -35,7 +36,7 @@ import sidebarStyle from "../assets/jss/material-dashboard-pro-react/components/
 // import Card from "../components/Card/Card.jsx";
 // import CardHeader from "../components/Card/CardHeader.jsx";
 // import CardIcon from "../components/Card/CardIcon.jsx";
-import CardBody from "../components/Card/CardBody.jsx";
+// import CardBody from "../components/Card/CardBody.jsx";
 // import CardFooter from "../components/Card/CardFooter.jsx";
 
 import { getAllUsers } from '../util/APIUtils'
@@ -43,6 +44,7 @@ import defaultImage from "../assets/img/default-avatar.png";
 import App from "./App.jsx";
 
 class Chats extends React.Component {
+  _isMounted = false;
   constructor(props) {
     super(props);
     this.state = {
@@ -74,9 +76,12 @@ displayUsers() {
 }
 
 componentDidMount(){
+  this._isMounted = true;
   this.timeOutFunction = setTimeout(
     function() {
-      this.setState({ cardAnimation: "" });
+      if (this._isMounted) {
+        this.setState({ cardAnimation: "" });
+      }
       this.displayUsers();
     }.bind(this),
     700
@@ -84,6 +89,7 @@ componentDidMount(){
 }
 
 componentWillMount(){
+  this._isMounted = false;
   clearTimeout(this.timeOutFunction);
   this.timeOutFunction = null;
 }
@@ -100,7 +106,7 @@ componentWillMount(){
     >
           <div style={{ boxSizing: 'border-box' , display:'inline-block', textAlign: 'center', }}>
               <img 
-                style={{ margin:'5px 0px', width: '40px', height: 'auto', align: 'middle', border:' 4px solid #CCCCCC', borderRadius: '50%'}}
+                style={{ margin:'5px 0px', width: '50px', height: 'auto', align: 'middle',padding:'2px 10px', borderRadius: '50%'}}
                 src={this.state.imagePreviewUrl}
                 alt="..."
               />
@@ -112,17 +118,18 @@ componentWillMount(){
     );
 
     return (
-      <div style={{ boxSizing: 'border-box'}} >
-        <div style={{ backgroundColor:'#bbb', margin: 0, width:'20%', height: '100%', float: 'left', padding : '0px 15px', borderRight: '2px solid black' }} >
-            <h4 color="rose" style={{ backgroundColor:'rose', textAlign: 'center', padding: 0 }} >CHATS</h4>
-            <CardBody>
-                <ul style={{ listStyleType: 'none', padding: 0 }}>
-                  {items}
-                </ul>
-            </CardBody>
-            { isOpen && <App /> }
-        </div>
-      </div>
+      <Box height={100} width="100%" bgcolor="background.paper">
+        <Box style={{ backgroundColor: '#ccc', minHeight:"100vh" }}  width='25%' display="inline-block">
+          {/* <div style={{ backgroundColor:'#bbb', margin: 0, width:'20%', height: '100%', float: 'left', padding : '0px 15px', borderRight: '2px solid black' }} > */}
+              <h4 color="rose" style={{ backgroundColor:'rose', textAlign: 'center', padding: 0 }} >CHATS</h4>
+              
+                  <ul style={{ listStyleType: 'none', padding: 0 }}>
+                    {items}
+                  </ul>
+              { isOpen && <App /> }
+          {/* </div> */}
+        </Box>
+      </Box >
     );
   }
 }
