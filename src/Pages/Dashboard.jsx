@@ -25,8 +25,8 @@ import withStyles from "@material-ui/core/styles/withStyles";
 // import Language from "@material-ui/icons/Language";
 
 // core components
-import CustomInput from "../components/CustomInput/CustomInput.jsx";
-import Button from "../components/CustomButtons/Button.jsx";
+// import CustomInput from "../components/CustomInput/CustomInput.jsx";
+// import Button from "../components/CustomButtons/Button.jsx";
 // import GridContainer from "../components/Grid/GridContainer.jsx";
 // import GridItem from "../components/Grid/GridItem.jsx";
 // import Button from "../components/CustomButtons/Button.jsx";
@@ -39,37 +39,34 @@ import Button from "../components/CustomButtons/Button.jsx";
 
 //import PictureUpload from "../components/CustomUpload/PictureUpload.jsx";
 import dashboardStyle from "../assets/jss/material-dashboard-pro-react/views/dashboardStyle";
-import { getAllUsers } from '../util/APIUtils'
-import defaultImage from "../assets/img/default-avatar.png";
+// import { getAllUsers } from '../util/APIUtils'
+// import defaultImage from "../assets/img/default-avatar.png";
 import  './myStyles.css'
+import Chats from "./Chats.jsx";
+import App from "./App";
 
 class Dashboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       value: 0,
+      isOpen: true,
       cardAnimation: 'cardHidden',
-      users: [],
-      imagePreviewUrl: defaultImage
     }; 
-    this.displayUsers = this.displayUsers.bind(this);
+    this.openChatRoom = this.openChatRoom.bind(this);
   }
 
-  displayUsers() {
-    getAllUsers()
-    .then(response => {
-      this.setState({users: response })
-    }).catch(error => {
-      alert(error.message || 'sorry! Something went wrong. Please try again!');
-    });
-    console.log(this.state.users);
+  openChatRoom() {
+    console.log('i work in dashboard');
+    this.setState(
+      oldState => ({isOpen: !oldState.isOpen})
+    )
   }
 
   componentDidMount(){
     this.timeOutFunction = setTimeout(
       function() {
         this.setState({ cardAnimation: "" });
-        this.displayUsers();
       }.bind(this),
       700
     );
@@ -80,61 +77,13 @@ class Dashboard extends React.Component {
     this.timeOutFunction = null;
   }
 
-  // handleChange = (event, value) => {
-  //   this.setState({ value });
-  // };
-  // handleChangeIndex = index => {
-  //   this.setState({ value: index });
-  // };
   render() {
-
-    const items = this.state.users.map((user, key) => 
-    <a href='/'>
-      <li key={user.id} style={{ borderTop: '1px solid #aaa' }} >
-          <div style={{ boxSizing: 'border-box' , display:'inline-block', textAlign: 'center', }}>
-              <img 
-                style={{ margin:'5px 0px', width: '40px', height: 'auto', align: 'middle', border:' 4px solid #CCCCCC', borderRadius: '50%'}}
-                src={this.state.imagePreviewUrl}
-                alt="..."
-              />
-              <div style={{ textAlign:'center', float: 'right' }}>
-                <h3 style={{ margin: '20px' }} >{user.username}</h3>
-              </div>
-          </div>
-      </li>
-    </a>
-    )
+    const {isOpen} = this.state;
     return (
-      <div style={{ boxSizing: 'border-box'}} >
-        <div style={{ backgroundColor:'#bbb', margin: 0, width:'20%', height: '100%', float: 'left', padding : '0px 15px', borderRight: '2px solid #ccc' }} >
-          <h4 style={{ textAlign: 'center', padding: 0 }} >CONNECTED USERS</h4>
-            <div>
-              <ul style={{ listStyleType: 'none', padding: 0 }}>
-                { items }
-              </ul>
-            </div>
-        </div>
-        <div style={{ backgroundColor:'#aa2', width:'auto', height: '100%'}} >
-          <div style={{ backgroundColor:'#ccc', padding: '8px' }}>
-            <h2 style={{ textAlign: 'center'}} >CHAT-ROOM</h2>
-          </div>
-          <div style={{ paddingLeft: '10px', height: '500px', overflowY: 'auto' }}>
-            <p>body</p>
-          </div>
-          <div style={{ backgroundColor: '#bbb'}}>
-              <CustomInput
-                  labelText="Type your Message here..."
-                  id="message"
-                  inputProps={{
-                    onChange: event =>
-                      this.change(event, "loginEmail", "email"),
-                      type: "text"
-                    }}
-                />
-              <Button type="submit" color="rose"  size="sm" inline>
-                Send
-              </Button>
-          </div>
+      <div style={{  boxSizing: 'border-box', background: 'rgba(0,0,0,0.6)', width: '100%', height: '100vh'}} >
+        <Chats />
+        <div>
+          { isOpen && <App /> }
         </div>
       </div>
     );
