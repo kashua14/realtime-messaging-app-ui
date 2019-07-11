@@ -35,12 +35,11 @@ import sidebarStyle from "../assets/jss/material-dashboard-pro-react/components/
 // import Card from "../components/Card/Card.jsx";
 // import CardHeader from "../components/Card/CardHeader.jsx";
 // import CardIcon from "../components/Card/CardIcon.jsx";
-// import CardBody from "../components/Card/CardBody.jsx";
+import CardBody from "../components/Card/CardBody.jsx";
 // import CardFooter from "../components/Card/CardFooter.jsx";
 
 import { getAllUsers } from '../util/APIUtils'
 import defaultImage from "../assets/img/default-avatar.png";
-import  './myStyles.css'
 import App from "./App.jsx";
 
 class Chats extends React.Component {
@@ -91,7 +90,8 @@ componentWillMount(){
 
 
   render() {
-    const isOpen = this.state;
+    const isOpen = this.state.isOpen;
+    //const { classes } = this.props;
     const items = this.state.users.map((user, key) => 
       <li 
         key={user.id} 
@@ -114,13 +114,13 @@ componentWillMount(){
     return (
       <div style={{ boxSizing: 'border-box'}} >
         <div style={{ backgroundColor:'#bbb', margin: 0, width:'20%', height: '100%', float: 'left', padding : '0px 15px', borderRight: '2px solid black' }} >
-          <h4 color="rose" style={{ textAlign: 'center', padding: 0 }} >CONNECTED USERS</h4>
-          <div>
-            <ul style={{ listStyleType: 'none', padding: 0 }}>
-              { items }
-            </ul>
-          </div>
-          { isOpen && <App /> }
+            <h4 color="rose" style={{ backgroundColor:'rose', textAlign: 'center', padding: 0 }} >CHATS</h4>
+            <CardBody>
+                <ul style={{ listStyleType: 'none', padding: 0 }}>
+                  {items}
+                </ul>
+            </CardBody>
+            { isOpen && <App /> }
         </div>
       </div>
     );

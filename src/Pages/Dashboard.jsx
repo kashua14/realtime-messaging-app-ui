@@ -41,9 +41,8 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import dashboardStyle from "../assets/jss/material-dashboard-pro-react/views/dashboardStyle";
 // import { getAllUsers } from '../util/APIUtils'
 // import defaultImage from "../assets/img/default-avatar.png";
-import  './myStyles.css'
+// import ucu from '../assets/img/ucu_badge.png';
 import Chats from "./Chats.jsx";
-import App from "./App";
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -78,12 +77,10 @@ class Dashboard extends React.Component {
   }
 
   render() {
-    const {isOpen} = this.state;
     return (
-      <div style={{  boxSizing: 'border-box', background: 'rgba(0,0,0,0.6)', width: '100%', height: '100vh'}} >
-        <Chats />
-        <div>
-          { isOpen && <App /> }
+      <div style={{ boxSizing: 'border-box', background: 'rgba(0,0,0,0.6)', width: '100%', height: '100vh'}} >
+        <div style={{ height: '100vh' }} >
+          <Chats />
         </div>
       </div>
     );

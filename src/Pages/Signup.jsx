@@ -440,7 +440,7 @@ class Signup extends React.Component {
               registerUsernameState: 'error',
               errorMsg: 'This username is already taken'
           });
-          alert("This Username is already taken!");
+          // alert("This Username is already taken!");
         }
       }).catch(error => {
         // Marking validateStatus as success, Form will be recchecked at server
@@ -489,7 +489,7 @@ class Signup extends React.Component {
               registerEmailState: 'error',
               errorMsg: 'This Email is already registered'
           });
-          alert("This Email is already registered");
+          // alert("This Email is already registered");
         }
       }).catch(error => {
         // Marking validateStatus as success, Form will be recchecked at server
