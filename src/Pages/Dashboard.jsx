@@ -42,7 +42,8 @@ import dashboardStyle from "../assets/jss/material-dashboard-pro-react/views/das
 // import { getAllUsers } from '../util/APIUtils'
 // import defaultImage from "../assets/img/default-avatar.png";
 // import ucu from '../assets/img/ucu_badge.png';
-import Chats from "./Chats.jsx";
+import ChatHeads from "./ChatHeads.jsx";
+import ChatRoom from "./ChatRoom.jsx";
 
 class Dashboard extends React.Component {
   _isMounted = false;
@@ -50,17 +51,10 @@ class Dashboard extends React.Component {
     super(props);
     this.state = {
       value: 0,
-      isOpen: true,
+      isOpen: false,
       cardAnimation: 'cardHidden',
     }; 
     this.openChatRoom = this.openChatRoom.bind(this);
-  }
-
-  openChatRoom() {
-    console.log('i work in dashboard');
-    this.setState(
-      oldState => ({isOpen: !oldState.isOpen})
-    )
   }
 
   componentDidMount(){
@@ -81,11 +75,23 @@ class Dashboard extends React.Component {
     this.timeOutFunction = null;
   }
 
+  openChatRoom() {
+    console.log('i work in chats');
+    this.setState(
+      oldState => ({ isOpen: !oldState.isOpen })
+    )
+  }
+
   render() {
+    const isOpen = this.state.isOpen;
     return (
       <div style={{ boxSizing: 'border-box', background: 'rgba(0,0,0,0.6)', width: '100%', height: '100vh'}} >
         <div  >
-          <Chats style={{ minHeight: '100%', position: 'absolute' }} />
+          <ChatHeads openChatRoom={this.openChatRoom} style={{ minHeight: '100%', position: 'absolute' }} />
+          
+        </div>
+        <div style={{ bottom: 0, right: 0 }}>
+          {isOpen && <ChatRoom  />}
         </div>
       </div>
     );
