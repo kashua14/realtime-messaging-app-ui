@@ -42,7 +42,6 @@ import sidebarStyle from "../assets/jss/material-dashboard-pro-react/components/
 
 import { getAllUsers } from '../util/APIUtils'
 import defaultImage from "../assets/img/default-avatar.png";
-import bgChats from "../assets/img/sidebar-2.jpg"
 
 
 class ChatHeads extends React.Component {
@@ -109,7 +108,7 @@ componentWillMount(){
                   align: 'middle',
                   borderRadius: '50%',
                   boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'
-       }}
+                }}
                 src={this.state.imagePreviewUrl}
                 alt="..."
               />
@@ -121,48 +120,44 @@ componentWillMount(){
     );
 
     return (
-      <Box height={100} width="100%" >
-        <Box 
-          style={{ 
-            backgroundColor: '#ccc', 
-            minHeight:"100vh",
-            backgroundImage: `url(${ bgChats })`,
-            backgroundPosition: 'left top',
-            backgroundAttachment: 'fixed',
-            height: '100%'
-          }}  
-        width='25%' 
-        display="inline-block"
-      >
-          {/* <div style={{ backgroundColor:'#bbb', margin: 0, width:'20%', height: '100%', float: 'left', padding : '0px 15px', borderRight: '2px solid black' }} > */}
+      <div style={{ display: 'block', width: '25%', float: 'right' }} >
+        <Box width="100%" >
+        <Box  
+          width='25%' 
+          display="block"
+        >
           <div
             style={{
-              position: 'fixed',
-              background: 'rgba(0, 0, 0, 0.5)',
-              color: '#f1f1f1',
+              backgroundColor: 'white',
+              minHeight:"100%",
               height: '100%',
+              position: 'fixed',
               width: '25%'
             }} >
-            <div style={{ backgroundColor: '#db0056'}}>
-              <h2 color="rose" 
-                style={{ 
-                  borderBottom: '2px solid #db0056', 
-                  textAlign: 'center', 
-                  padding: '20px 0px', 
-                  color: '#fff',
-                  margin: 0,
-                  boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'
-                }} 
-              >CHATS</h2>
-            </div >
-          
-              <ul style={{ marginTop: 0, listStyleType: 'none', padding: 0 }}>
-                {items}
-              </ul>
-            
+            <div style={{ background: 'rgba(0,0,0,0.5)' }} >
+              <div style={{ backgroundColor: '#db0056'}}>
+                <h2 
+                  style={{ 
+                    borderBottom: '2px solid #db0056', 
+                    textAlign: 'center', 
+                    padding: '20px 0px', 
+                    color: '#fff',
+                    margin: 0,
+                    //boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'
+                  }} 
+                >CHATS</h2>
+              </div >
+              <div >
+                <ul style={{ marginTop: 0, overflowY: 'scroll', listStyleType: 'none', padding: 0 }}>
+                  {items}
+                </ul> 
+              </div>
+            </div>
           </div>
         </Box>
       </Box >
+      </div>
+      
     );
   }
 }

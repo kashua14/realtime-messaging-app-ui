@@ -44,6 +44,7 @@ import dashboardStyle from "../assets/jss/material-dashboard-pro-react/views/das
 // import ucu from '../assets/img/ucu_badge.png';
 import ChatHeads from "./ChatHeads.jsx";
 import ChatRoom from "./ChatRoom.jsx";
+import bgChats from "../assets/img/register.jpeg"
 
 class Dashboard extends React.Component {
   _isMounted = false;
@@ -76,23 +77,30 @@ class Dashboard extends React.Component {
   }
 
   openChatRoom() {
-    console.log('i work in chats');
-    this.setState(
-      oldState => ({ isOpen: !oldState.isOpen })
-    )
+    console.log('i work in dashboard');
+    this.setState({
+      isOpen: true
+    })
   }
 
   render() {
     const isOpen = this.state.isOpen;
     return (
-      <div style={{ boxSizing: 'border-box', background: 'rgba(0,0,0,0.6)', width: '100%', height: '100vh'}} >
-        <div  >
-          <ChatHeads openChatRoom={this.openChatRoom} style={{ minHeight: '100%', position: 'absolute' }} />
-          
-        </div>
-        <div style={{ bottom: 0, right: 0 }}>
+      <div 
+        style={{
+          minHeight:"100%",
+          backgroundImage: `url(${ bgChats })`,
+          backgroundPosition: 'left top',
+          backgroundAttachment: 'fixed',
+          backgroundRepeat: 'no-repeat',
+          height: '100%',
+          position: 'fixed',
+          color: '#f1f1f1',
+          width: '100%'
+        }}>
+          <ChatHeads openChatRoom={this.openChatRoom}  />
+          {/* <ChatRoom  /> */}
           {isOpen && <ChatRoom  />}
-        </div>
       </div>
     );
   }
