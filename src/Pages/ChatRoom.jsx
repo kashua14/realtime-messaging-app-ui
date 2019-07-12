@@ -1,11 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
-
+import ReactDOM from 'react-dom';
 // react plugin for creating vector maps
 //import { VectorMap } from "react-jvectormap";
 
 // @material-ui/core components
 import { makeStyles } from "@material-ui/styles";
+import Paper from '@material-ui/core/Paper';
+import InputBase from '@material-ui/core/InputBase';
+import IconButton from '@material-ui/core/IconButton';
 // import withStyles from "@material-ui/core/styles/withStyles";
 // import Icon from "@material-ui/core/Icon";
 
@@ -28,9 +31,7 @@ import SendIcon from '@material-ui/icons/Send'
 // import Language from "@material-ui/icons/Language";
 
 // core components
-import Paper from '@material-ui/core/Paper';
-import InputBase from '@material-ui/core/InputBase';
-import IconButton from '@material-ui/core/IconButton';
+// import ChatBubble from 'react-chat-bubble';
 // import App from "./App.jsx";
 // import sidebarStyle from "../assets/jss/material-dashboard-pro-react/components/sidebarStyle.jsx";
 // import CustomInput from "../components/CustomInput/CustomInput.jsx";
@@ -46,8 +47,12 @@ import IconButton from '@material-ui/core/IconButton';
 // import CardFooter from "../components/Card/CardFooter.jsx";
 
 import { getAllUsers } from '../util/APIUtils'
+import Message from './Message.js';
 import defaultImage from "../assets/img/default-avatar.png";
+import './App.css';
 // import bgChats from "../assets/img/sidebar-2.jpg"
+
+
 const useStyles = makeStyles({
     root: {
         borderRadius: '20px',
@@ -78,10 +83,12 @@ const SendStyles = () => {
                     style={{ width: '95%', padding: '0px 5px', margin: '0px 4px', fontSize: '20px', borderRadius: '20px' }}
                     className={classes.input}
                     placeholder="Type your Message here..."
-                    inputProps={{ 'aria-label': 'Type your Message here...' }}
+                    type= 'text'
                 />
             </Paper>
-            <IconButton className={classes.iconButton} aria-label="Send">
+            <IconButton className={classes.iconButton} aria-label="Send"
+                onClick={(e) => this.SendMessage(e)}
+            >
                 <SendIcon />
             </IconButton>
         </div>
@@ -96,11 +103,46 @@ class ChatRooom extends React.Component {
             value: 0,
             cardAnimation: 'cardHidden',
             isOpen: false,
+            message:'',
             users: [],
-            imagePreviewUrl: defaultImage
+            imagePreviewUrl: defaultImage,
+            chats: [{
+                    username: "Kevin Hsu",
+                    content: <p>Hello World!</p>,
+                    img: "http://i.imgur.com/Tj5DGiO.jpg",
+                }, {
+                    username: "Alice Chen",
+                    content: <p>Love it! :heart:</p>,
+                    img: "http://i.imgur.com/Tj5DGiO.jpg",
+                }, {
+                    username: "Kevin Hsu",
+                    content: <p>Check out my Github at https://github.com/WigoHunter</p>,
+                    img: "http://i.imgur.com/Tj5DGiO.jpg",
+                }, {
+                    username: "KevHs",
+                    content: <p>Lorem ipsum dolor sit amet, nibh ipsum. Cum class sem inceptos incidunt sed sed. Tempus wisi enim id, arcu sed lectus aliquam, nulla vitae est bibendum molestie elit risus.</p>,
+                    img: "http://i.imgur.com/ARbQZix.jpg",
+                }, {
+                    username: "Kevin Hsu",
+                    content: <p>So</p>,
+                    img: "http://i.imgur.com/Tj5DGiO.jpg",
+                }, {
+                    username: "Kevin Hsu",
+                    content: <p>Chilltime is going to be an app for you to view videos with friends</p>,
+                    img: "http://i.imgur.com/Tj5DGiO.jpg",
+                }, {
+                    username: "Kevin Hsu",
+                    content: <p>You can sign-up now to try out our private beta!</p>,
+                    img: "http://i.imgur.com/Tj5DGiO.jpg",
+                }, {
+                    username: "Alice Chen",
+                    content: <p>Definitely! Sounds great!</p>,
+                    img: "http://i.imgur.com/Tj5DGiO.jpg",
+                }]
         };
         this.displayUsers = this.displayUsers.bind(this);
         this.openChatRoom = this.openChatRoom.bind(this);
+        this.SendMessage = this.SendMessage.bind(this);
     }
 
     openChatRoom() {
@@ -108,6 +150,22 @@ class ChatRooom extends React.Component {
         this.setState(
             oldState => ({ isOpen: !oldState.isOpen })
         )
+    }
+
+    SendMessage(e) {
+        console.log('have sent a message');
+        // Stop the form from refreshing the page on submit
+        e.preventDefault();
+
+        this.setState({
+            chats: this.state.chats.concat([{
+                username: "Kevin Hsu",
+                content: <p>{ReactDOM.findDOMNode(this.refs.msg).value}</p>,
+                img: "http://i.imgur.com/Tj5DGiO.jpg",
+            }])
+        }, () => {
+            ReactDOM.findDOMNode(this.refs.msg).value = "";
+        });
     }
 
     displayUsers() {
@@ -121,51 +179,103 @@ class ChatRooom extends React.Component {
     }
 
     componentDidMount() {
-        this._isMounted = true;
-        this.timeOutFunction = setTimeout(
-            function () {
-                if (this._isMounted) {
-                    this.setState({ cardAnimation: "" });
-                }
-                this.displayUsers();
-            }.bind(this),
-            700
-        );
+        this.scrollToBot();
+        this.displayUsers();
     }
 
-    componentWillMount() {
-        this._isMounted = false;
-        clearTimeout(this.timeOutFunction);
-        this.timeOutFunction = null;
+    componentDidUpdate() {
+        this.scrollToBot();
+    }
+
+    scrollToBot() {
+        ReactDOM.findDOMNode(this.refs.chats).scrollTop = ReactDOM.findDOMNode(this.refs.chats).scrollHeight;
     }
 
 
     render() {
+        const username = "Kevin Hsu";
+        const { chats } = this.state;
+
         return (
-            <div style={{ boxSizing:'border-box', position: 'fixed', display: 'block', width: '100%' }} >
-                <Box width="100%"  >
-                    <Box
+            <div 
+                style={{ 
+                    boxSizing:'border-box', 
+                    position: 'absolute', 
+                    display: 'block', 
+                    
+                    width: '100%' 
+                    }} 
+                >
+                    {/*
+                        // Header elements =====================================================================================
+                    */}
+                    {/*<div style={{ display:'block' }}>
+                        <Box height='5%'
                         style={{
-                            background: 'rgba(0,0,0,0.2)',
+                            background: 'white',
                             minHeight: "100vh",
                             height: '100%'
                         }}
                         width='75%'
                         display="block"
-                    >
-                        {/* <div style={{ backgroundColor: '#db0056' }}>
-                            <h2 color="rose"
+                    > */}
+                    <div style={{ backgroundColorf: 'rgba(0,0,0,0)', width: '75%', height: '50%',  backgroundColor: 'red' }}>
+                            <h2 
+                        //         style={{
+                        //             fontFamily: 'Pacifico, cursive',
+                        //             borderBottom: '2px solid #db0056',
+                        //             textAlign: 'center',
+                        //             padding: '10px 0px',
+                        //             fontSize: '20px',
+                        //             display: 'block',
+                        //             justifyContent: 'center',
+                        //             color: '#000',
+                        //             margin: 0,
+                        //     //boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'
+                        // }}
+                            >Chilltime</h2>
+                        </div >
+                    {/* </Box>  
+                    </div>*/}
+                    
+
+                    {/*
+                        // Messages =========================================================================================
+                    */}
+                    <div>
+                      {/* <Box height='100%' width='75%' 
+                        style={{
+                            backgroundColor: "white",
+                            position: 'absolute',
+                            color: 'grey'
+                        }}
+                        >
+                        */}
+                            <ul
+                                ref="chats"
                                 style={{
-                                    borderBottom: '2px solid #db0056',
-                                    textAlign: 'center',
-                                    padding: '20px 0px',
-                                    color: '#fff',
-                                    margin: 0,
-                                    //boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'
+                                    padding: '0 20px',
+                                    backgroundColor: "blue",
+                                    margin: '10px 0 0',
+                                    overflowY: 'scroll',
+                                    position: 'absolute'
                                 }}
-                            >ChatRooom</h2>
-                        </div > */}
-                    </Box>
+                            >
+                                {
+                                    chats.map((chat) =>
+                                        <Message chat={chat} user={username} />
+                                    )
+                                }
+                            </ul>
+                        {/* </Box> */}
+                    </div>
+                    
+                    
+                    
+
+                    {/*
+                        // Send elements =====================================================================================
+                    */}
                         <Box height='10%' width='75%' style={{
                             backgroundColor: "rgba(0,0,0,0)",
                             bottom: 5,
@@ -173,11 +283,10 @@ class ChatRooom extends React.Component {
                             color: 'grey' 
                             }} 
                         >
-                            <div style={{ width:'100%', margin:'2px'}} >
-                                <SendStyles />
+                            <div style={{ width:'100%', margin:'2px' }} >
+                                <SendStyles  />
                             </div>
-                    </Box>
-                </Box >  
+                    </Box> 
             </div>
             
         );
