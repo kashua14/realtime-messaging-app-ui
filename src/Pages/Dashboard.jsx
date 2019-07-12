@@ -78,9 +78,9 @@ class Dashboard extends React.Component {
 
   openChatRoom() {
     console.log('i work in dashboard');
-    this.setState({
-      isOpen: true
-    })
+    this.setState(
+      oldState => ({ isOpen: !oldState.isOpen })
+    )
   }
 
   render() {
