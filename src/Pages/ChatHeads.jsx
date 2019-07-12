@@ -40,6 +40,9 @@ import sidebarStyle from "../assets/jss/material-dashboard-pro-react/components/
 // import CardBody from "../components/Card/CardBody.jsx";
 // import CardFooter from "../components/Card/CardFooter.jsx";
 
+import 'react-perfect-scrollbar/dist/css/styles.css';
+import PerfectScrollbar from 'react-perfect-scrollbar'
+
 import { getAllUsers } from '../util/APIUtils'
 import defaultImage from "../assets/img/default-avatar.png";
 
@@ -120,7 +123,7 @@ componentWillMount(){
     );
 
     return (
-      <div style={{ display: 'block', width: '25%', float: 'right' }} >
+      <div style={{ right: '5px',display: 'block', width: '25%', float: 'right' }} >
         <Box width="100%" >
         <Box  
           width='25%' 
@@ -128,7 +131,7 @@ componentWillMount(){
         >
           <div
             style={{
-              backgroundColor: 'white',
+              backgroundColor: '#aaa',
               minHeight:"100%",
               height: '100%',
               position: 'fixed',
@@ -147,11 +150,13 @@ componentWillMount(){
                   }} 
                 >CHATS</h2>
               </div >
-              <div >
-                <ul style={{ marginTop: 0, overflowY: 'scroll', listStyleType: 'none', padding: 0 }}>
-                  {items}
-                </ul> 
-              </div>
+              <PerfectScrollbar>
+                  <div >
+                    <ul style={{ margin: '0px auto', listStyleType: 'none', padding: 0 }}>
+                      {items}
+                    </ul>
+                  </div>
+              </PerfectScrollbar>
             </div>
           </div>
         </Box>
