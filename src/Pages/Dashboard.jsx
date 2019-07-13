@@ -44,7 +44,7 @@ import dashboardStyle from "../assets/jss/material-dashboard-pro-react/views/das
 // import ucu from '../assets/img/ucu_badge.png';
 import ChatHeads from "./ChatHeads.jsx";
 import ChatRoom from "./ChatRoom.jsx";
-import bgChats from "../assets/img/register.jpeg"
+// import bgChats from "../assets/img/register.jpeg"
 import './App.css';
 
 class Dashboard extends React.Component {
@@ -87,32 +87,38 @@ class Dashboard extends React.Component {
   render() {
     const isOpen = this.state.isOpen;
     return (
-      <div>
+      <div Style={{ overflowX: 'hidden', position: 'relative' }}>
         <div
           style={{
-            minHeight: "100%",
-            backgroundImage: `url(${bgChats})`,
-            backgroundPosition: 'left top',
-            backgroundAttachment: 'fixed',
-            backgroundRepeat: 'no-repeat',
+          //   minHeight: "100%",
+          //   backgroundImage: `url(${bgChats})`,
+          //   backgroundPosition: 'left top',
+          //   backgroundAttachment: 'fixed',
+          //   backgroundRepeat: 'no-repeat',
+          //   height: '100%',
+          //   position: 'fixed',
+          //   color: '#f1f1f1',
+            float: 'right',
+            width: '25%',
             height: '100%',
-            position: 'fixed',
-            color: '#f1f1f1',
-            width: '100%'
-          }}>
+            minHeight: '100vh'
+          }}
+          >
           <ChatHeads openChatRoom={this.openChatRoom} />
-          {/* <ChatRoom  /> */}
 
         </div>
         <div
           style={{
-            backgroundColor:' #1EE494',
-            height: '100vh',
-            width: '100vw',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center'
-      }}>
+      //       backgroundColor:' #1EE494',
+            height: '100%',
+            width: '75%',
+            float: 'left',
+            minHeight: '100vh'
+      //       display: 'flex',
+      //       alignItems: 'center',
+      //       justifyContent: 'center'
+      }}
+      >
           {isOpen && <ChatRoom />}
         </div>
       </div>

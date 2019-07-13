@@ -13,7 +13,7 @@ import IconButton from '@material-ui/core/IconButton';
 // import Icon from "@material-ui/core/Icon";
 
 // @material-ui/icons
-import Box from 'react-styled-box';
+// import Box from 'react-styled-box';
 import SendIcon from '@material-ui/icons/Send'
 // import ContentCopy from "@material-ui/icons/ContentCopy";
 // import Store from "@material-ui/icons/Store";
@@ -55,12 +55,13 @@ import './App.css';
 
 const useStyles = makeStyles({
     root: {
+        // position: 'relative',
         borderRadius: '20px',
         display: 'inline-block',
         alignItems: 'center',
-        width: '95%',
-        height: '50%',
-        margin: '1px 5px',
+        width: '90%',
+        height: '20%',
+        margin: '1px 10px',
         padding: '1px 5px'
     },
     input: {
@@ -199,10 +200,7 @@ class ChatRooom extends React.Component {
         return (
             <div 
                 style={{ 
-                    boxSizing:'border-box', 
-                    position: 'absolute', 
-                    display: 'block', 
-                    
+                    boxSizing:'border-box',
                     width: '100%' 
                     }} 
                 >
@@ -219,21 +217,23 @@ class ChatRooom extends React.Component {
                         width='75%'
                         display="block"
                     > */}
-                    <div style={{ backgroundColorf: 'rgba(0,0,0,0)', width: '75%', height: '50%',  backgroundColor: 'red' }}>
+                    <div 
+                         style={{ backgroundColor: '#db0056', width: '75%', height: '25%'}}
+                    >
                             <h2 
-                        //         style={{
-                        //             fontFamily: 'Pacifico, cursive',
+                                style={{
+                                    fontFamily: 'Pacifico, cursive',
                         //             borderBottom: '2px solid #db0056',
-                        //             textAlign: 'center',
-                        //             padding: '10px 0px',
-                        //             fontSize: '20px',
-                        //             display: 'block',
-                        //             justifyContent: 'center',
-                        //             color: '#000',
-                        //             margin: 0,
+                                    textAlign: 'center',
+                                    padding: '10px 0px',
+                                    fontSize: '20px',
+                                    display: 'block',
+                                    justifyContent: 'center',
+                                    color: '#fff',
+                                    margin: 0,
                         //     //boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'
-                        // }}
-                            >Chilltime</h2>
+                         }}
+                            >MIS MESSENGER</h2>
                         </div >
                     {/* </Box>  
                     </div>*/}
@@ -258,7 +258,7 @@ class ChatRooom extends React.Component {
                                     backgroundColor: "blue",
                                     margin: '10px 0 0',
                                     overflowY: 'scroll',
-                                    position: 'absolute'
+                                    // position: 'absolute'
                                 }}
                             >
                                 {
@@ -276,17 +276,17 @@ class ChatRooom extends React.Component {
                     {/*
                         // Send elements =====================================================================================
                     */}
-                        <Box height='10%' width='75%' style={{
+                        {/* <Box height='10%' width='75%' style={{
                             backgroundColor: "rgba(0,0,0,0)",
-                            bottom: 5,
-                            position: 'absolute',
+                            // bottom: 5,
+                            // position: 'absolute',
                             color: 'grey' 
                             }} 
-                        >
+                        > */}
                             <div style={{ width:'100%', margin:'2px' }} >
                                 <SendStyles  />
                             </div>
-                    </Box> 
+                    {/* </Box>  */}
             </div>
             
         );

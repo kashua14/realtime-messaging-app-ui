@@ -9,7 +9,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 // import Icon from "@material-ui/core/Icon";
 
 // @material-ui/icons
-import Box from 'react-styled-box';
+// import Box from 'react-styled-box';
 // import ContentCopy from "@material-ui/icons/ContentCopy";
 // import Store from "@material-ui/icons/Store";
 // import InfoOutline from "@material-ui/icons/InfoOutline";
@@ -102,7 +102,9 @@ componentWillMount(){
         style={{ borderBottom: '1px solid #aaa' }} 
         onClick={this.props.openChatRoom}
     >
-        <div style={{ boxSizing: 'border-box', padding: '2px 10px', display:'inline-block', textAlign: 'center', }}>
+        <div 
+          style={{ boxSizing: 'border-box', padding: '2px 10px', display:'inline-block', textAlign: 'center', }}
+        >
               <img 
                 style={{ 
                   margin:'5px 0px', 
@@ -123,22 +125,21 @@ componentWillMount(){
     );
 
     return (
-      <div style={{ right: '5px',display: 'block', width: '25%', float: 'right' }} >
-        <Box width="100%" >
+      <div style={{ right: '5px'}} >
+        {/* <Box width="100%" >
         <Box  
           width='25%' 
           display="block"
-        >
+        > */}
           <div
             style={{
               backgroundColor: '#aaa',
               minHeight:"100%",
               height: '100%',
-              position: 'fixed',
-              width: '25%'
+              // position: 'fixed'
             }} >
             <div style={{ background: 'rgba(0,0,0,0.5)' }} >
-              <div style={{ backgroundColor: '#db0056'}}>
+              <div style={{ position: 'sticky' ,backgroundColor: '#db0056'}}>
                 <h2 
                   style={{ 
                     borderBottom: '2px solid #db0056', 
@@ -151,7 +152,7 @@ componentWillMount(){
                 >CHATS</h2>
               </div >
               <PerfectScrollbar>
-                  <div >
+                  <div Style={{ overflowY: 'scroll'}}>
                     <ul style={{ margin: '0px auto', listStyleType: 'none', padding: 0 }}>
                       {items}
                     </ul>
@@ -159,8 +160,8 @@ componentWillMount(){
               </PerfectScrollbar>
             </div>
           </div>
-        </Box>
-      </Box >
+        {/* </Box>
+      </Box > */}
       </div>
       
     );
