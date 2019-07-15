@@ -44,7 +44,7 @@ import dashboardStyle from "../assets/jss/material-dashboard-pro-react/views/das
 // import ucu from '../assets/img/ucu_badge.png';
 import ChatHeads from "./ChatHeads.jsx";
 import ChatRoom from "./ChatRoom.jsx";
-// import bgChats from "../assets/img/register.jpeg"
+import bgChats from "../assets/img/register.jpeg"
 import './App.css';
 
 class Dashboard extends React.Component {
@@ -87,20 +87,21 @@ class Dashboard extends React.Component {
   render() {
     const isOpen = this.state.isOpen;
     return (
-      <div Style={{ overflowX: 'hidden', position: 'relative' }}>
+      <div 
+        style={{
+          backgroundImage: `url(${bgChats})`,
+          backgroundPosition: 'left top',
+          backgroundAttachment: 'fixed',
+          backgroundRepeatY: 'repeat',
+          height: '100%',
+          minHeight: '100vh'
+        }}
+      >
         <div
           style={{
-          //   minHeight: "100%",
-          //   backgroundImage: `url(${bgChats})`,
-          //   backgroundPosition: 'left top',
-          //   backgroundAttachment: 'fixed',
-          //   backgroundRepeat: 'no-repeat',
-          //   height: '100%',
-          //   position: 'fixed',
-          //   color: '#f1f1f1',
+            height: '100%',
             float: 'right',
             width: '25%',
-            height: '100%',
             minHeight: '100vh'
           }}
           >
@@ -110,13 +111,12 @@ class Dashboard extends React.Component {
         <div
           style={{
       //       backgroundColor:' #1EE494',
-            height: '100%',
+            minHeight: '100%',
             width: '75%',
             float: 'left',
-            minHeight: '100vh'
       //       display: 'flex',
-      //       alignItems: 'center',
-      //       justifyContent: 'center'
+            alignItems: 'center',
+            justifyContent: 'center'
       }}
       >
           {isOpen && <ChatRoom />}

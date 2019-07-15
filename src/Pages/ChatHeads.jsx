@@ -133,12 +133,12 @@ componentWillMount(){
         > */}
           <div
             style={{
-              backgroundColor: '#aaa',
+              backgroundColor: '#ccc',
               minHeight:"100%",
               height: '100%',
               // position: 'fixed'
             }} >
-            <div style={{ background: 'rgba(0,0,0,0.5)' }} >
+            <div >
               <div style={{ position: 'sticky' ,backgroundColor: '#db0056'}}>
                 <h2 
                   style={{ 
