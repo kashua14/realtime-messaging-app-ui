@@ -9,7 +9,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 // import Icon from "@material-ui/core/Icon";
 
 // @material-ui/icons
-import Box from 'react-styled-box';
+// import Box from 'react-styled-box';
 // import ContentCopy from "@material-ui/icons/ContentCopy";
 // import Store from "@material-ui/icons/Store";
 // import InfoOutline from "@material-ui/icons/InfoOutline";
@@ -43,7 +43,7 @@ import sidebarStyle from "../assets/jss/material-dashboard-pro-react/components/
 import 'react-perfect-scrollbar/dist/css/styles.css';
 import PerfectScrollbar from 'react-perfect-scrollbar'
 
-import { getAllUsers } from '../util/APIUtils'
+
 import defaultImage from "../assets/img/default-avatar.png";
 
 
@@ -58,20 +58,11 @@ class ChatHeads extends React.Component {
         users: [], 
         imagePreviewUrl: defaultImage
     }; 
-    this.displayUsers = this.displayUsers.bind(this);
     
 }
 
 
-displayUsers() {
-  getAllUsers()
-  .then(response => {
-    this.setState({users: response })
-  }).catch(error => {
-    alert(error.message || 'sorry! Something went wrong. Please try again!');
-  });
-  console.log(this.state.users);
-}
+
 
 componentDidMount(){
   this._isMounted = true;
@@ -80,7 +71,7 @@ componentDidMount(){
       if (this._isMounted) {
         this.setState({ cardAnimation: "" });
       }
-      this.displayUsers();
+      
     }.bind(this),
     700
   );
@@ -95,50 +86,16 @@ componentWillMount(){
 
   render() {
     
-    //const { classes } = this.props;
-    const items = this.state.users.map((user, key) => 
-      <li 
-        key={user.id} 
-        style={{ borderBottom: '1px solid #aaa' }} 
-        onClick={this.props.openChatRoom}
-    >
-        <div style={{ boxSizing: 'border-box', padding: '2px 10px', display:'inline-block', textAlign: 'center', }}>
-              <img 
-                style={{ 
-                  margin:'5px 0px', 
-                  width: '50px', 
-                  height: 'auto', 
-                  align: 'middle',
-                  borderRadius: '50%',
-                  boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'
-                }}
-                src={this.state.imagePreviewUrl}
-                alt="..."
-              />
-              <div style={{ textAlign:'center', float: 'right' }}>
-                <h3 style={{ margin: '20px' }} >{user.username}</h3>
-              </div>
-          </div>
-      </li>
-    );
-
     return (
-      <div style={{ right: '5px',display: 'block', width: '25%', float: 'right' }} >
-        <Box width="100%" >
-        <Box  
-          width='25%' 
-          display="block"
-        >
+      <div style={{ right: '5px'}} >
           <div
             style={{
-              backgroundColor: '#aaa',
+              backgroundColor: '#ccc',
               minHeight:"100%",
-              height: '100%',
-              position: 'fixed',
-              width: '25%'
+              height: '100%'
             }} >
-            <div style={{ background: 'rgba(0,0,0,0.5)' }} >
-              <div style={{ backgroundColor: '#db0056'}}>
+            <div >
+              <div style={{ position: 'sticky' ,backgroundColor: '#db0056'}}>
                 <h2 
                   style={{ 
                     borderBottom: '2px solid #db0056', 
@@ -146,21 +103,18 @@ componentWillMount(){
                     padding: '20px 0px', 
                     color: '#fff',
                     margin: 0,
-                    //boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'
                   }} 
                 >CHATS</h2>
               </div >
               <PerfectScrollbar>
-                  <div >
+                  <div style={{ overflowY: 'scroll'}}>
                     <ul style={{ margin: '0px auto', listStyleType: 'none', padding: 0 }}>
-                      {items}
+                      {this.props.items}
                     </ul>
                   </div>
               </PerfectScrollbar>
             </div>
           </div>
-        </Box>
-      </Box >
       </div>
       
     );
