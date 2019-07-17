@@ -41,10 +41,13 @@ import sidebarStyle from "../assets/jss/material-dashboard-pro-react/components/
 // import CardFooter from "../components/Card/CardFooter.jsx";
 
 import 'react-perfect-scrollbar/dist/css/styles.css';
-import PerfectScrollbar from 'react-perfect-scrollbar'
+// import PerfectScrollbar from 'react-perfect-scrollbar'
 
-import { getAllUsers } from '../util/APIUtils'
-import defaultImage from "../assets/img/default-avatar.png";
+
+function ListItem(props) {
+  // Correct! There is no need to specify the key here:
+  return <li>{props.value}</li>;
+}
 
 
 class ChatHeads extends React.Component {
@@ -55,23 +58,9 @@ class ChatHeads extends React.Component {
         value: 0,
         cardAnimation: 'cardHidden',
         //isOpen: false,
-        users: [], 
-        imagePreviewUrl: defaultImage
+        
     }; 
-    this.displayUsers = this.displayUsers.bind(this);
-    
-}
-
-
-displayUsers() {
-  getAllUsers()
-  .then(response => {
-    this.setState({users: response })
-  }).catch(error => {
-    alert(error.message || 'sorry! Something went wrong. Please try again!');
-  });
-  console.log(this.state.users);
-}
+  }
 
 componentDidMount(){
   this._isMounted = true;
@@ -80,7 +69,7 @@ componentDidMount(){
       if (this._isMounted) {
         this.setState({ cardAnimation: "" });
       }
-      this.displayUsers();
+     
     }.bind(this),
     700
   );
@@ -95,42 +84,11 @@ componentWillMount(){
 
   render() {
     
-    //const { classes } = this.props;
-    const items = this.state.users.map((user, key) => 
-      <li 
-        key={user.id} 
-        style={{ borderBottom: '1px solid #aaa' }} 
-        onClick={this.props.openChatRoom}
-    >
-        <div 
-          style={{ boxSizing: 'border-box', padding: '2px 10px', display:'inline-block', textAlign: 'center', }}
-        >
-              <img 
-                style={{ 
-                  margin:'5px 0px', 
-                  width: '50px', 
-                  height: 'auto', 
-                  align: 'middle',
-                  borderRadius: '50%',
-                  boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'
-                }}
-                src={this.state.imagePreviewUrl}
-                alt="..."
-              />
-              <div style={{ textAlign:'center', float: 'right' }}>
-                <h3 style={{ margin: '20px' }} >{user.username}</h3>
-              </div>
-          </div>
-      </li>
-    );
-
+    const { classes } = this.props;
+    const users = this.props;
+  console.log(users);
     return (
       <div style={{ right: '5px'}} >
-        {/* <Box width="100%" >
-        <Box  
-          width='25%' 
-          display="block"
-        > */}
           <div
             style={{
               backgroundColor: '#ccc',
@@ -147,21 +105,19 @@ componentWillMount(){
                     padding: '20px 0px', 
                     color: '#fff',
                     margin: 0,
-                    //boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'
                   }} 
                 >CHATS</h2>
               </div >
-              <PerfectScrollbar>
                   <div Style={{ overflowY: 'scroll'}}>
                     <ul style={{ margin: '0px auto', listStyleType: 'none', padding: 0 }}>
-                      {items}
+                      {classes.users.map((user) =>
+                        <ListItem key={user.id}
+                          value={user.username} />
+                      )}
                     </ul>
                   </div>
-              </PerfectScrollbar>
             </div>
           </div>
-        {/* </Box>
-      </Box > */}
       </div>
       
     );

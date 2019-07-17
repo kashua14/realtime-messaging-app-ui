@@ -46,7 +46,7 @@ import ReactDOM from 'react-dom';
 // import CardBody from "../components/Card/CardBody.jsx";
 // import CardFooter from "../components/Card/CardFooter.jsx";
 
-import { getAllUsers } from '../util/APIUtils'
+// import { getAllUsers } from '../util/APIUtils'
 import Message from './Message.js';
 import defaultImage from "../assets/img/default-avatar.png";
 import './App.css';
@@ -142,7 +142,7 @@ class ChatRooom extends React.Component {
                     img: "http://i.imgur.com/Tj5DGiO.jpg",
                 }]
         };
-        this.displayUsers = this.displayUsers.bind(this);
+        // this.displayUsers = this.displayUsers.bind(this);
         this.openChatRoom = this.openChatRoom.bind(this);
         this.submitMessage = this.submitMessage.bind(this);
     }
@@ -158,9 +158,14 @@ class ChatRooom extends React.Component {
 
     submitMessage(e) {
         e.preventDefault();
-        console.log(typeof ReactDOM.findDOMNode(this.refs.msg).value);
+        console.log(ReactDOM.findDOMNode(this.refs.msg).value);
         if(ReactDOM.findDOMNode(this.refs.msg).value !== '' && ReactDOM.findDOMNode(this.refs.msg).value !== ' '){
-           this.setState({
+        //    const sentMessage ={
+        //        senderId: ,
+        //        recieverId: ,
+        //        content: ReactDOM.findDOMNode(this.refs.msg).value
+        //    }
+            this.setState({
                 chats: this.state.chats.concat([{
                     username: "Kevin Hsu",
                     content: <p style={{margin: 0, display: 'inline-block', textOverflow: 'clip' }}>{ReactDOM.findDOMNode(this.refs.msg).value}</p>,
@@ -174,19 +179,18 @@ class ChatRooom extends React.Component {
         }
     }
 
-    displayUsers() {
-        getAllUsers()
-            .then(response => {
-                this.setState({ users: response })
-            }).catch(error => {
-                alert(error.message || 'sorry! Something went wrong. Please try again!');
-            });
-        console.log(this.state.users);
-    }
+    // displayUsers() {
+    //     getAllUsers()
+    //         .then(response => {
+    //             this.setState({ users: response })
+    //         }).catch(error => {
+    //             alert(error.message || 'sorry! Something went wrong. Please try again!');
+    //         });
+    //     console.log(this.state.users);
+    // }
 
     componentDidMount() {
         this.scrollToBot();
-        this.displayUsers();
     }
 
     componentDidUpdate() {
@@ -213,23 +217,12 @@ class ChatRooom extends React.Component {
                     {/*
                         // Header elements =====================================================================================
                     */}
-                    {/*<div style={{ display:'block' }}>
-                        <Box height='5%'
-                        style={{
-                            background: 'white',
-                            minHeight: "100vh",
-                            height: '100%'
-                        }}
-                        width='75%'
-                        display="block"
-                    > */}
-                    <div 
-                         style={{ backgroundColor: '#db0056', width: '100%', height: '25%'}}
+                    
+                    <div style={{ backgroundColor: '#db0056', width: '100%', height: '25%'}}
                     >
                             <h2 
                                 style={{
                                     fontFamily: 'Pacifico, cursive',
-                        //             borderBottom: '2px solid #db0056',
                                     textAlign: 'center',
                                     fontSize: '20px',
                                     display: 'block',
@@ -237,7 +230,6 @@ class ChatRooom extends React.Component {
                                     color: '#fff',
                                     padding: '20px 0px', 
                                     margin: 0,
-                        //     //boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'
                          }}
                             >MIS MESSENGER</h2>
                         </div >
@@ -248,23 +240,13 @@ class ChatRooom extends React.Component {
                     {/*
                         // Messages =========================================================================================
                     */}
-                    <div 
-                        // style={{ width: '100vh', height: '100%',overflow: 'hidden' }}
-                    >
-                      {/* <Box height='100%' width='75%' 
-                        style={{
-                            backgroundColor: "white",
-                            position: 'absolute',
-                            color: 'grey'
-                        }}
-                        >
-                        */}
+                    <div >
+                      
                         <div style={{ backgroundColor: 'rgba(0,0,0,0.6)', minHeight: '100vh'}}>
                             <ul
                                 ref="chats"
                                 style={{
                                     padding: '0px 20px',
-                                    // backgroundColor: "rgba(0,0,0,0.6)",
                                     height: '600px',
                                     margin: 0,
                                     overflowY: 'scroll',
@@ -277,7 +259,6 @@ class ChatRooom extends React.Component {
                                     <Message 
                                         chat={chat} 
                                         user={username} 
-                                        //style={{ position: 'absolute' }}
                                     />
                                     )
                                 }
@@ -287,19 +268,11 @@ class ChatRooom extends React.Component {
                                 style={{
                                     borderTopRightRadius: '5px',
                                     borderBottomRightRadius: '5px',
-                                        display: 'inline-block',
-                                        alignItems: 'center',
-                                        // backgroundColor: 'grey',
-                                        width: '95%',
-                                        height: '20%',
-                                        // margin: '0px',
-                                        padding: '1px 5px'
-                                    // height: '40px',
-                                    // width: '100%',
-                                    // background: 'rgba(30, 228, 148, 0.7)',
-                                    // display: 'flex',
-                                    // flexDirection: 'row',
-                                    // alignItems: 'center'
+                                    display: 'inline-block',
+                                    alignItems: 'center',
+                                    width: '95%',
+                                    height: '20%',
+                                    padding: '1px 5px'
                                 }}
                             >
                                 <input type="text" placeholder="Type your message ..." ref="msg" 
@@ -307,17 +280,10 @@ class ChatRooom extends React.Component {
                                         backgroundColor: '#ccc',
                                         color: 'black',
                                         width: '93%', padding: '0px 5px', fontSize: '20px',
-                                        // background: 'rgba(255, 255, 255, 0.5)',
                                         outline: 0,
-                                        // border: '2px solid #1EE494',
-                                        // padding: '0 5px',
                                         borderTopLeftRadius: '5px',
                                         borderBottomLeftRadius: '5px',
-                                        // marginLeft: '2px',
                                         height: '40px',
-                                        // width: '270px',
-                                        // boxSizing: 'border-box',
-                                        // fontSize: '14px'
                                     }}
                                 />
                                 <input type="submit" value="Send"
@@ -326,17 +292,10 @@ class ChatRooom extends React.Component {
                                         backgroundColor: '#db0056',
 
                                         color: 'white',
-                                        // background: 'transparent',
-                                        // border: '1px solid #1EE494',
                                         borderTopRightRadius: '5px',
                                         borderBottomRightRadius: '5px',
-                                        // height: '30px',
-                                        // width: '70px',
                                         cursor: 'pointer',
                                         fontSize: 'large'
-                                        // boxSizing: 'border-box',
-                                        // fontSize: '14px',
-                                        // transition: 'all 0.3s ease'
                                     }}
                                 />
                             </form>

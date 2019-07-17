@@ -45,7 +45,11 @@ import dashboardStyle from "../assets/jss/material-dashboard-pro-react/views/das
 import ChatHeads from "./ChatHeads.jsx";
 import ChatRoom from "./ChatRoom.jsx";
 import bgChats from "../assets/img/register.jpeg"
+import { getAllUsers } from '../util/APIUtils'
+import defaultImage from "../assets/img/default-avatar.png";
 import './App.css';
+// import { finished } from "stream";
+
 
 class Dashboard extends React.Component {
   _isMounted = false;
@@ -54,9 +58,23 @@ class Dashboard extends React.Component {
     this.state = {
       value: 0,
       isOpen: false,
+      users: [],
+      userId: 0,
       cardAnimation: 'cardHidden',
+      imagePreviewUrl: defaultImage
     }; 
     this.openChatRoom = this.openChatRoom.bind(this);
+    this.displayUsers = this.displayUsers.bind(this);
+  }
+
+  displayUsers() {
+    getAllUsers()
+      .then(response => {
+        this.setState({ users: response })
+      }).catch(error => {
+        alert(error.message || 'sorry! Something went wrong. Please try again!');
+      });
+    // console.log(user);
   }
 
   componentDidMount(){
@@ -66,6 +84,7 @@ class Dashboard extends React.Component {
         if (this._isMounted) {
          this.setState({ cardAnimation: "" });
         }
+        this.displayUsers();
       }.bind(this),
       700
     );
@@ -79,13 +98,44 @@ class Dashboard extends React.Component {
 
   openChatRoom() {
     console.log('i work in dashboard');
-    this.setState(
-      oldState => ({ isOpen: !oldState.isOpen })
-    )
+    this.setState({ isOpen: true})
+    // this.setState(
+    //   // oldState => ({ isOpen: !oldState.isOpen })
+    //   {}
+    // )
   }
 
   render() {
     const isOpen = this.state.isOpen;
+    
+    // const users = this.state.users.map();
+      // <li
+      //   //data-selected={this.props.item.selected}
+        
+      //   style={{ borderBottom: '1px solid #aaa' }}
+      //   onClick={this.openChatRoom}
+      // >
+      //   <div
+      //     style={{ boxSizing: 'border-box', padding: '2px 10px', display: 'inline-block', textAlign: 'center', }}
+      //   >
+      //     <img
+      //       style={{
+      //         margin: '5px 0px',
+      //         width: '50px',
+      //         height: 'auto',
+      //         align: 'middle',
+      //         borderRadius: '50%',
+      //         boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'
+      //       }}
+      //       src={this.state.imagePreviewUrl}
+      //       alt="..."
+      //     />
+      //     <div style={{ textAlign: 'center', float: 'right' }}>
+      //       <h3 style={{ margin: '20px' }} >{user.username}</h3>
+      //     </div>
+      //   </div>
+      // </li>
+    
     return (
       <div 
         style={{
@@ -105,24 +155,25 @@ class Dashboard extends React.Component {
             minHeight: '100vh'
           }}
           >
-          <ChatHeads openChatRoom={this.openChatRoom} />
+           
+          <ChatHeads users={this.users } />
 
         </div>
         <div
           style={{
-      //       backgroundColor:' #1EE494',
             minHeight: '100%',
             width: '75%',
             float: 'left',
-      //       display: 'flex',
             alignItems: 'center',
             justifyContent: 'center'
       }}
       >
-          {isOpen && <ChatRoom />}
+
+          {isOpen && <ChatRoom userId={ this.state.userId}/>}
         </div>
       </div>
     );
+    
   }
 }
 

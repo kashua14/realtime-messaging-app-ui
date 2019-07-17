@@ -72,13 +72,13 @@ export function signup(signupRequest) {
     });
 }
 
-// export function message(sentMessage) {
-//     return request({
-//         url: API_BASE_URL + "/auth/signup",
-//         method: 'POST',
-//         body: JSON.stringify(signupRequest)
-//     });
-// }
+export function message(sentMessage) {
+    return request({
+        url: API_BASE_URL + "/chats/chatroom",
+        method: 'POST',
+        body: JSON.stringify(sentMessage)
+    });
+}
 
 export function checkUsernameAvailability(username) {
     return request({
