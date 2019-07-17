@@ -40,6 +40,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 //import PictureUpload from "../components/CustomUpload/PictureUpload.jsx";
 import dashboardStyle from "../assets/jss/material-dashboard-pro-react/views/dashboardStyle";
 // import { getAllUsers } from '../util/APIUtils'
+import { getAllUsers } from '../util/APIUtils'
 // import defaultImage from "../assets/img/default-avatar.png";
 // import ucu from '../assets/img/ucu_badge.png';
 import ChatHeads from "./ChatHeads.jsx";
@@ -54,11 +55,23 @@ class Dashboard extends React.Component {
     this.state = {
       value: 0,
       isOpen: false,
+      users: [],
+      userId: 0,
       cardAnimation: 'cardHidden',
     }; 
     this.openChatRoom = this.openChatRoom.bind(this);
+    this.joshUserId = this.joshUserId.bind(this);
+    this.displayUsers = this.displayUsers.bind(this);
   }
-
+  displayUsers() {
+    getAllUsers()
+    .then(response => {
+      this.setState({users: response })
+    }).catch(error => {
+      alert(error.message || 'sorry! Something went wrong. Please try again!');
+    });
+    console.log(this.state.users);
+  }
   componentDidMount(){
     this._isMounted = true;
     this.timeOutFunction = setTimeout(
@@ -66,6 +79,7 @@ class Dashboard extends React.Component {
         if (this._isMounted) {
          this.setState({ cardAnimation: "" });
         }
+        this.displayUsers();
       }.bind(this),
       700
     );
@@ -77,14 +91,56 @@ class Dashboard extends React.Component {
     this.timeOutFunction = null;
   }
 
+   
   openChatRoom() {
     console.log('i work in dashboard');
     this.setState(
-      oldState => ({ isOpen: !oldState.isOpen })
+      // oldState => ({ isOpen: !oldState.isOpen })
+    {isOpen: true}
     )
   }
 
+  joshUserId(id){
+    this.setState({ userId: id });
+    console.log("userId: " +this.state.userId);
+  }
+
+
+  onClick(userId){
+    console.log(userId)
+    this.openChatRoom();
+    this.joshUserId(userId);
+  }
+
   render() {
+    const items = this.state.users.map((user) => 
+      <li 
+        key={user.id}
+        style={{ borderBottom: '1px solid #aaa' }} 
+        onClick={() => this.onClick(user.id)}
+      >
+        <div 
+          style={{ boxSizing: 'border-box', padding: '2px 10px', display:'inline-block', textAlign: 'center', }}
+        >
+              <img 
+                style={{ 
+                  margin:'5px 0px', 
+                  width: '50px', 
+                  height: 'auto', 
+                  align: 'middle',
+                  borderRadius: '50%',
+                  boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'
+                }}
+                src={this.state.imagePreviewUrl}
+                alt="..."
+              />
+              <div style={{ textAlign:'center', float: 'right' }}>
+                <h3 style={{ margin: '20px' }} >{user.username}</h3>
+              </div>
+          </div>
+      </li>
+    );
+
     const isOpen = this.state.isOpen;
     return (
       <div 
@@ -105,21 +161,19 @@ class Dashboard extends React.Component {
             minHeight: '100vh'
           }}
           >
-          <ChatHeads openChatRoom={this.openChatRoom} />
+          <ChatHeads items={items} />
 
         </div>
         <div
           style={{
-      //       backgroundColor:' #1EE494',
             minHeight: '100%',
             width: '75%',
             float: 'left',
-      //       display: 'flex',
             alignItems: 'center',
             justifyContent: 'center'
-      }}
-      >
-          {isOpen && <ChatRoom />}
+        }}
+        >
+          {isOpen && <ChatRoom setUserId={this.setUserId}/>}
         </div>
       </div>
     );

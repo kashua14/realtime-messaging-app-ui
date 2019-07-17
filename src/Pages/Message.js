@@ -10,7 +10,7 @@ const Message = ({chat, user}) => (
             fontSize: '14px',
             borderRadius: '10px',
             listStyle: 'none',
-            float: `${user === chat.username ? "right" : "left"}`,
+            float: `${user === chat.username ? "left" : "right"}`,
             clear: 'both',
             margin: '10px 0',
             maxWidth: '500px'
