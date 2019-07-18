@@ -41,14 +41,7 @@ import sidebarStyle from "../assets/jss/material-dashboard-pro-react/components/
 // import CardFooter from "../components/Card/CardFooter.jsx";
 
 import 'react-perfect-scrollbar/dist/css/styles.css';
-// import PerfectScrollbar from 'react-perfect-scrollbar'
-
-
-function ListItem(props) {
-  // Correct! There is no need to specify the key here:
-  return <li>{props.value}</li>;
-}
-
+import PerfectScrollbar from 'react-perfect-scrollbar'
 
 class ChatHeads extends React.Component {
   _isMounted = false;
@@ -60,7 +53,11 @@ class ChatHeads extends React.Component {
         //isOpen: false,
         
     }; 
-  }
+    
+}
+
+
+
 
 componentDidMount(){
   this._isMounted = true;
@@ -69,7 +66,7 @@ componentDidMount(){
       if (this._isMounted) {
         this.setState({ cardAnimation: "" });
       }
-     
+      
     }.bind(this),
     700
   );
@@ -84,17 +81,13 @@ componentWillMount(){
 
   render() {
     
-    const { classes } = this.props;
-    const users = this.props;
-  console.log(users);
     return (
       <div style={{ right: '5px'}} >
           <div
             style={{
               backgroundColor: '#ccc',
               minHeight:"100%",
-              height: '100%',
-              // position: 'fixed'
+              height: '100%'
             }} >
             <div >
               <div style={{ position: 'sticky' ,backgroundColor: '#db0056'}}>
@@ -108,14 +101,13 @@ componentWillMount(){
                   }} 
                 >CHATS</h2>
               </div >
-                  <div Style={{ overflowY: 'scroll'}}>
+              <PerfectScrollbar>
+                  <div style={{ overflowY: 'scroll'}}>
                     <ul style={{ margin: '0px auto', listStyleType: 'none', padding: 0 }}>
-                      {classes.users.map((user) =>
-                        <ListItem key={user.id}
-                          value={user.username} />
-                      )}
+                      {this.props.items}
                     </ul>
                   </div>
+              </PerfectScrollbar>
             </div>
           </div>
       </div>

@@ -48,54 +48,11 @@ import ReactDOM from 'react-dom';
 
 // import { getAllUsers } from '../util/APIUtils'
 import Message from './Message.js';
-import defaultImage from "../assets/img/default-avatar.png";
+// import defaultImage from "../assets/img/default-avatar.png";
 import './App.css';
+
+import { sendMessage, getChatHistory } from "../util/APIUtils.js";
 // import bgChats from "../assets/img/sidebar-2.jpg"
-
-
-// const useStyles = makeStyles({
-//     root: {
-//         // position: 'relative',
-//         borderRadius: '20px',
-//         display: 'inline-block',
-//         alignItems: 'center',
-//         width: '90%',
-//         height: '20%',
-//         margin: '1px 10px',
-//         padding: '1px 5px'
-//     },
-//     input: {
-//         margin: 8,
-//         flex: 1,
-//     },
-//     iconButton: {
-//         padding: 10,
-//         backgroundColor: '#db0056',
-//         color: 'white'
-//     }
-// });
-
-// const SendStyles = () => {
-//     const classes = useStyles();
-//     return (
-//         <div>
-//             <Paper className={classes.root}>
-//                 <InputBase ref="msg"
-//                     style={{ width: '95%', padding: '0px 5px', margin: '0px 4px', fontSize: '20px', borderRadius: '20px' }}
-//                     className={classes.input}
-//                     placeholder="Type your Message here..."
-//                     type= 'text'
-//                 />
-//             </Paper>
-//             <IconButton className={classes.iconButton} aria-label="Send"
-//                 onClick={(e) => this.SendMessage(e)}
-                    
-//             >
-//                 <SendIcon />
-//             </IconButton>
-//         </div>
-//     );
-// }
 
 class ChatRooom extends React.Component {
     _isMounted = false;
@@ -104,67 +61,65 @@ class ChatRooom extends React.Component {
         this.state = {
             value: 0,
             cardAnimation: 'cardHidden',
-            isOpen: false,
             message:'',
-            users: [],
-            imagePreviewUrl: defaultImage,
             chats: [{
                     username: "Kevin Hsu",
                     content: <p>Hello World!</p>,
-                    img: "http://i.imgur.com/Tj5DGiO.jpg",
+                    img: "http://i.imgur.com/Tj5DGiO.jpg",     
                 }, {
                     username: "Alice Chen",
                     content: <p>Love it! :heart:</p>,
-                    img: "http://i.imgur.com/Tj5DGiO.jpg",
+                    img: "http://i.imgur.com/Tj5DGiO.jpg",    
                 }, {
                     username: "Kevin Hsu",
                     content: <p>Check out my Github at https://github.com/WigoHunter</p>,
-                    img: "http://i.imgur.com/Tj5DGiO.jpg",
+                    img: "http://i.imgur.com/Tj5DGiO.jpg",     
                 }, {
                     username: "KevHs",
                     content: <p>Lorem ipsum dolor sit amet, nibh ipsum. Cum class sem inceptos incidunt sed sed. Tempus wisi enim id, arcu sed lectus aliquam, nulla vitae est bibendum molestie elit risus.</p>,
-                    // img: "http://i.imgur.com/ARbQZix.jpg",
+                    img: "http://i.imgur.com/ARbQZix.jpg",
                 }, {
                     username: "Kevin Hsu",
                     content: <p>So</p>,
-                    img: "http://i.imgur.com/Tj5DGiO.jpg",
+                    img: "http://i.imgur.com/Tj5DGiO.jpg",     
                 }, {
                     username: "Kevin Hsu",
                     content: <p>Chilltime is going to be an app for you to view videos with friends</p>,
-                    img: "http://i.imgur.com/Tj5DGiO.jpg",
+                    img: "http://i.imgur.com/Tj5DGiO.jpg",     
                 }, {
                     username: "Kevin Hsu",
                     content: <p>You can sign-up now to try out our private beta!</p>,
-                    img: "http://i.imgur.com/Tj5DGiO.jpg",
+                    img: "http://i.imgur.com/Tj5DGiO.jpg",     
                 }, {
                     username: "Alice Chen",
                     content: <p>Definitely! Sounds great!</p>,
-                    img: "http://i.imgur.com/Tj5DGiO.jpg",
+                    img: "http://i.imgur.com/Tj5DGiO.jpg",     
                 }]
         };
-        // this.displayUsers = this.displayUsers.bind(this);
-        this.openChatRoom = this.openChatRoom.bind(this);
         this.submitMessage = this.submitMessage.bind(this);
     }
 
-    openChatRoom() {
-        console.log('i work in chats');
-        this.setState(
-            oldState => ({ isOpen: !oldState.isOpen })
-        )
-    }
-
-    
-
     submitMessage(e) {
         e.preventDefault();
-        console.log(ReactDOM.findDOMNode(this.refs.msg).value);
-        if(ReactDOM.findDOMNode(this.refs.msg).value !== '' && ReactDOM.findDOMNode(this.refs.msg).value !== ' '){
-        //    const sentMessage ={
-        //        senderId: ,
-        //        recieverId: ,
-        //        content: ReactDOM.findDOMNode(this.refs.msg).value
-        //    }
+        const msg = ReactDOM.findDOMNode(this.refs.msg).value;
+        msg.trim();
+        /*
+        * eliminate strings that contain spaces only 
+        */
+
+        if (/\S/.test(msg)){
+           const sentMessage = {
+               senderId: this.props.currentUserId,
+               recieverId: this.props.userId,
+               content: ReactDOM.findDOMNode(this.refs.msg).value
+           }
+           console.log(sentMessage);
+            sendMessage(sentMessage)
+                .then(response => {
+                    console.log(response);
+                }).catch(error => {
+                    alert(error.message || 'sorry! Something went wrong. Please try again!');
+                });
             this.setState({
                 chats: this.state.chats.concat([{
                     username: "Kevin Hsu",
@@ -177,20 +132,20 @@ class ChatRooom extends React.Component {
         }else{
             ReactDOM.findDOMNode(this.refs.msg).value = "";
         }
+        // console.log(this.props.userId);
     }
-
-    // displayUsers() {
-    //     getAllUsers()
-    //         .then(response => {
-    //             this.setState({ users: response })
-    //         }).catch(error => {
-    //             alert(error.message || 'sorry! Something went wrong. Please try again!');
-    //         });
-    //     console.log(this.state.users);
-    // }
-
     componentDidMount() {
         this.scrollToBot();
+        getChatHistory(this.props.currentUserId, this.props.userId)
+            .then(response => {
+                console.log(response)
+                this.setState({
+                    chats: response
+                })
+            }).catch(error => {
+                alert(error.message || 'sorry! Something went wrong. Please try again!');
+            });
+            console.log(this.state.chats)
     }
 
     componentDidUpdate() {
@@ -205,6 +160,8 @@ class ChatRooom extends React.Component {
     render() {
         const username = "Kevin Hsu";
         const { chats } = this.state;
+        // let userId = this.props.userId;
+        // console.log(this.props.userId);
 
         return (
             <div 
@@ -214,11 +171,8 @@ class ChatRooom extends React.Component {
                     
                     }} 
                 >
-                    {/*
-                        // Header elements =====================================================================================
-                    */}
-                    
-                    <div style={{ backgroundColor: '#db0056', width: '100%', height: '25%'}}
+                    <div 
+                         style={{ backgroundColor: '#db0056', width: '100%', height: '25%'}}
                     >
                             <h2 
                                 style={{
@@ -233,15 +187,10 @@ class ChatRooom extends React.Component {
                          }}
                             >MIS MESSENGER</h2>
                         </div >
-                    {/* </Box>  
-                    </div>*/}
-                    
-
                     {/*
                         // Messages =========================================================================================
                     */}
                     <div >
-                      
                         <div style={{ backgroundColor: 'rgba(0,0,0,0.6)', minHeight: '100vh'}}>
                             <ul
                                 ref="chats"
@@ -301,24 +250,6 @@ class ChatRooom extends React.Component {
                             </form>
                         </div>
                     </div>
-                    
-                    
-                    
-
-                    {/*
-                        // Send elements =====================================================================================
-                    */}
-                        {/* <Box height='10%' width='75%' style={{
-                            backgroundColor: "rgba(0,0,0,0)",
-                            // bottom: 5,
-                            // position: 'absolute',
-                            color: 'grey' 
-                            }} 
-                        > 
-                            <div style={{ width:'100%', margin:'2px' }} >
-                                <SendStyles  />
-                            </div>
-                     </Box>  */}
             </div>
             
         );
