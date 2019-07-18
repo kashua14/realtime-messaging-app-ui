@@ -43,10 +43,6 @@ import sidebarStyle from "../assets/jss/material-dashboard-pro-react/components/
 import 'react-perfect-scrollbar/dist/css/styles.css';
 import PerfectScrollbar from 'react-perfect-scrollbar'
 
-
-import defaultImage from "../assets/img/default-avatar.png";
-
-
 class ChatHeads extends React.Component {
   _isMounted = false;
   constructor(props) {
@@ -55,8 +51,7 @@ class ChatHeads extends React.Component {
         value: 0,
         cardAnimation: 'cardHidden',
         //isOpen: false,
-        users: [], 
-        imagePreviewUrl: defaultImage
+        
     }; 
     
 }

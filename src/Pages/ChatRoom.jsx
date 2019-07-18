@@ -50,6 +50,8 @@ import ReactDOM from 'react-dom';
 import Message from './Message.js';
 // import defaultImage from "../assets/img/default-avatar.png";
 import './App.css';
+
+import { sendMessage, getChatHistory } from "../util/APIUtils.js";
 // import bgChats from "../assets/img/sidebar-2.jpg"
 
 class ChatRooom extends React.Component {
@@ -99,9 +101,26 @@ class ChatRooom extends React.Component {
 
     submitMessage(e) {
         e.preventDefault();
-        console.log(typeof ReactDOM.findDOMNode(this.refs.msg).value);
-        if(ReactDOM.findDOMNode(this.refs.msg).value !== '' && ReactDOM.findDOMNode(this.refs.msg).value !== ' '){
-           this.setState({
+        const msg = ReactDOM.findDOMNode(this.refs.msg).value;
+        msg.trim();
+        /*
+        * eliminate strings that contain spaces only 
+        */
+
+        if (/\S/.test(msg)){
+           const sentMessage = {
+               senderId: this.props.currentUserId,
+               recieverId: this.props.userId,
+               content: ReactDOM.findDOMNode(this.refs.msg).value
+           }
+           console.log(sentMessage);
+            sendMessage(sentMessage)
+                .then(response => {
+                    console.log(response);
+                }).catch(error => {
+                    alert(error.message || 'sorry! Something went wrong. Please try again!');
+                });
+            this.setState({
                 chats: this.state.chats.concat([{
                     username: "Kevin Hsu",
                     content: <p style={{margin: 0, display: 'inline-block', textOverflow: 'clip' }}>{ReactDOM.findDOMNode(this.refs.msg).value}</p>,
@@ -113,9 +132,20 @@ class ChatRooom extends React.Component {
         }else{
             ReactDOM.findDOMNode(this.refs.msg).value = "";
         }
+        // console.log(this.props.userId);
     }
     componentDidMount() {
         this.scrollToBot();
+        getChatHistory(this.props.currentUserId, this.props.userId)
+            .then(response => {
+                console.log(response)
+                this.setState({
+                    chats: response
+                })
+            }).catch(error => {
+                alert(error.message || 'sorry! Something went wrong. Please try again!');
+            });
+            console.log(this.state.chats)
     }
 
     componentDidUpdate() {
@@ -130,6 +160,8 @@ class ChatRooom extends React.Component {
     render() {
         const username = "Kevin Hsu";
         const { chats } = this.state;
+        // let userId = this.props.userId;
+        // console.log(this.props.userId);
 
         return (
             <div 
