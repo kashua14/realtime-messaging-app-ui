@@ -40,22 +40,6 @@ export function getAllUsers() {
     });
 }
 
-export function createPoll(pollData) {
-    return request({
-        url: API_BASE_URL + "/polls",
-        method: 'POST',
-        body: JSON.stringify(pollData)         
-    });
-}
-
-export function castVote(voteData) {
-    return request({
-        url: API_BASE_URL + "/polls/" + voteData.pollId + "/votes",
-        method: 'POST',
-        body: JSON.stringify(voteData)
-    });
-}
-
 export function login(loginRequest) {
     return request({
         url: API_BASE_URL + "/auth/signin",
@@ -72,7 +56,7 @@ export function signup(signupRequest) {
     });
 }
 
-export function message(sentMessage) {
+export function sendMessage(sentMessage) {
     return request({
         url: API_BASE_URL + "/chats/chatroom",
         method: 'POST',
@@ -94,7 +78,6 @@ export function checkEmailAvailability(email) {
     });
 }
 
-
 export function getCurrentUser() {
     if(!localStorage.getItem(ACCESS_TOKEN)) {
         return Promise.reject("No access token set.");
@@ -106,10 +89,42 @@ export function getCurrentUser() {
     });
 }
 
+export function getChatHistory(senderId, recieverId) {
+    return request({
+        url: API_BASE_URL + "/chats/chathistory" + recieverId + "/" + senderId,
+        method: 'GET'
+    });
+} 
+
 export function getUserProfile(username) {
     return request({
         url: API_BASE_URL + "/users/" + username,
         method: 'GET'
+    });
+}
+
+
+
+/* 
+========================================================================================================
+not used / needed
+========================================================================================================
+========================================================================================================
+*/
+
+export function createPoll(pollData) {
+    return request({
+        url: API_BASE_URL + "/polls",
+        method: 'POST',
+        body: JSON.stringify(pollData)
+    });
+}
+
+export function castVote(voteData) {
+    return request({
+        url: API_BASE_URL + "/polls/" + voteData.pollId + "/votes",
+        method: 'POST',
+        body: JSON.stringify(voteData)
     });
 }
 
