@@ -91,7 +91,7 @@ export function getCurrentUser() {
 
 export function getChatHistory(senderId, recieverId) {
     return request({
-        url: API_BASE_URL + "/chats/chathistory" + recieverId + "/" + senderId,
+        url: API_BASE_URL + "/chats/chatHistory/" + recieverId + "/" + senderId,
         method: 'GET'
     });
 } 

@@ -62,39 +62,7 @@ class ChatRooom extends React.Component {
             value: 0,
             cardAnimation: 'cardHidden',
             message:'',
-            chats: [{
-                    username: "Kevin Hsu",
-                    content: <p>Hello World!</p>,
-                    img: "http://i.imgur.com/Tj5DGiO.jpg",     
-                }, {
-                    username: "Alice Chen",
-                    content: <p>Love it! :heart:</p>,
-                    img: "http://i.imgur.com/Tj5DGiO.jpg",    
-                }, {
-                    username: "Kevin Hsu",
-                    content: <p>Check out my Github at https://github.com/WigoHunter</p>,
-                    img: "http://i.imgur.com/Tj5DGiO.jpg",     
-                }, {
-                    username: "KevHs",
-                    content: <p>Lorem ipsum dolor sit amet, nibh ipsum. Cum class sem inceptos incidunt sed sed. Tempus wisi enim id, arcu sed lectus aliquam, nulla vitae est bibendum molestie elit risus.</p>,
-                    img: "http://i.imgur.com/ARbQZix.jpg",
-                }, {
-                    username: "Kevin Hsu",
-                    content: <p>So</p>,
-                    img: "http://i.imgur.com/Tj5DGiO.jpg",     
-                }, {
-                    username: "Kevin Hsu",
-                    content: <p>Chilltime is going to be an app for you to view videos with friends</p>,
-                    img: "http://i.imgur.com/Tj5DGiO.jpg",     
-                }, {
-                    username: "Kevin Hsu",
-                    content: <p>You can sign-up now to try out our private beta!</p>,
-                    img: "http://i.imgur.com/Tj5DGiO.jpg",     
-                }, {
-                    username: "Alice Chen",
-                    content: <p>Definitely! Sounds great!</p>,
-                    img: "http://i.imgur.com/Tj5DGiO.jpg",     
-                }]
+            chats: []
         };
         this.submitMessage = this.submitMessage.bind(this);
     }
@@ -116,13 +84,13 @@ class ChatRooom extends React.Component {
            console.log(sentMessage);
             sendMessage(sentMessage)
                 .then(response => {
-                    console.log(response);
+                    // Do nothing after sending the message
                 }).catch(error => {
                     alert(error.message || 'sorry! Something went wrong. Please try again!');
                 });
             this.setState({
                 chats: this.state.chats.concat([{
-                    username: "Kevin Hsu",
+                    id: this.props.currentUserId,
                     content: <p style={{margin: 0, display: 'inline-block', textOverflow: 'clip' }}>{ReactDOM.findDOMNode(this.refs.msg).value}</p>,
                     // img: "http://i.imgur.com/Tj5DGiO.jpg",
                 }])
@@ -136,9 +104,10 @@ class ChatRooom extends React.Component {
     }
     componentDidMount() {
         this.scrollToBot();
+        // console.log("cur "+this.props.userId)
         getChatHistory(this.props.currentUserId, this.props.userId)
             .then(response => {
-                console.log(response)
+                // console.log(response)
                 this.setState({
                     chats: response
                 })
@@ -158,7 +127,7 @@ class ChatRooom extends React.Component {
 
 
     render() {
-        const username = "Kevin Hsu";
+        const id = this.props.currentUserId;
         const { chats } = this.state;
         // let userId = this.props.userId;
         // console.log(this.props.userId);
@@ -207,7 +176,7 @@ class ChatRooom extends React.Component {
                                     chats.map((chat) =>
                                     <Message 
                                         chat={chat} 
-                                        user={username} 
+                                        userId={id} 
                                     />
                                     )
                                 }

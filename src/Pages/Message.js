@@ -1,8 +1,8 @@
 import React from 'react';
 import './App.css';
 
-const Message = ({chat, user}) => (
-    <li className={`chat ${user === chat.username ? "right" : "left"}`}
+const Message = ({chat, userId}) => (
+    <li className={`chat ${userId === chat.id ? "right" : "left"}`}
         style={{
             background: 'rgba(255, 255, 255, 0.8)',
             position: 'relative',
@@ -10,16 +10,16 @@ const Message = ({chat, user}) => (
             fontSize: '14px',
             borderRadius: '10px',
             listStyle: 'none',
-            float: `${user === chat.username ? "left" : "right"}`,
+            float: `${userId === chat.id ? "left" : "right"}`,
             clear: 'both',
             margin: '10px 0',
             maxWidth: '500px'
         }}
     >
-        {user !== chat.username
+        {/* {user !== chat.username
             && <img 
                     src={chat.img} 
-                    alt={`${chat.username}'s profile pic`} 
+                    alt='...' 
                     style={{
                         width: '20px',
                         height: '20px',
@@ -29,7 +29,7 @@ const Message = ({chat, user}) => (
                         left: '0px'
                     }}
                 />
-              }
+              } */}
         {chat.content}
     </li>
 );
