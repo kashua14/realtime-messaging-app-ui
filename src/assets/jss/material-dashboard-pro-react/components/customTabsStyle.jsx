@@ -24,7 +24,7 @@ const customTabsStyle = {
     height: "unset !important",
     maxWidth: "unset !important",
     maxHeight: "unset !important",
-    padding: "10px 15px",
+    padding: "20px 15px",
     borderRadius: "3px",
     lineHeight: "24px",
     border: "0 !important",
@@ -38,8 +38,8 @@ const customTabsStyle = {
     padding: "0px"
   },
   tabLabel: {
-    fontWeight: "500",
-    fontSize: "12px"
+    fontWeight: "90",
+    fontSize: "20px"
   },
   tabSelected: {
     backgroundColor: "rgba(255, 255, 255, 0.2)",

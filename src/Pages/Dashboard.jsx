@@ -1,5 +1,5 @@
 import React from "react";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 
 // react plugin for creating vector maps
 //import { VectorMap } from "react-jvectormap";
@@ -43,11 +43,13 @@ import dashboardStyle from "../assets/jss/material-dashboard-pro-react/views/das
 import { getAllUsers, getCurrentUser } from '../util/APIUtils'
 // import defaultImage from "../assets/img/default-avatar.png";
 // import ucu from '../assets/img/ucu_badge.png';
-import ChatHeads from "./ChatHeads.jsx";
+// import ChatHeads from "./ChatHeads.jsx";
+import ChatNav from "./ChatNav.jsx"
 import ChatRoom from "./ChatRoom.jsx";
 import bgChats from "../assets/img/register.jpeg"
 import defaultImage from "../assets/img/default-avatar.png";
 import './App.css';
+// import Chats from "./Chats";
 
 
 class Dashboard extends React.Component {
@@ -58,7 +60,8 @@ class Dashboard extends React.Component {
       value: 0,
       isOpen: false,
       users: [],
-      userId: 0,
+      clickedUserId: 0,
+      clickedUsername: "",
       currentUserId: 0,
       currentUser: [],
       cardAnimation: 'cardHidden',
@@ -125,26 +128,30 @@ class Dashboard extends React.Component {
 
 
 
-  openChatRoom(id){
+  openChatRoom(id, username){
     
-    if (id === this.state.userId && this.loadCurrentUser() === this.state.currentUserId ){
+    if (id === this.state.clickedUserId && this.loadCurrentUser() === this.state.currentUserId ){
       this.setState(
         // oldState => ({ isOpen: !oldState.isOpen })
         { isOpen: true }
       );
     }
     else {
-      this.setState({ userId: id, isOpen: false });
+      this.setState({ 
+        clickedUserId: id, 
+        isOpen: false,
+        clickedUsername: username
+      });
     }
     console.log("I work in setUserId");
-    console.log("After: " + this.state.userId);
+    console.log("After: " + this.state.clickedUserId);
   }
 
 
-  onClick(id){
+  onClick(id, username){
     console.log("Before: " + id)
     // this.openChatRoom(userId);
-    this.openChatRoom(id);
+    this.openChatRoom(id, username);
   }
 
   render() {
@@ -154,7 +161,7 @@ class Dashboard extends React.Component {
       <li 
         key={user.id}
         style={{ borderBottom: '1px solid #aaa' }} 
-        onClick={() => this.onClick(user.id)}
+        onClick={() => this.onClick(user.id, user.username)}
       >
         <div 
           style={{ boxSizing: 'border-box', padding: '2px 10px', display:'inline-block', textAlign: 'center', }}
@@ -178,43 +185,17 @@ class Dashboard extends React.Component {
       </li>
     );
 
-    // const users = this.state.users.map();
-      // <li
-      //   //data-selected={this.props.item.selected}
-        
-      //   style={{ borderBottom: '1px solid #aaa' }}
-      //   onClick={this.openChatRoom}
-      // >
-      //   <div
-      //     style={{ boxSizing: 'border-box', padding: '2px 10px', display: 'inline-block', textAlign: 'center', }}
-      //   >
-      //     <img
-      //       style={{
-      //         margin: '5px 0px',
-      //         width: '50px',
-      //         height: 'auto',
-      //         align: 'middle',
-      //         borderRadius: '50%',
-      //         boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'
-      //       }}
-      //       src={this.state.imagePreviewUrl}
-      //       alt="..."
-      //     />
-      //     <div style={{ textAlign: 'center', float: 'right' }}>
-      //       <h3 style={{ margin: '20px' }} >{user.username}</h3>
-      //     </div>
-      //   </div>
-      // </li>
-    
     return (
       <div 
         style={{
+          overflow: 'hidden',
           backgroundImage: `url(${bgChats})`,
           backgroundPosition: 'left top',
           backgroundAttachment: 'fixed',
-          backgroundRepeatY: 'repeat',
+          backgroundRepeat: 'no-repeat',
           height: '100%',
-          minHeight: '100vh'
+          minHeight: '100vh',
+          // position: 'fixed',
         }}
       >
         <div
@@ -222,22 +203,31 @@ class Dashboard extends React.Component {
             height: '100%',
             float: 'right',
             width: '25%',
+            position: 'fixed',
+            right: 0,
             minHeight: '100vh'
           }}
           >
-          <ChatHeads items={items} />
-
+          <ChatNav items={items} />
         </div>
         <div
           style={{
             minHeight: '100%',
             width: '75%',
             float: 'left',
+            position: 'fixed',
             alignItems: 'center',
             justifyContent: 'center'
         }}
         >
-          {isOpen && <ChatRoom currentUserId={this.state.currentUserId} userId={this.state.userId}/>}
+          {
+            isOpen && 
+            <ChatRoom 
+              currentUserId={this.state.currentUserId} 
+              clickedUserId={this.state.clickedUserId}
+              clickedUsername={this.state.clickedUsername}
+            />
+          }
         </div>
       </div>
     );
@@ -245,8 +235,8 @@ class Dashboard extends React.Component {
   }
 }
 
-Dashboard.propTypes = {
-  classes: PropTypes.object.isRequired
-};
+// Dashboard.propTypes = {
+//   classes: PropTypes.object.isRequired
+// };
 
 export default withStyles(dashboardStyle)(Dashboard);
