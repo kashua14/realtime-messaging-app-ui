@@ -1,5 +1,5 @@
 import React from "react";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import ReactDOM from 'react-dom';
 // react plugin for creating vector maps
 //import { VectorMap } from "react-jvectormap";
@@ -50,7 +50,7 @@ import ReactDOM from 'react-dom';
 import Message from './Message.js';
 // import defaultImage from "../assets/img/default-avatar.png";
 import './App.css';
-
+import defaultImage from "../assets/img/default-avatar.png";
 import { sendMessage, getChatHistory } from "../util/APIUtils.js";
 // import bgChats from "../assets/img/sidebar-2.jpg"
 
@@ -61,8 +61,9 @@ class ChatRooom extends React.Component {
         this.state = {
             value: 0,
             cardAnimation: 'cardHidden',
+            imagePreviewUrl: defaultImage,
             message:'',
-            chats: []
+            chatMessages: []
         };
         this.submitMessage = this.submitMessage.bind(this);
     }
@@ -78,7 +79,7 @@ class ChatRooom extends React.Component {
         if (/\S/.test(msg)){
            const sentMessage = {
                senderId: this.props.currentUserId,
-               recieverId: this.props.userId,
+               recieverId: this.props.clickedUserId,
                content: ReactDOM.findDOMNode(this.refs.msg).value
            }
            console.log(sentMessage);
@@ -89,9 +90,11 @@ class ChatRooom extends React.Component {
                     alert(error.message || 'sorry! Something went wrong. Please try again!');
                 });
             this.setState({
-                chats: this.state.chats.concat([{
+                chatMessages: this.state.chatMessages.concat([{
                     id: this.props.currentUserId,
-                    content: <p style={{margin: 0, display: 'inline-block', textOverflow: 'clip' }}>{ReactDOM.findDOMNode(this.refs.msg).value}</p>,
+                    content: <p 
+                        // style={{margin: 0, display: 'inline-block', textOverflow: 'clip' }}
+                    >{ReactDOM.findDOMNode(this.refs.msg).value}</p>,
                     // img: "http://i.imgur.com/Tj5DGiO.jpg",
                 }])
             }, () => {
@@ -105,11 +108,11 @@ class ChatRooom extends React.Component {
     componentDidMount() {
         this.scrollToBot();
         // console.log("cur "+this.props.userId)
-        getChatHistory(this.props.currentUserId, this.props.userId)
+        getChatHistory(this.props.currentUserId, this.props.clickedUserId)
             .then(response => {
                 // console.log(response)
                 this.setState({
-                    chats: response
+                    chatMessages: response
                 })
                 console.log(this.state.chats);
                 // const otherUsers = this.state.users.filter(user => {
@@ -118,7 +121,7 @@ class ChatRooom extends React.Component {
             }).catch(error => {
                 alert(error.message || 'sorry! Something went wrong. Please try again!');
             });
-           
+        console.log(this.state.chatMessages);
     }
 
     componentDidUpdate() {
@@ -132,56 +135,68 @@ class ChatRooom extends React.Component {
 
     render() {
         const id = this.props.currentUserId;
-        const { chats } = this.state;
+        const { chatMessages } = this.state;
         // let userId = this.props.userId;
-        // console.log(this.props.userId);
+        console.log(this.state.chatMessages);
 
         return (
             <div 
                 style={{ 
                     boxSizing:'border-box',
-                    width: '100%',
-                    
-                    }} 
+                    width: '100%'
+                }} 
                 >
                     <div 
-                         style={{ backgroundColor: '#db0056', width: '100%', height: '25%'}}
+                        style={{ backgroundColor: '#db0056', width: '100%', height: '25%'}}
                     >
+                        <img 
+                            style={{  
+                            width: '100px',
+                            float: 'left', 
+                            height: 'auto', 
+                            align: 'middle',
+                            margin: '10px',
+                            borderRadius: '50%',
+                            boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'
+                            }}
+                            src={this.state.imagePreviewUrl}
+                            alt="..."
+                        />
                             <h2 
                                 style={{
                                     fontFamily: 'Pacifico, cursive',
-                                    textAlign: 'center',
-                                    fontSize: '20px',
+                                    textAlign: 'center', 
+                                    fontSize: '40px',
                                     display: 'block',
                                     justifyContent: 'center',
                                     color: '#fff',
-                                    padding: '20px 0px', 
+                                    padding: '5px 0px', 
                                     margin: 0,
-                         }}
-                            >MIS MESSENGER</h2>
+                                 }}
+                            >{this.props.clickedUsername}</h2>
                         </div >
                     {/*
-                        // Messages =========================================================================================
+                        // Messages ====================================================================================
                     */}
                     <div >
                         <div style={{ backgroundColor: 'rgba(0,0,0,0.6)', minHeight: '100vh'}}>
                             <ul
                                 ref="chats"
                                 style={{
-                                    padding: '0px 20px',
-                                    height: '600px',
+                                    padding: '0px 20px 0px 0px',
+                                    height: '80vh',
                                     margin: 0,
-                                    overflowY: 'scroll',
+                                    overflowY: 'auto',
                                     overflowX: 'hidden',
                                     boxSizing: 'border-box'
                                 }}
                             >
                                 {
-                                    chats.map((chat) =>
-                                    <Message 
-                                        chat={chat} 
-                                        userId={id} 
-                                    />
+                                    chatMessages.map(chat => 
+                                        <Message 
+                                            chat={chat} 
+                                            id={id} 
+                                        />
                                     )
                                 }
                             </ul>
@@ -190,34 +205,36 @@ class ChatRooom extends React.Component {
                                 style={{
                                     borderTopRightRadius: '5px',
                                     borderBottomRightRadius: '5px',
-                                    display: 'inline-block',
+                                    display: 'block',
                                     alignItems: 'center',
                                     width: '95%',
                                     height: '20%',
-                                    padding: '1px 5px'
+                                    padding: '0px 0px 0px 30px'
                                 }}
                             >
                                 <input type="text" showEmoji placeholder="Type your message ..." ref="msg" 
                                     style={{
                                         backgroundColor: '#ccc',
+                                        border: 'none',
                                         color: 'black',
-                                        width: '93%', padding: '0px 5px', fontSize: '20px',
-                                        outline: 0,
-                                        borderTopLeftRadius: '5px',
-                                        borderBottomLeftRadius: '5px',
-                                        height: '40px',
+                                        width: '90%', padding: '0px 10px', 
+                                        fontSize: '15px',
+                                        borderTopLeftRadius: '25px',
+                                        borderBottomLeftRadius: '25px',
+                                        height: '30px',
                                     }}
                                 />
                                 <input type="submit" value="Send"
                                     style={{
-                                        padding: 10,
+                                        padding: '0px 10px', 
                                         backgroundColor: '#db0056',
-
+                                        border: 'none',
                                         color: 'white',
-                                        borderTopRightRadius: '5px',
-                                        borderBottomRightRadius: '5px',
+                                        height: '30px',
+                                        borderTopRightRadius: '25px',
+                                        borderBottomRightRadius: '25px',
                                         cursor: 'pointer',
-                                        fontSize: 'large'
+                                        fontSize: '15px'
                                     }}
                                 />
                             </form>
@@ -229,8 +246,8 @@ class ChatRooom extends React.Component {
     }
 }
 
-ChatRooom.propTypes = {
-    classes: PropTypes.object.isRequired
-};
+// ChatRooom.propTypes = {
+//     classes: PropTypes.object.isRequired
+// };
 
 export default ChatRooom;
