@@ -152,7 +152,7 @@ class Dashboard extends React.Component {
 
 
   onClick(id, username){
-    console.log("Before: " + id)
+    console.log("Before: " + username)
     // this.openChatRoom(userId);
     this.openChatRoom(id, username);
   }
@@ -219,7 +219,7 @@ class Dashboard extends React.Component {
           >
           <ChatNav items={items} />
         </div>
-        <div
+        <div id="messageForm"
           style={{
             minHeight: '100%',
             width: '75%',
@@ -236,6 +236,13 @@ class Dashboard extends React.Component {
               clickedUserId={this.state.clickedUserId}
               clickedUsername={this.state.clickedUsername}
             />
+          }
+          { 
+            false && 
+            <main 
+              clickedUserId={this.state.clickedUserId}
+              clickedUsername={this.state.clickedUsername}
+            /> 
           }
         </div>
       </div>

@@ -181,6 +181,7 @@ class ChatRooom extends React.Component {
                     <div >
                         <div style={{ backgroundColor: 'rgba(0,0,0,0.6)', minHeight: '100vh'}}>
                             <ul
+                                id="messageArea"
                                 ref="chats"
                                 style={{
                                     padding: '0px 20px 0px 0px',
@@ -212,7 +213,7 @@ class ChatRooom extends React.Component {
                                     padding: '0px 0px 0px 30px'
                                 }}
                             >
-                                <input type="text" showEmoji placeholder="Type your message ..." ref="msg" 
+                                <input type="text" id="message" placeholder="Type your message ..." ref="msg" 
                                     style={{
                                         backgroundColor: '#ccc',
                                         border: 'none',
