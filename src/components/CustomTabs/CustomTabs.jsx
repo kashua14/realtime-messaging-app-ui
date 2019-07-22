@@ -9,9 +9,9 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 // core components
-import Card from "../Card/Card.jsx";
-import CardBody from "../Card/CardBody.jsx";
-import CardHeader from "../Card/CardHeader.jsx";
+// import Card from "../Card/Card.jsx";
+// import CardBody from "../Card/CardBody.jsx";
+// import CardHeader from "../Card/CardHeader.jsx";
 
 import customTabsStyle from "../../assets/jss/material-dashboard-pro-react/components/customTabsStyle.jsx";
 
@@ -27,8 +27,6 @@ class CustomTabs extends React.Component {
   render() {
     const {
       classes,
-      headerColor,
-      plainTabs,
       tabs,
       title,
       rtlActive
@@ -38,8 +36,22 @@ class CustomTabs extends React.Component {
       [classes.cardTitleRTL]: rtlActive
     });
     return (
-      <Card plain={plainTabs}>
-        <CardHeader color={headerColor} plain={plainTabs}>
+      // <Card plain={plainTabs}>
+      <div
+            style={{
+              backgroundColor: '#ccc',
+              minHeight:"100%",
+              height: '100%'
+            }} >
+        {/* <CardHeader color={headerColor} plain={plainTabs}> */}
+        <div
+          style={{ 
+            // borderBottom: '2px solid #db0056', 
+            textAlign: 'center', 
+            color: '#fff',
+            backgroundColor: '#db0056'
+          }} 
+        >
           {title !== undefined ? (
             <div className={cardTitle}>{title}</div>
           ) : null}
@@ -74,16 +86,19 @@ class CustomTabs extends React.Component {
               );
             })}
           </Tabs>
-        </CardHeader>
-        <CardBody>
+        </div>
+        {/* </CardHeader> */}
+        {/* <CardBody> */}
           {tabs.map((prop, key) => {
             if (key === this.state.value) {
               return <div key={key}>{prop.tabContent}</div>;
             }
             return null;
           })}
-        </CardBody>
-      </Card>
+        {/* </CardBody> */}
+      
+      {/* </Card> */}
+      </div>
     );
   }
 }
