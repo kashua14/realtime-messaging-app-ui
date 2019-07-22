@@ -6,6 +6,9 @@ import React from "react";
 
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
+// import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+// import ListItemText from '@material-ui/core/ListItemText';
 // import Icon from "@material-ui/core/Icon";
 
 // // @material-ui/icons
@@ -157,32 +160,38 @@ class Dashboard extends React.Component {
   render() {
 
     const isOpen = this.state.isOpen;
-    const items = this.state.users.map((user) => 
-      <li 
-        key={user.id}
-        style={{ borderBottom: '1px solid #aaa' }} 
-        onClick={() => this.onClick(user.id, user.username)}
-      >
-        <div 
+    const items = this.state.users.map((user) => (
+      // <List style={{ padding: 0 }}>
+        <ListItem key={user.id} 
+          style={{ 
+            borderBottom: '1px solid #aaa'
+          }} 
+          button onClick={() => this.onClick(user.id, user.username)}
+        >
+          <div
           style={{ boxSizing: 'border-box', padding: '2px 10px', display:'inline-block', textAlign: 'center', }}
         >
-              <img 
-                style={{ 
-                  margin:'5px 0px', 
-                  width: '50px', 
-                  height: 'auto', 
-                  align: 'middle',
-                  borderRadius: '50%',
-                  boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'
-                }}
-                src={this.state.imagePreviewUrl}
-                alt="..."
-              />
-              <div style={{ textAlign:'center', float: 'right' }}>
-                <h3 style={{ margin: '20px' }} >{user.username}</h3>
-              </div>
+          <img
+            style={{
+              margin: '5px 0px',
+              width: '50px',
+              height: 'auto',
+              align: 'middle',
+              borderRadius: '50%',
+              boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'
+            }}
+            src={this.state.imagePreviewUrl}
+            alt="..."
+          />
+          <div style={{ textAlign: 'center', float: 'right' }}>
+            <h3 style={{ margin: '20px' }} >{user.username}</h3>
           </div>
-      </li>
+          {/* <ListItemText primary style={{ textAlign: 'center', float: 'right' }} /> */}
+          </div>
+        </ListItem>
+      // </List>
+    )
+      
     );
 
     return (
