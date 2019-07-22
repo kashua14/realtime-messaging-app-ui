@@ -111,10 +111,14 @@ class ChatRooom extends React.Component {
                 this.setState({
                     chats: response
                 })
+                console.log(this.state.chats);
+                // const otherUsers = this.state.users.filter(user => {
+                //     return (user.username !== this.state.currentUser.username);
+                // });
             }).catch(error => {
                 alert(error.message || 'sorry! Something went wrong. Please try again!');
             });
-            console.log(this.state.chats)
+           
     }
 
     componentDidUpdate() {
@@ -193,7 +197,7 @@ class ChatRooom extends React.Component {
                                     padding: '1px 5px'
                                 }}
                             >
-                                <input type="text" placeholder="Type your message ..." ref="msg" 
+                                <input type="text" showEmoji placeholder="Type your message ..." ref="msg" 
                                     style={{
                                         backgroundColor: '#ccc',
                                         color: 'black',
