@@ -52,6 +52,7 @@ import ChatRoom from "./ChatRoom.jsx";
 import bgChats from "../assets/img/register.jpeg"
 import defaultImage from "../assets/img/default-avatar.png";
 import './App.css';
+import Wizard from "./Wizard";
 // import Chats from "./Chats";
 
 
@@ -220,6 +221,7 @@ class Dashboard extends React.Component {
           >
           <ChatNav items={items} />
         </div>
+        <Wizard />
         <div
           style={{
             minHeight: '100%',

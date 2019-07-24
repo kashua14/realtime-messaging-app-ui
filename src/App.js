@@ -19,6 +19,7 @@ import PrivateRoute from './common/PrivateRoute';
 
 // import { Layout, notification } from 'antd';
 import LoadingIndicator from './common/LoadingIndicator';
+import Wizard from './Pages/Wizard';
 // import Options from './Pages/Options';
 // import { ACCESS_TOKEN } from './constants/index';
 // import { notification } from 'antd';
@@ -102,6 +103,7 @@ class App extends Component {
         <Route exact path="/login"
           render={(props) => <Login onLogin={this.handleLogin} {...props} />}></Route>
         <Route path="/signup" component={Signup}></Route>
+        {/* <Route path="/signup" component={Wizard}></Route> */}
         <Route path="/users/:username"
           render={(props) => <Profile isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} {...props} />}>
         </Route>
