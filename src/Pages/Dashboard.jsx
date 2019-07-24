@@ -153,7 +153,7 @@ class Dashboard extends React.Component {
 
 
   onClick(id, username){
-    console.log("Before: " + id)
+    console.log("Before: " + username)
     // this.openChatRoom(userId);
     this.openChatRoom(id, username);
   }
@@ -165,8 +165,7 @@ class Dashboard extends React.Component {
       // <List style={{ padding: 0 }}>
         <ListItem key={user.id} 
           style={{ 
-            borderBottom: '1px solid #aaa',
-            padding: 0
+            borderBottom: '1px solid #aaa'
           }} 
           button onClick={() => this.onClick(user.id, user.username)}
         >
@@ -213,7 +212,7 @@ class Dashboard extends React.Component {
           style={{
             height: '100%',
             float: 'right',
-            width: '20%',
+            width: '25%',
             position: 'fixed',
             right: 0,
             minHeight: '100vh'
@@ -225,7 +224,7 @@ class Dashboard extends React.Component {
         <div
           style={{
             minHeight: '100%',
-            width: '80%',
+            width: '75%',
             float: 'left',
             position: 'fixed',
             alignItems: 'center',
@@ -239,6 +238,13 @@ class Dashboard extends React.Component {
               clickedUserId={this.state.clickedUserId}
               clickedUsername={this.state.clickedUsername}
             />
+          }
+          { 
+            false && 
+            <main 
+              clickedUserId={this.state.clickedUserId}
+              clickedUsername={this.state.clickedUsername}
+            /> 
           }
         </div>
       </div>
