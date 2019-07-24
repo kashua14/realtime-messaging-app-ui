@@ -164,8 +164,7 @@ class Dashboard extends React.Component {
       // <List style={{ padding: 0 }}>
         <ListItem key={user.id} 
           style={{ 
-            borderBottom: '1px solid #aaa',
-            padding: 0
+            borderBottom: '1px solid #aaa'
           }} 
           button onClick={() => this.onClick(user.id, user.username)}
         >
@@ -212,7 +211,7 @@ class Dashboard extends React.Component {
           style={{
             height: '100%',
             float: 'right',
-            width: '20%',
+            width: '25%',
             position: 'fixed',
             right: 0,
             minHeight: '100vh'
@@ -223,7 +222,7 @@ class Dashboard extends React.Component {
         <div id="messageForm"
           style={{
             minHeight: '100%',
-            width: '80%',
+            width: '75%',
             float: 'left',
             position: 'fixed',
             alignItems: 'center',
