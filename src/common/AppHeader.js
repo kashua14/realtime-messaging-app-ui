@@ -4,7 +4,7 @@ import {
     withRouter
 } from 'react-router-dom';
 import './AppHeader.css';
-import pollIcon from '../poll.svg';
+// import pollIcon from '../poll.svg';
 import { Layout, Menu, Dropdown, Icon } from 'antd';
 const Header = Layout.Header;
     
@@ -24,17 +24,17 @@ class AppHeader extends Component {
         let menuItems;
         if(this.props.currentUser) {
           menuItems = [
-            <Menu.Item key="/">
-              <Link to="/">
-                <Icon type="home" className="nav-icon" />
+            <Menu.Item key="/login" style={{ display: 'inline' }}>
+              <Link to="/login">
+                <Icon type="home" style={{ fontSize: '20px'}} />
               </Link>
             </Menu.Item>,
-            <Menu.Item key="/poll/new">
-            <Link to="/poll/new">
-              <img src={pollIcon} alt="poll" className="poll-icon" />
-            </Link>
-          </Menu.Item>,
-          <Menu.Item key="/profile" className="profile-menu">
+          //   <Menu.Item key="/poll/new">
+          //   <Link to="/poll/new">
+          //     <img src={pollIcon} alt="poll" className="poll-icon" />
+          //   </Link>
+          // </Menu.Item>,
+            <Menu.Item key="/profile" style={{ fontSize: '14px', color: 'rgba(0, 0, 0, 0.65)' }}>
                 <ProfileDropdownMenu 
                   currentUser={this.props.currentUser} 
                   handleMenuClick={this.handleMenuClick}/>
@@ -52,16 +52,38 @@ class AppHeader extends Component {
         }
 
         return (
-            <Header className="app-header">
-            <div className="container">
-              <div className="app-title" >
-                <Link to="/">Polling App</Link>
+            <Header 
+              style={{
+                position: 'fixed',
+                width: '100%',
+                boxShadow: '0 2px 8px #f0f1f2',
+                zIndex: 10,
+                padding: 0,
+              }}
+            >
+            <div 
+              style={{ 
+                // maxWidth: '100%',
+                marginLeft: 'auto',
+                marginRight: 'auto',
+                paddingLeft: '15px',
+                paddingRight: '15px'
+              }}
+            >
+              <div style={{ float: 'left' }} >
+                <Link to="/login"
+                  style={{
+                    textDecoration: 'none',
+                    lineHeight: '64px',
+                    fontSize: '21px',
+                    display: 'inline-block'
+                  }}
+                >M.I.S Messenger</Link>
               </div>
               <Menu
-                className="app-menu"
                 mode="horizontal"
                 selectedKeys={[this.props.location.pathname]}
-                style={{ lineHeight: '64px' }} >
+                style={{ lineHeight: '64px',display: 'inline-block', float: 'right' }} >
                   {menuItems}
               </Menu>
             </div>
@@ -72,20 +94,26 @@ class AppHeader extends Component {
 
 function ProfileDropdownMenu(props) {
   const dropdownMenu = (
-    <Menu onClick={props.handleMenuClick} className="profile-dropdown-menu">
-      <Menu.Item key="user-info" className="dropdown-item" disabled>
-        <div className="user-full-name-info">
+    <Menu onClick={props.handleMenuClick} style={{ minWidth: '180px' }}>
+      <Menu.Item key="user-info" style={{ padding: '10px 12px', margin: '-10px - 12px'}} disabled>
+        <div 
+          style={{
+            fontSize: '17px',
+            fontWeight: 600,
+            color: 'rgba(0,0,0,0.85)'
+      }}
+    >
           {props.currentUser.name}
         </div>
-        <div className="username-info">
+        <div style={{ fontSize: '14px', color: 'rgba(0,0,0,0.65)'}}>
           @{props.currentUser.username}
         </div>
       </Menu.Item>
       <Menu.Divider />
-      <Menu.Item key="profile" className="dropdown-item">
+      <Menu.Item key="profile" style={{ padding: '10px 12px' }}>
         <Link to={`/users/${props.currentUser.username}`}>Profile</Link>
       </Menu.Item>
-      <Menu.Item key="logout" className="dropdown-item">
+      <Menu.Item key="logout" style={{ padding: '10px 12px' }}>
         Logout
       </Menu.Item>
     </Menu>
@@ -97,7 +125,7 @@ function ProfileDropdownMenu(props) {
       trigger={['click']}
       getPopupContainer = { () => document.getElementsByClassName('profile-menu')[0]}>
       <a className="ant-dropdown-link">
-         <Icon type="user" className="nav-icon" style={{marginRight: 0}} /> <Icon type="down" />
+        <Icon type="user" style={{ marginRight: 0, fontSize: '20px' }} /> <Icon type="down" />
       </a>
     </Dropdown>
   );

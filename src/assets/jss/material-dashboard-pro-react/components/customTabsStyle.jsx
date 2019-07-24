@@ -25,8 +25,8 @@ const customTabsStyle = {
     maxWidth: "unset !important",
     maxHeight: "unset !important",
     padding: "20px 15px",
-    borderRadius: "3px",
-    lineHeight: "24px",
+    // borderRadius: "3px",
+    lineHeight: "30px",
     border: "0 !important",
     color: "#fff !important",
     marginLeft: "4px",
@@ -38,6 +38,7 @@ const customTabsStyle = {
     padding: "0px"
   },
   tabLabel: {
+    display: 'block',
     fontWeight: "90",
     fontSize: "20px"
   },
@@ -46,7 +47,7 @@ const customTabsStyle = {
     transition: "0.2s background-color 0.1s"
   },
   tabWrapper: {
-    display: "inline-block",
+    display: "block",
     minHeight: "unset !important",
     minWidth: "unset !important",
     width: "unset !important",
