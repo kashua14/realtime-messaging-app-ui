@@ -165,7 +165,8 @@ class Dashboard extends React.Component {
       // <List style={{ padding: 0 }}>
         <ListItem key={user.id} 
           style={{ 
-            borderBottom: '1px solid #aaa'
+            borderBottom: '1px solid #aaa',
+            padding: 0
           }} 
           button onClick={() => this.onClick(user.id, user.username)}
         >
@@ -212,7 +213,7 @@ class Dashboard extends React.Component {
           style={{
             height: '100%',
             float: 'right',
-            width: '25%',
+            width: '20%',
             position: 'fixed',
             right: 0,
             minHeight: '100vh'
@@ -224,7 +225,7 @@ class Dashboard extends React.Component {
         <div
           style={{
             minHeight: '100%',
-            width: '75%',
+            width: '80%',
             float: 'left',
             position: 'fixed',
             alignItems: 'center',
