@@ -4,9 +4,8 @@ import Tabs from "../components/CustomTabs/CustomTabs.jsx";
 // import Chats from "./Chats";
 import Chat from "@material-ui/icons/Chat";
 import People from "@material-ui/icons/People";
-import Settings from "@material-ui/icons/Settings";
 import Groups from "./Groups";
-import Options from "./Options";
+import LogOut from "./Logout";
 // import Feedback from "./Feedback";
 
 class ChatNav extends React.Component {
@@ -55,10 +54,10 @@ componentWillMount(){
         tabs={[
           {
             tabIcon: Chat,
-            tabName: "Chats",
+            // tabName: "Chats",
             tabContent: (
               <div style={{ overflowY: 'auto', height: "100vh" }}>
-                <ul style={{ margin: 0, listStyleType: 'none', padding: 0 }}>
+                <ul style={{ margin: '0px auto', listStyleType: 'none', padding: 0 }}>
                   {this.props.items}
                 </ul>
               </div>
@@ -66,16 +65,15 @@ componentWillMount(){
           },
           {
             tabIcon: People,
-            tabName: "Groups",
+            // tabName: "Groups",
             tabContent: (
               <Groups />
             )
           },
           {
-            tabIcon: Settings,
-            tabName: "Settings",
+            tabName: "LogOut",
             tabContent: (
-              <Options />
+              <LogOut />
             )
           },
           // {

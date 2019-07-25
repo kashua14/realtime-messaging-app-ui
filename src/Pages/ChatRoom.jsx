@@ -208,7 +208,7 @@ class ChatRooom extends React.Component {
                                     borderBottomRightRadius: '5px',
                                     display: 'block',
                                     alignItems: 'center',
-                                    width: '100%',
+                                    width: '95%',
                                     height: '20%',
                                     padding: '0px 0px 0px 30px'
                                 }}
