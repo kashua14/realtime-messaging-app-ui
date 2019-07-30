@@ -8,7 +8,7 @@ import {
 import './App.css'
 
 import { getCurrentUser } from './util/APIUtils';
-import { ACCESS_TOKEN } from './constants';
+// import { ACCESS_TOKEN } from './constants';
 
 import Dashboard from './Pages/Dashboard';
 import Login from './Pages/Login';
@@ -17,7 +17,7 @@ import Profile from './Pages/profile/Profile';
 
 import LoadingIndicator from './common/LoadingIndicator';
 
-import { notification } from 'antd';
+// import { notification } from 'antd';
 
 class App extends Component {
   constructor(props) {
@@ -27,7 +27,7 @@ class App extends Component {
       isAuthenticated: false,
       isLoading: false
     }
-    this.handleLogout = this.handleLogout.bind(this);
+    // this.handleLogout = this.handleLogout.bind(this);
     this.loadCurrentUser = this.loadCurrentUser.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
 
@@ -55,21 +55,21 @@ class App extends Component {
     this.loadCurrentUser();
   }
 
-  handleLogout(redirectTo = "/login", notificationType = "success", description = "You're successfully logged out.") {
-    localStorage.removeItem(ACCESS_TOKEN);
+  // handleLogout(redirectTo = "/login", notificationType = "success", description = "You're successfully logged out.") {
+  //   localStorage.removeItem(ACCESS_TOKEN);
 
-    this.setState({
-      currentUser: null,
-      isAuthenticated: false
-    });
+  //   this.setState({
+  //     currentUser: null,
+  //     isAuthenticated: false
+  //   });
 
-    this.props.history.push(redirectTo);
+  //   this.props.history.push(redirectTo);
 
-    notification[notificationType]({
-      message: 'MIS Messenger',
-      description: description,
-    });
-  }
+  //   notification[notificationType]({
+  //     message: 'MIS Messenger',
+  //     description: description,
+  //   });
+  // }
 
   handleLogin() {
     alert("You're successfully logged in.")
@@ -84,10 +84,10 @@ class App extends Component {
     }
     return (
       <Switch>
+        <Route exact path="/"
+          render={(props) => <Login onLogin={this.handleLogin} {...props} />}></Route>
         <Route path="/dashboard"
           render={(props) => <Dashboard component={Dashboard} {...props} />}></Route>
-        <Route path="/login"
-          render={(props) => <Login onLogin={this.handleLogin} {...props} />}></Route>
         <Route path="/signup" component={Signup}></Route>
         {/* <Route path="/signup" component={Wizard}></Route> */}
         <Route path="/users/:username"

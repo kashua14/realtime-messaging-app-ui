@@ -21,6 +21,7 @@ import bgImage from "../assets/img/bg-pricing.jpeg";
 
 import { login } from '../util/APIUtils';
 import { ACCESS_TOKEN } from '../constants';
+// import Header from "../components/Header/Header";
 
 class Login extends React.Component {
   constructor(props) {
@@ -202,7 +203,9 @@ class Login extends React.Component {
           bottom: 0
         }}>
       <div className={classes.container}>
+          <br /><br /><br /><br /><br /><br />
         <GridContainer justify="center">
+           
           <GridItem xs={12} sm={6} md={4}>
             <form onSubmit={this.handleLogin}>
               <Card login className={classes[this.state.cardAnimaton]}>
