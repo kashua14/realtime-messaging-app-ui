@@ -1,51 +1,7 @@
 import React from "react";
 // import PropTypes from "prop-types";
 import ReactDOM from 'react-dom';
-// react plugin for creating vector maps
-//import { VectorMap } from "react-jvectormap";
-
-// @material-ui/core components
-// import { makeStyles } from "@material-ui/styles";
-// import Paper from '@material-ui/core/Paper';
-// import InputBase from '@material-ui/core/InputBase';
-// import IconButton from '@material-ui/core/IconButton';
-// import withStyles from "@material-ui/core/styles/withStyles";
-// import Icon from "@material-ui/core/Icon";
-
-// @material-ui/icons
-// import Box from 'react-styled-box';
-// import SendIcon from '@material-ui/icons/Send'
-// import ContentCopy from "@material-ui/icons/ContentCopy";
-// import Store from "@material-ui/icons/Store";
-// import InfoOutline from "@material-ui/icons/InfoOutline";
-// import Warning from "@material-ui/icons/Warning";
-// import DateRange from "@material-ui/icons/DateRange";
-// import LocalOffer from "@material-ui/icons/LocalOffer";
-// import Update from "@material-ui/icons/Update";
-// import ArrowUpward from "@material-ui/icons/ArrowUpward";
-// import AccessTime from "@material-ui/icons/AccessTime";
-// import Refresh from "@material-ui/icons/Refresh";
-// import Edit from "@material-ui/icons/Edit";
-// import Place from "@material-ui/icons/Place";
-// import ArtTrack from "@material-ui/icons/ArtTrack";
-// import Language from "@material-ui/icons/Language";
-
-// core components
-// import ChatBubble from 'react-chat-bubble';
-// import App from "./App.jsx";
-// import sidebarStyle from "../assets/jss/material-dashboard-pro-react/components/sidebarStyle.jsx";
-// import CustomInput from "../components/CustomInput/CustomInput.jsx";
-// import Button from "../components/CustomButtons/Button.jsx";
-// import GridContainer from "../components/Grid/GridContainer.jsx";
-// import GridItem from "../components/Grid/GridItem.jsx";
-// import Button from "../components/CustomButtons/Button.jsx";
-// import Danger from "../components/Typography/Danger.jsx";
-// import Card from "../components/Card/Card.jsx";
-// import CardHeader from "../components/Card/CardHeader.jsx";
-// import CardIcon from "../components/Card/CardIcon.jsx";
-// import CardBody from "../components/Card/CardBody.jsx";
-// import CardFooter from "../components/Card/CardFooter.jsx";
-
+import io from 'socket.io-client';
 // import { getAllUsers } from '../util/APIUtils'
 import Message from './Message.js';
 // import defaultImage from "../assets/img/default-avatar.png";
@@ -56,6 +12,7 @@ import { sendMessage, getChatHistory } from "../util/APIUtils.js";
 
 class ChatRooom extends React.Component {
     _isMounted = false;
+    socket = {}
     constructor(props) {
         super(props);
         this.state = {
@@ -66,6 +23,14 @@ class ChatRooom extends React.Component {
             chatMessages: []
         };
         this.submitMessage = this.submitMessage.bind(this);
+
+        // Connect to the server
+        this.socket = io('http://localhost:4008').connect();
+
+        // Listen for messages from the server
+        this.socket.on('server:message', message => {
+            this.addMessage(message);
+        });
     }
 
     submitMessage(e) {
@@ -83,6 +48,10 @@ class ChatRooom extends React.Component {
                content: ReactDOM.findDOMNode(this.refs.msg).value
            }
            console.log(sentMessage);
+
+           // Emit the message to the server
+            this.socket.emit("client:message", sentMessage);
+
             sendMessage(sentMessage)
                 .then(response => {
                     // Do nothing after sending the message
@@ -90,11 +59,9 @@ class ChatRooom extends React.Component {
                     alert(error.message || 'sorry! Something went wrong. Please try again!');
                 });
             this.setState({
-                chatMessages: this.state.chatMessages.concat([{
+                chatMessages: this.state.chatMessages.concat([{ 
                     id: this.props.currentUserId,
-                    content: <p 
-                        // style={{margin: 0, display: 'inline-block', textOverflow: 'clip' }}
-                    >{ReactDOM.findDOMNode(this.refs.msg).value}</p>,
+                    content: <p>{ReactDOM.findDOMNode(this.refs.msg).value}</p>,
                     // img: "http://i.imgur.com/Tj5DGiO.jpg",
                 }])
             }, () => {
@@ -105,10 +72,21 @@ class ChatRooom extends React.Component {
         }
         // console.log(this.props.userId);
     }
+
+    addMessage(message) {
+        // Append the message to the component state
+        this.setState({ 
+            chatMessages: this.state.chatMessages.concat([{ 
+                id: message.senderId,
+                content: <p>{message.content}</p>
+            }])
+        });
+      }
+
     componentDidMount() {
         this.scrollToBot();
         // console.log("cur "+this.props.userId)
-        getChatHistory(this.props.currentUserId, this.props.clickedUserId)
+            getChatHistory(this.props.currentUserId, this.props.clickedUserId)
             .then(response => {
                 // console.log(response)
                 this.setState({
@@ -120,8 +98,8 @@ class ChatRooom extends React.Component {
                 // });
             }).catch(error => {
                 alert(error.message || 'sorry! Something went wrong. Please try again!');
-            });
-        console.log(this.state.chatMessages);
+        });
+            console.log(this.state.chatMessages);
     }
 
     componentDidUpdate() {

@@ -20,21 +20,6 @@ const Message = ({chat, id}) => (
         }}
         
     >
-        
-        {/* {user !== chat.username
-            && <img 
-                    src={chat.img} 
-                    alt='...' 
-                    style={{
-                        width: '20px',
-                        height: '20px',
-                        borderRadius: '50%',
-                        position: 'absolute',
-                        top: '-10px',
-                        left: '0px'
-                    }}
-                />
-              } */}
         {chat.content}
     </li>
 );

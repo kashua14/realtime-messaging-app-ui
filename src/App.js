@@ -84,10 +84,10 @@ class App extends Component {
     }
     return (
       <Switch>
+        <Route exact path="/"
+          render={(props) => <Login onLogin={this.handleLogin} {...props} />}></Route>
         <Route path="/dashboard"
           render={(props) => <Dashboard component={Dashboard} {...props} />}></Route>
-        <Route path="/login"
-          render={(props) => <Login onLogin={this.handleLogin} {...props} />}></Route>
         <Route path="/signup" component={Signup}></Route>
         {/* <Route path="/signup" component={Wizard}></Route> */}
         <Route path="/users/:username"
