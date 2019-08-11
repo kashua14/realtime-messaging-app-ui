@@ -39,7 +39,8 @@ const customTabsStyle = {
   },
   tabLabel: {
     fontWeight: "90",
-    fontSize: "20px"
+    fontSize: "20px",
+    display: 'block'
   },
   tabSelected: {
     backgroundColor: "rgba(255, 255, 255, 0.2)",

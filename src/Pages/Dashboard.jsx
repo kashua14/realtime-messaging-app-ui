@@ -11,21 +11,20 @@ import ChatRoom from "./ChatRoom.jsx";
 import bgChats from "../assets/img/register.jpeg"
 import defaultImage from "../assets/img/default-avatar.png";
 import './App.css';
+// import Wizard from "./Wizard";
+// import Chats from "./Chats";
 
 
 class Dashboard extends React.Component {
-  _isMounted = false;
   constructor(props) {
     super(props);
     this.state = {
-      value: 0,
       isOpen: false,
       users: [],
       clickedUserId: 0,
       clickedUsername: "",
       currentUserId: 0,
       currentUser: [],
-      cardAnimation: 'cardHidden',
       imagePreviewUrl: defaultImage
     }; 
     this.displayUsers = this.displayUsers.bind(this);
@@ -46,21 +45,16 @@ class Dashboard extends React.Component {
   }
 
   displayUsers() {
-    this.loadCurrentUser();
-    // const josh = spaces.matches("[ -]*")
-    // console.log(josh.length);
+    const CUID=this.loadCurrentUser();
     getAllUsers()
       .then(response => {
         this.setState({ users: response })
-        // console.log("Before: "+this.state.user);
         /*
         * exclude the current user
         */
-        console.log("CurrentUser: " + this.state.currentUser.length);
         const otherUsers = this.state.users.filter(user => {
           return (user.username !== this.state.currentUser.username);
         });
-        // console.log("After: " +this.state.users);
         this.setState({
           users: [...otherUsers]
         });
@@ -69,24 +63,8 @@ class Dashboard extends React.Component {
       });
   }
   componentDidMount(){
-    this._isMounted = true;
-    this.timeOutFunction = setTimeout(
-      function() {
-        if (this._isMounted) {
-         this.setState({ cardAnimation: "" });
-        }
         this.displayUsers();
-      }.bind(this),
-      700
-    );
   }
-
-  componentWillMount(){
-    this._isMounted = false;
-    clearTimeout(this.timeOutFunction);
-    this.timeOutFunction = null;
-  }
-
 
 
   openChatRoom(id, username){
@@ -177,6 +155,7 @@ class Dashboard extends React.Component {
           >
           <ChatNav items={items} />
         </div>
+        {/* <Wizard /> */}
         <div
           style={{
             minHeight: '100%',

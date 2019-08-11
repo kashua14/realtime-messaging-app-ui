@@ -2,13 +2,13 @@ import React from "react";
 // import PropTypes from "prop-types";
 import ReactDOM from 'react-dom';
 import io from 'socket.io-client';
-// import { getAllUsers } from '../util/APIUtils'
-import Message from './Message.js';
 // import defaultImage from "../assets/img/default-avatar.png";
+
 import './App.css';
 import defaultImage from "../assets/img/default-avatar.png";
 import { sendMessage, getChatHistory } from "../util/APIUtils.js";
-// import bgChats from "../assets/img/sidebar-2.jpg"
+import DisplayConversation from "./DisplayCoversation.jsx";
+import MessagingBox from "./MessagingBox";
 
 class ChatRooom extends React.Component {
     _isMounted = false;
@@ -20,6 +20,7 @@ class ChatRooom extends React.Component {
             cardAnimation: 'cardHidden',
             imagePreviewUrl: defaultImage,
             message:'',
+            id : this.props.currentUserId,
             chatMessages: []
         };
         this.submitMessage = this.submitMessage.bind(this);
@@ -33,9 +34,11 @@ class ChatRooom extends React.Component {
         });
     }
 
-    submitMessage(e) {
+    submitMessage(e, value) {
         e.preventDefault();
-        const msg = ReactDOM.findDOMNode(this.refs.msg).value;
+        let msg = value;
+        const data = { senderId: this.state.id, msg: msg }
+        this.connection.send(JSON.stringify(data));
         msg.trim();
         /*
         * eliminate strings that contain spaces only 
@@ -43,9 +46,9 @@ class ChatRooom extends React.Component {
 
         if (/\S/.test(msg)){
            const sentMessage = {
-               senderId: this.props.currentUserId,
+               senderId: this.state.id,
                recieverId: this.props.clickedUserId,
-               content: ReactDOM.findDOMNode(this.refs.msg).value
+               content: msg
            }
            console.log(sentMessage);
 
@@ -66,11 +69,9 @@ class ChatRooom extends React.Component {
                 }])
             }, () => {
                 ReactDOM.findDOMNode(this.refs.msg).value = "";
+                chatMessages: [...this.state.chatMessages,sentMessage]
             }); 
-        }else{
-            ReactDOM.findDOMNode(this.refs.msg).value = "";
         }
-        // console.log(this.props.userId);
     }
 
     addMessage(message) {
@@ -82,9 +83,25 @@ class ChatRooom extends React.Component {
             }])
         });
       }
+    // _toConsumableArray(arr) { 
+    //     if (Array.isArray(arr)) { 
+    //         for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { 
+    //             arr2[i] = arr[i]; 
+    //         } return arr2; 
+    //     } else { return Array.from(arr); } 
+    // }
+    connection = new WebSocket('ws://localhost:9090/')
 
     componentDidMount() {
         this.scrollToBot();
+        this.connection.onmessage = (message) => {
+            // console.log(data)
+            const data = JSON.parse(message.data)
+            console.log(data)
+            // _toConsumableArray(ChatMessages).concat(data)
+            // this.setState({ ChatMessages: [...this.state.ChatMessages, data] })
+        }
+
         // console.log("cur "+this.props.userId)
             getChatHistory(this.props.currentUserId, this.props.clickedUserId)
             .then(response => {
@@ -112,10 +129,6 @@ class ChatRooom extends React.Component {
 
 
     render() {
-        const id = this.props.currentUserId;
-        const { chatMessages } = this.state;
-        // let userId = this.props.userId;
-        console.log(this.state.chatMessages);
 
         return (
             <div 
@@ -156,69 +169,14 @@ class ChatRooom extends React.Component {
                     {/*
                         // Messages ====================================================================================
                     */}
-                    <div >
                         <div style={{ backgroundColor: 'rgba(0,0,0,0.6)', minHeight: '100vh'}}>
-                            <ul
-                                id="messageArea"
+                            <DisplayConversation 
+                                chatMessages={this.state.chatMessages}
+                                id={this.state.id}
                                 ref="chats"
-                                style={{
-                                    padding: '0px 20px 0px 0px',
-                                    height: '80vh',
-                                    margin: 0,
-                                    overflowY: 'auto',
-                                    overflowX: 'hidden',
-                                    boxSizing: 'border-box'
-                                }}
-                            >
-                                {
-                                    chatMessages.map(chat => 
-                                        <Message 
-                                            chat={chat} 
-                                            id={id} 
-                                        />
-                                    )
-                                }
-                            </ul>
-                            <form 
-                                onSubmit={(e) => this.submitMessage(e)}
-                                style={{
-                                    borderTopRightRadius: '5px',
-                                    borderBottomRightRadius: '5px',
-                                    display: 'block',
-                                    alignItems: 'center',
-                                    width: '95%',
-                                    height: '20%',
-                                    padding: '0px 0px 0px 30px'
-                                }}
-                            >
-                                <input type="text" id="message" placeholder="Type your message ..." ref="msg" 
-                                    style={{
-                                        backgroundColor: '#ccc',
-                                        border: 'none',
-                                        color: 'black',
-                                        width: '90%', padding: '0px 10px', 
-                                        fontSize: '15px',
-                                        borderTopLeftRadius: '25px',
-                                        borderBottomLeftRadius: '25px',
-                                        height: '30px',
-                                    }}
-                                />
-                                <input type="submit" value="Send"
-                                    style={{
-                                        padding: '0px 10px', 
-                                        backgroundColor: '#db0056',
-                                        border: 'none',
-                                        color: 'white',
-                                        height: '30px',
-                                        borderTopRightRadius: '25px',
-                                        borderBottomRightRadius: '25px',
-                                        cursor: 'pointer',
-                                        fontSize: '15px'
-                                    }}
-                                />
-                            </form>
+                            />
+                            <MessagingBox submitMessage={this.submitMessage}/>
                         </div>
-                    </div>
             </div>
             
         );

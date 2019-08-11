@@ -15,9 +15,9 @@ import ViewList from "@material-ui/icons/ViewList";
 
 // core components
 import HeaderLinks from "./HeaderLinks";
-import Button from "components/CustomButtons/Button.jsx";
+import Button from "../CustomButtons/Button.jsx";
 
-import headerStyle from "assets/jss/material-dashboard-pro-react/components/headerStyle.jsx";
+import headerStyle from "../../assets/jss/material-dashboard-pro-react/components/headerStyle.jsx";
 
 function Header({ ...props }) {
   function makeBrand() {
