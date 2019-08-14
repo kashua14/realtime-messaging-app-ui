@@ -11,7 +11,7 @@ import MessagingBox from "./MessagingBox";
 
 class ChatRooom extends React.Component {
     _isMounted = false;
-    socket = {}
+    // socket = {}
     constructor(props) {
         super(props);
         this.state = {
@@ -23,20 +23,48 @@ class ChatRooom extends React.Component {
             chatMessages: []
         };
         this.submitMessage = this.submitMessage.bind(this);
+        this.typing= this.typing.bind(this);
+        this.notTyping = this.notTyping.bind(this);
 
         // Connect to the server
         this.socket = io('http://10.102.4.40:4008').connect();
+        // this.socket = io('http://10.102.4.94:4008').connect();
 
         // Listen for messages from the server
         this.socket.on('server:message', message => {
             this.addMessage(message);
         });
+
+        // Listen for typying message from the server
+        this.socket.on('notifyTyping', message => {
+            this.isOrNotTyping(message);
+        });
+
+        // Listen for typying message from the server
+        this.socket.on('notifyStopTyping', message => {
+            this.isOrNotTyping(message);
+        });
+    }
+
+    isOrNotTyping( data){
+        ReactDOM.findDOMNode(this.refs.typing).innerHTML = '<p><em>' + data + '</em><p>';
+    }
+    typing(){
+            this.socket.emit('client:typing', '...is typing');        
+    }
+    notTyping(){
+        setTimeout(() => {
+            this.socket.emit('client:stopTyping', ' ')
+        }, 2000);
+        
     }
 
     submitMessage(e, value) {
         e.preventDefault();
         let msg = value;
         msg.trim();
+        // console.log(ReactDOM.findDOMNode(this.refs.typing).innerHTML);
+        
         /*
         * eliminate strings that contain spaces only 
         */
@@ -56,7 +84,7 @@ class ChatRooom extends React.Component {
                 .then(response => {
                     // Do nothing after sending the message
                 }).catch(error => {
-                    alert(error.message || 'sorry! Something went wrong. Please try again!');
+                    alert(error.message || 'sorry! Something went s. Please try again!');
                 });
             this.setState({
                 chatMessages: this.state.chatMessages.concat([{ 
@@ -90,10 +118,9 @@ class ChatRooom extends React.Component {
                 this.setState({
                     chatMessages: response
                 })
-                console.log(this.state.chats);
             }).catch(error => {
                 alert(error.message || 'sorry! Something went wrong. Please try again!');
-        });
+            });
             console.log(this.state.chatMessages);
     }
 
@@ -136,13 +163,14 @@ class ChatRooom extends React.Component {
                                     fontFamily: 'Pacifico, cursive',
                                     textAlign: 'center', 
                                     fontSize: '40px',
-                                    display: 'block',
+                                    display: 'inline-block',
                                     justifyContent: 'center',
                                     color: '#fff',
                                     padding: '5px 0px', 
                                     margin: 0,
                                  }}
                             >{this.props.clickedUsername}</h2>
+                            <div id="feedback" ref='typing' style={{ padding: '0px 10px', color: '#1dd335', display: 'inline-block', align:'center' }}></div>
                         </div >
                     {/*
                         // Messages ====================================================================================
@@ -153,16 +181,13 @@ class ChatRooom extends React.Component {
                                 id={this.state.id}
                                 ref="chats"
                             />
-                            <MessagingBox submitMessage={this.submitMessage}/>
+                            
+                    <MessagingBox submitMessage={this.submitMessage} typing={this.typing} notTyping={this.notTyping}/>
                         </div>
             </div>
             
         );
     }
 }
-
-// ChatRooom.propTypes = {
-//     classes: PropTypes.object.isRequired
-// };
 
 export default ChatRooom;

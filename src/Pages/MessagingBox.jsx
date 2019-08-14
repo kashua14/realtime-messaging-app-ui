@@ -11,11 +11,20 @@ class MessagingBox extends Component {
         // }
     }
 
+    isTyping(){
+        this.props.typing();
+    }
+    stopTyping() {
+        this.props.notTyping();
+    }
+
     render() {
         return (
             <div id="messagingBox" >
                 <form
                     onSubmit={(e) => this.messageHandler(e)}
+                    onKeyPress ={() => this.isTyping()}
+                    onKeyUp = {() => this.stopTyping()}
                     style={{
                         borderTopRightRadius: '5px',
                         borderBottomRightRadius: '5px',
@@ -26,7 +35,7 @@ class MessagingBox extends Component {
                         padding: '0px 0px 0px 30px'
                     }}
                 >
-                    <input type="text" id="message" placeholder="Type your message ..." ref="msg"
+                    <input type="text" id="message"  placeholder="Type your message ..." ref="msg"
                         style={{
                             backgroundColor: '#ccc',
                             border: 'none',

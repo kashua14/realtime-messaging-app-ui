@@ -4,8 +4,8 @@ import Tabs from "../components/CustomTabs/CustomTabs.jsx";
 // import Chats from "./Chats";
 import Chat from "@material-ui/icons/Chat";
 import Settings from "@material-ui/icons/Settings";
-import People from "@material-ui/icons/People";
-import Groups from "./Groups";
+// import People from "@material-ui/icons/People";
+// import Groups from "./Groups";
 import Options from "./Options";
 // import Feedback from "./Feedback";
 
@@ -37,13 +37,13 @@ class ChatNav extends React.Component {
               </div>
             )
           },
-          {
-            tabIcon: People,
-            tabName: "Groups",
-            tabContent: (
-              <Groups />
-            )
-          },
+          // {
+          //   tabIcon: People,
+          //   tabName: "Groups",
+          //   tabContent: (
+          //     <Groups />
+          //   )
+          // },
           {
             tabIcon: Settings,
             tabName: "Settings",
