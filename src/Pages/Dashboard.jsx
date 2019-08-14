@@ -155,11 +155,6 @@ class Dashboard extends React.Component {
           >
           <ChatNav items={items} />
         </div>
-<<<<<<< Updated upstream
-        {/* <Wizard /> */}
-=======
-        
->>>>>>> Stashed changes
         <div
           style={{
             minHeight: '100%',
@@ -170,7 +165,6 @@ class Dashboard extends React.Component {
             justifyContent: 'center'
         }}
         >
-          {/* <Wizard /> */}
           {
             isOpen && 
             <ChatRoom 
