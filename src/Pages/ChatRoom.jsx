@@ -12,7 +12,7 @@ import MessagingBox from "./MessagingBox";
 
 class ChatRooom extends React.Component {
     _isMounted = false;
-    socket = {}
+    // socket = {}
     constructor(props) {
         super(props);
         this.state = {
@@ -24,22 +24,47 @@ class ChatRooom extends React.Component {
             chatMessages: []
         };
         this.submitMessage = this.submitMessage.bind(this);
+        this.typing= this.typing.bind(this);
+        this.notTyping = this.notTyping.bind(this);
 
         // Connect to the server
-        this.socket = io('http://localhost:4008').connect();
+        this.socket = io('http://10.102.4.94:4008').connect();
 
         // Listen for messages from the server
         this.socket.on('server:message', message => {
             this.addMessage(message);
         });
+
+        // Listen for typying message from the server
+        this.socket.on('notifyTyping', message => {
+            this.isOrNotTyping(message);
+        });
+
+        // Listen for typying message from the server
+        this.socket.on('notifyStopTyping', message => {
+            this.isOrNotTyping(message);
+        });
+    }
+
+    isOrNotTyping( data){
+        ReactDOM.findDOMNode(this.refs.typing).innerHTML = '<p><em>' + data + '</em><p>';
+    }
+    typing(){
+            this.socket.emit('client:typing', '...is typing');        
+    }
+    notTyping(){
+        setTimeout(() => {
+            this.socket.emit('client:stopTyping', ' ')
+        }, 2000);
+        
     }
 
     submitMessage(e, value) {
         e.preventDefault();
         let msg = value;
-        const data = { senderId: this.state.id, msg: msg }
-        this.connection.send(JSON.stringify(data));
         msg.trim();
+        // console.log(ReactDOM.findDOMNode(this.refs.typing).innerHTML);
+        
         /*
         * eliminate strings that contain spaces only 
         */
@@ -59,17 +84,16 @@ class ChatRooom extends React.Component {
                 .then(response => {
                     // Do nothing after sending the message
                 }).catch(error => {
-                    alert(error.message || 'sorry! Something went wrong. Please try again!');
+                    alert(error.message || 'sorry! Something went s. Please try again!');
                 });
             this.setState({
                 chatMessages: this.state.chatMessages.concat([{ 
                     id: this.props.currentUserId,
-                    content: <p>{ReactDOM.findDOMNode(this.refs.msg).value}</p>,
+                    content: <p>{msg}</p>,
                     // img: "http://i.imgur.com/Tj5DGiO.jpg",
                 }])
             }, () => {
-                ReactDOM.findDOMNode(this.refs.msg).value = "";
-                chatMessages: [...this.state.chatMessages,sentMessage]
+                msg = "";
             }); 
         }
     }
@@ -83,24 +107,9 @@ class ChatRooom extends React.Component {
             }])
         });
       }
-    // _toConsumableArray(arr) { 
-    //     if (Array.isArray(arr)) { 
-    //         for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { 
-    //             arr2[i] = arr[i]; 
-    //         } return arr2; 
-    //     } else { return Array.from(arr); } 
-    // }
-    connection = new WebSocket('ws://localhost:9090/')
 
     componentDidMount() {
         this.scrollToBot();
-        this.connection.onmessage = (message) => {
-            // console.log(data)
-            const data = JSON.parse(message.data)
-            console.log(data)
-            // _toConsumableArray(ChatMessages).concat(data)
-            // this.setState({ ChatMessages: [...this.state.ChatMessages, data] })
-        }
 
         // console.log("cur "+this.props.userId)
             getChatHistory(this.props.currentUserId, this.props.clickedUserId)
@@ -109,13 +118,9 @@ class ChatRooom extends React.Component {
                 this.setState({
                     chatMessages: response
                 })
-                console.log(this.state.chats);
-                // const otherUsers = this.state.users.filter(user => {
-                //     return (user.username !== this.state.currentUser.username);
-                // });
             }).catch(error => {
                 alert(error.message || 'sorry! Something went wrong. Please try again!');
-        });
+            });
             console.log(this.state.chatMessages);
     }
 
@@ -158,13 +163,14 @@ class ChatRooom extends React.Component {
                                     fontFamily: 'Pacifico, cursive',
                                     textAlign: 'center', 
                                     fontSize: '40px',
-                                    display: 'block',
+                                    display: 'inline-block',
                                     justifyContent: 'center',
                                     color: '#fff',
                                     padding: '5px 0px', 
                                     margin: 0,
                                  }}
                             >{this.props.clickedUsername}</h2>
+                            <div id="feedback" ref='typing' style={{ padding: '0px 10px', color: '#1dd335', display: 'inline-block', align:'center' }}></div>
                         </div >
                     {/*
                         // Messages ====================================================================================
@@ -175,16 +181,13 @@ class ChatRooom extends React.Component {
                                 id={this.state.id}
                                 ref="chats"
                             />
-                            <MessagingBox submitMessage={this.submitMessage}/>
+                            
+                    <MessagingBox submitMessage={this.submitMessage} typing={this.typing} notTyping={this.notTyping}/>
                         </div>
             </div>
             
         );
     }
 }
-
-// ChatRooom.propTypes = {
-//     classes: PropTypes.object.isRequired
-// };
 
 export default ChatRooom;

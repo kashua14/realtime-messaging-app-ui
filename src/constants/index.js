@@ -1,4 +1,5 @@
- export const API_BASE_URL = 'http://localhost:5000/api';
+//  export const API_BASE_URL = 'http://localhost:5000/api';
+export const API_BASE_URL = 'http://10.102.4.94:5002/api';
 // export const API_BASE_URL = 'http://10.102.4.40:5000/api';
 // export const API_BASE_URL = 'http://192.168.43.197:5000/api';
 //export const API_BASE_URL = '/api';

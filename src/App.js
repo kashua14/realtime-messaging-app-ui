@@ -55,22 +55,6 @@ class App extends Component {
     this.loadCurrentUser();
   }
 
-  // handleLogout(redirectTo = "/login", notificationType = "success", description = "You're successfully logged out.") {
-  //   localStorage.removeItem(ACCESS_TOKEN);
-
-  //   this.setState({
-  //     currentUser: null,
-  //     isAuthenticated: false
-  //   });
-
-  //   this.props.history.push(redirectTo);
-
-  //   notification[notificationType]({
-  //     message: 'MIS Messenger',
-  //     description: description,
-  //   });
-  // }
-
   handleLogin() {
     alert("You're successfully logged in.")
     this.loadCurrentUser();

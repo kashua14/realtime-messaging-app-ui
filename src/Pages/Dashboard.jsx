@@ -45,7 +45,7 @@ class Dashboard extends React.Component {
   }
 
   displayUsers() {
-    const CUID=this.loadCurrentUser();
+    this.loadCurrentUser();
     getAllUsers()
       .then(response => {
         this.setState({ users: response })
