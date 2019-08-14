@@ -2,7 +2,6 @@ import React from "react";
 // import PropTypes from "prop-types";
 import ReactDOM from 'react-dom';
 import io from 'socket.io-client';
-// import defaultImage from "../assets/img/default-avatar.png";
 
 import './App.css';
 import defaultImage from "../assets/img/default-avatar.png";
@@ -26,7 +25,7 @@ class ChatRooom extends React.Component {
         this.submitMessage = this.submitMessage.bind(this);
 
         // Connect to the server
-        this.socket = io('http://localhost:4008').connect();
+        this.socket = io('http://10.102.4.40:4008').connect();
 
         // Listen for messages from the server
         this.socket.on('server:message', message => {
@@ -37,8 +36,6 @@ class ChatRooom extends React.Component {
     submitMessage(e, value) {
         e.preventDefault();
         let msg = value;
-        const data = { senderId: this.state.id, msg: msg }
-        this.connection.send(JSON.stringify(data));
         msg.trim();
         /*
         * eliminate strings that contain spaces only 
@@ -64,12 +61,11 @@ class ChatRooom extends React.Component {
             this.setState({
                 chatMessages: this.state.chatMessages.concat([{ 
                     id: this.props.currentUserId,
-                    content: <p>{ReactDOM.findDOMNode(this.refs.msg).value}</p>,
+                    content: <p>{msg}</p>,
                     // img: "http://i.imgur.com/Tj5DGiO.jpg",
                 }])
             }, () => {
-                ReactDOM.findDOMNode(this.refs.msg).value = "";
-                chatMessages: [...this.state.chatMessages,sentMessage]
+                msg = "";
             }); 
         }
     }
@@ -83,24 +79,9 @@ class ChatRooom extends React.Component {
             }])
         });
       }
-    // _toConsumableArray(arr) { 
-    //     if (Array.isArray(arr)) { 
-    //         for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { 
-    //             arr2[i] = arr[i]; 
-    //         } return arr2; 
-    //     } else { return Array.from(arr); } 
-    // }
-    connection = new WebSocket('ws://localhost:9090/')
 
     componentDidMount() {
         this.scrollToBot();
-        this.connection.onmessage = (message) => {
-            // console.log(data)
-            const data = JSON.parse(message.data)
-            console.log(data)
-            // _toConsumableArray(ChatMessages).concat(data)
-            // this.setState({ ChatMessages: [...this.state.ChatMessages, data] })
-        }
 
         // console.log("cur "+this.props.userId)
             getChatHistory(this.props.currentUserId, this.props.clickedUserId)
@@ -110,9 +91,6 @@ class ChatRooom extends React.Component {
                     chatMessages: response
                 })
                 console.log(this.state.chats);
-                // const otherUsers = this.state.users.filter(user => {
-                //     return (user.username !== this.state.currentUser.username);
-                // });
             }).catch(error => {
                 alert(error.message || 'sorry! Something went wrong. Please try again!');
         });
