@@ -2,7 +2,6 @@ import React from "react";
 // import PropTypes from "prop-types";
 import ReactDOM from 'react-dom';
 import io from 'socket.io-client';
-// import defaultImage from "../assets/img/default-avatar.png";
 
 import './App.css';
 import defaultImage from "../assets/img/default-avatar.png";
@@ -28,7 +27,8 @@ class ChatRooom extends React.Component {
         this.notTyping = this.notTyping.bind(this);
 
         // Connect to the server
-        this.socket = io('http://10.102.4.94:4008').connect();
+        this.socket = io('http://10.102.4.40:4008').connect();
+        // this.socket = io('http://10.102.4.94:4008').connect();
 
         // Listen for messages from the server
         this.socket.on('server:message', message => {
