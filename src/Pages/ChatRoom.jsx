@@ -27,7 +27,7 @@ class ChatRooom extends React.Component {
         this.notTyping = this.notTyping.bind(this);
 
         // Connect to the server
-        this.socket = io('http://10.102.4.40:4008').connect();
+        this.socket = io('http://10.102.4.94:4008').connect();
         // this.socket = io('http://10.102.4.94:4008').connect();
 
         // Listen for messages from the server
