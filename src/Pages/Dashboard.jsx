@@ -5,7 +5,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import ListItem from '@material-ui/core/ListItem';
 import dashboardStyle from "../assets/jss/material-dashboard-pro-react/views/dashboardStyle";
 // import { getAllUsers } from '../util/APIUtils'
-import { getAllUsers, getCurrentUser } from '../util/APIUtils'
+import { getAllUsers, getCurrentUser, updateUserStatus } from '../util/APIUtils'
 import ChatNav from "./ChatNav.jsx"
 import ChatRoom from "./ChatRoom.jsx";
 import bgChats from "../assets/img/register.jpeg"
@@ -64,6 +64,7 @@ class Dashboard extends React.Component {
   }
   componentDidMount(){
         this.displayUsers();
+        updateUserStatus()
   }
 
 

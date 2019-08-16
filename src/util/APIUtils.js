@@ -48,6 +48,14 @@ export function login(loginRequest) {
     });
 }
 
+export function updateUserStatus(loginRequest) {
+    return request({
+        url: API_BASE_URL + "/users/status",
+        method: 'PATCH',
+        body: JSON.stringify(loginRequest)
+    });
+}
+
 export function signup(signupRequest) {
     return request({
         url: API_BASE_URL + "/auth/signup",
@@ -102,6 +110,7 @@ export function getUserProfile(username) {
         method: 'GET'
     });
 }
+
 
 
 
