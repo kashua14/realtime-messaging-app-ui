@@ -11,7 +11,6 @@ import MessagingBox from "./MessagingBox";
 
 class ChatRooom extends React.Component {
     _isMounted = false;
-    // socket = {}
     constructor(props) {
         super(props);
         this.state = {
@@ -27,11 +26,12 @@ class ChatRooom extends React.Component {
         this.notTyping = this.notTyping.bind(this);
 
         // Connect to the server
-        this.socket = io('http://10.102.4.40:4008').connect();
-        // this.socket = io('http://10.102.4.94:4008').connect();
+        this.socket = io('http://localhost:4008').connect();
 
         // Listen for messages from the server
         this.socket.on('server:message', message => {
+
+            //save message to DB
             this.addMessage(message);
         });
 
@@ -40,7 +40,7 @@ class ChatRooom extends React.Component {
             this.isOrNotTyping(message);
         });
 
-        // Listen for typying message from the server
+        // Listen for not Typying message from the server
         this.socket.on('notifyStopTyping', message => {
             this.isOrNotTyping(message);
         });
@@ -70,13 +70,12 @@ class ChatRooom extends React.Component {
         */
 
         if (/\S/.test(msg)){
+            
            const sentMessage = {
                senderId: this.state.id,
                recieverId: this.props.clickedUserId,
                content: msg
            }
-           console.log(sentMessage);
-
            // Emit the message to the server
             this.socket.emit("client:message", sentMessage);
 
@@ -90,7 +89,6 @@ class ChatRooom extends React.Component {
                 chatMessages: this.state.chatMessages.concat([{ 
                     id: this.props.currentUserId,
                     content: <p>{msg}</p>,
-                    // img: "http://i.imgur.com/Tj5DGiO.jpg",
                 }])
             }, () => {
                 msg = "";
@@ -111,7 +109,7 @@ class ChatRooom extends React.Component {
     componentDidMount() {
         this.scrollToBot();
 
-        // console.log("cur "+this.props.userId)
+        console.log("cur "+this.props.currentUserId)
             getChatHistory(this.props.currentUserId, this.props.clickedUserId)
             .then(response => {
                 // console.log(response)
@@ -175,15 +173,19 @@ class ChatRooom extends React.Component {
                     {/*
                         // Messages ====================================================================================
                     */}
-                        <div style={{ backgroundColor: 'rgba(0,0,0,0.6)', minHeight: '100vh'}}>
-                            <DisplayConversation 
-                                chatMessages={this.state.chatMessages}
-                                id={this.state.id}
-                                ref="chats"
-                            />
-                            
-                    <MessagingBox submitMessage={this.submitMessage} typing={this.typing} notTyping={this.notTyping}/>
-                        </div>
+                    <div style={{ backgroundColor: 'rgba(0,0,0,0.6)', minHeight: '100vh'}}>
+                        <DisplayConversation 
+                            chatMessages={this.state.chatMessages}
+                            id={this.state.id}
+                            ref="chats"
+                        />
+                        
+                        <MessagingBox 
+                            submitMessage={this.submitMessage} 
+                            typing={this.typing} 
+                            notTyping={this.notTyping}
+                        />
+                    </div>
             </div>
             
         );

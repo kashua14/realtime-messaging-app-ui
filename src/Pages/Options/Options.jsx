@@ -4,7 +4,8 @@ import { withRouter } from "react-router-dom";
 // core components
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import { ACCESS_TOKEN } from '../constants/index';
+import { ACCESS_TOKEN } from '../../constants/index';
+// import { updateUserStatus } from "../util/APIUtils";
 
 class Options extends Component {
 
@@ -25,7 +26,7 @@ class Options extends Component {
       currentUser: null,
       isAuthenticated: false
     });
-
+    // updateUserStatus(currentUserId);
     this.props.history.push("/");
   }
 

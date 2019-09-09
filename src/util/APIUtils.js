@@ -48,6 +48,14 @@ export function login(loginRequest) {
     });
 }
 
+export function onlineStatus(currentUserId) {
+    return request({
+        url: API_BASE_URL + "/user/updateStatus",
+        method: 'PATCH',
+        body: JSON.stringify(currentUserId)
+    });
+}
+
 export function signup(signupRequest) {
     return request({
         url: API_BASE_URL + "/auth/signup",

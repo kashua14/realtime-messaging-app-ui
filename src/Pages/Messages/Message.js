@@ -5,7 +5,6 @@ const Message = ({chat, id}) => (
     
     <li 
         key={chat.id}
-    // className={`chat ${userId === chat.id ? "right" : "left"}`}
         style={{
             background: 'rgba(255, 255, 255, 0.8)',
             position: 'relative',

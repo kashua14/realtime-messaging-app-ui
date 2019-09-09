@@ -3,9 +3,9 @@ import React from "react";
 import withStyles from "@material-ui/core/styles/withStyles";
 // import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import dashboardStyle from "../assets/jss/material-dashboard-pro-react/views/dashboardStyle";
+import dashboardStyle from "../../assets/jss/material-dashboard-pro-react/views/dashboardStyle";
 // import { getAllUsers } from '../util/APIUtils'
-import { getAllUsers, getCurrentUser } from '../util/APIUtils'
+import { getAllUsers } from '../../util/APIUtils'
 import ChatNav from "./ChatNav.jsx"
 import ChatRoom from "./ChatRoom.jsx";
 import bgChats from "../assets/img/register.jpeg"
@@ -23,53 +23,28 @@ class Dashboard extends React.Component {
       users: [],
       clickedUserId: 0,
       clickedUsername: "",
-      currentUserId: 0,
-      currentUser: [],
+      currentUserId: null,
+      // currentUser: null,
       imagePreviewUrl: defaultImage
     }; 
     this.displayUsers = this.displayUsers.bind(this);
-    this.loadCurrentUser = this.loadCurrentUser.bind(this);
-  }
-
-  loadCurrentUser() {
-    getCurrentUser()
-      .then(response => {
-        this.setState({ currentUser: response });
-        this.setState({ currentUserId: this.state.currentUser.id });
-
-        console.log(" currentUserId: " + this.state.currentUserId);
-      }).catch(error => {
-        alert(error.message || 'sorry! Something went wrong. Please try again!');
-      });
-    return this.state.currentUserId;
   }
 
   displayUsers() {
-    this.loadCurrentUser();
     getAllUsers()
       .then(response => {
-        this.setState({ users: response })
-        /*
-        * exclude the current user
-        */
-        const otherUsers = this.state.users.filter(user => {
-          return (user.username !== this.state.currentUser.username);
-        });
-        this.setState({
-          users: [...otherUsers]
-        });
+        this.setState({ users: response });
       }).catch(error => {
         alert(error.message || 'sorry! Something went wrong. Please try again!');
       });
   }
+
   componentDidMount(){
         this.displayUsers();
   }
 
-
   openChatRoom(id, username){
-    
-    if (id === this.state.clickedUserId && this.loadCurrentUser() === this.state.currentUserId ){
+    if (id === this.state.clickedUserId ){
       this.setState(
         // oldState => ({ isOpen: !oldState.isOpen })
         { isOpen: true }
@@ -82,14 +57,11 @@ class Dashboard extends React.Component {
         clickedUsername: username
       });
     }
-    console.log("I work in setUserId");
-    console.log("After: " + this.state.clickedUserId);
   }
 
-
   onClick(id, username){
-    console.log("Before: " + username)
-    // this.openChatRoom(userId);
+    console.log("current user: " + this.props.currentUser.id);
+    this.setState({ currentUserId: this.props.currentUser.id })
     this.openChatRoom(id, username);
   }
 
@@ -97,12 +69,11 @@ class Dashboard extends React.Component {
 
     const isOpen = this.state.isOpen;
     const items = this.state.users.map((user) => (
-      // <List style={{ padding: 0 }}>
-        <ListItem key={user.id} 
-          style={{ 
-            borderBottom: '1px solid #aaa'
-          }} 
-          button onClick={() => this.onClick(user.id, user.username)}
+        <ListItem 
+          key={user.id} 
+          style={{ borderBottom: '1px solid #aaa' }} 
+          button 
+          onClick={() => this.onClick(user.id, user.username)}
         >
           <div
           style={{ boxSizing: 'border-box', padding: '2px 10px', display:'inline-block', textAlign: 'center', }}
@@ -121,6 +92,7 @@ class Dashboard extends React.Component {
           />
           <div style={{ textAlign: 'center', float: 'right' }}>
             <h3 style={{ margin: '20px' }} >{user.username}</h3>
+            {/* <p>{user.content}</p> */}
           </div>
           {/* <ListItemText primary style={{ textAlign: 'center', float: 'right' }} /> */}
           </div>

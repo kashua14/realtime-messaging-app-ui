@@ -5,22 +5,22 @@ import PropTypes from "prop-types";
 import withStyles from "@material-ui/core/styles/withStyles";
 
 // core components
-import GridContainer from "../components/Grid/GridContainer.jsx";
-import GridItem from "../components/Grid/GridItem.jsx";
-import CustomInput from "../components/CustomInput/CustomInput.jsx";
-import Button from "../components/CustomButtons/Button.jsx";
-import Card from "../components/Card/Card.jsx";
-import CardBody from "../components/Card/CardBody.jsx";
-import CardHeader from "../components/Card/CardHeader.jsx";
-import CardFooter from "../components/Card/CardFooter.jsx";
+import GridContainer from "../../components/Grid/GridContainer.jsx";
+import GridItem from "../../components/Grid/GridItem.jsx";
+import CustomInput from "../../components/CustomInput/CustomInput.jsx";
+import Button from "../../components/CustomButtons/Button.jsx";
+import Card from "../../components/Card/Card.jsx";
+import CardBody from "../../components/Card/CardBody.jsx";
+import CardHeader from "../../components/Card/CardHeader.jsx";
+import CardFooter from "../../components/Card/CardFooter.jsx";
 
-import loginPageStyle from "../assets/jss/material-dashboard-pro-react/views/loginPageStyle.jsx";
+import loginPageStyle from "../../assets/jss/material-dashboard-pro-react/views/loginPageStyle.jsx";
 
 import badge from "../assets/img/ucu_badge.png"
 import bgImage from "../assets/img/bg-pricing.jpeg";
 
-import { login } from '../util/APIUtils';
-import { ACCESS_TOKEN } from '../constants';
+import { login } from '../../util/APIUtils';
+import { ACCESS_TOKEN } from '../../constants';
 // import Header from "../components/Header/Header";
 
 class Login extends React.Component {

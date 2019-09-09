@@ -4,22 +4,22 @@ import PropTypes from "prop-types";
 // // @material-ui/icons
 import withStyles from "@material-ui/core/styles/withStyles"; 
 
-import { signup, checkUsernameAvailability, checkEmailAvailability } from '../util/APIUtils';
+import { signup, checkUsernameAvailability, checkEmailAvailability } from '../../util/APIUtils';
 
 // core components
-import GridContainer from "../components/Grid/GridContainer.jsx";
-import GridItem from "../components/Grid/GridItem.jsx";
-import Button from "../components/CustomButtons/Button.jsx";
-import CustomInput from "../components/CustomInput/CustomInput.jsx";
-import Card from "../components/Card/Card.jsx";
-import CardHeader from "../components/Card/CardHeader.jsx";
-import CardBody from "../components/Card/CardBody.jsx";
+import GridContainer from "../../components/Grid/GridContainer.jsx";
+import GridItem from "../../components/Grid/GridItem.jsx";
+import Button from "../../components/CustomButtons/Button.jsx";
+import CustomInput from "../../components/CustomInput/CustomInput.jsx";
+import Card from "../../components/Card/Card.jsx";
+import CardHeader from "../../components/Card/CardHeader.jsx";
+import CardBody from "../../components/Card/CardBody.jsx";
 
-import CardFooter from "../components/Card/CardFooter.jsx";
+import CardFooter from "../../components/Card/CardFooter.jsx";
 import badge from "../assets/img/ucu_badge.png";
 import bgImage from "../assets/img/bg-pricing.jpeg";
 
-import loginPageStyle from "../assets/jss/material-dashboard-pro-react/views/loginPageStyle";
+import loginPageStyle from "../../assets/jss/material-dashboard-pro-react/views/loginPageStyle";
 
 class Signup extends React.Component {
   constructor(props) {
@@ -259,10 +259,10 @@ class Signup extends React.Component {
       email: this.state.registerEmail,
       password: this.state.registerPassword
     };
-    console.log(signupRequest);
+
     signup(signupRequest)
       .then(response => {
-        this.props.history.push("/login");
+        this.props.history.push("/");
         alert("Thank you! You're successfully registered. Please Login to continue!");
       }).catch(error => {
         alert(error.message || 'Sorry! Something went wrong. Please try again!');
