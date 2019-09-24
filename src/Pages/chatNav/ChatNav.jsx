@@ -1,12 +1,12 @@
 import React from "react";
 // core components
-import Tabs from "../components/CustomTabs/CustomTabs.jsx";
+import Tabs from "../../components/CustomTabs/CustomTabs.jsx";
 // import Chats from "./Chats";
 import Chat from "@material-ui/icons/Chat";
 import Settings from "@material-ui/icons/Settings";
 // import People from "@material-ui/icons/People";
 // import Groups from "./Groups";
-import Options from "./Options";
+import Options from "../Options/Options.jsx";
 // import Feedback from "./Feedback";
 
 class ChatNav extends React.Component {

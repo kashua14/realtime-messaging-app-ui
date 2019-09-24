@@ -10,10 +10,10 @@ import './App.css'
 import { getCurrentUser } from './util/APIUtils';
 // import { ACCESS_TOKEN } from './constants';
 
-import Dashboard from './Pages/Dashboard';
-import Login from './Pages/Login';
-import Signup from './Pages/Signup';
-import Profile from './Pages/profile/Profile';
+import Dashboard from './Pages/Dashboard/Dashboard';
+import Login from './Pages/Login/Login.jsx';
+import Signup from './Pages/Signup/Signup.jsx';
+import Profile from './Pages/profile/Profile.js';
 
 import LoadingIndicator from './common/LoadingIndicator';
 

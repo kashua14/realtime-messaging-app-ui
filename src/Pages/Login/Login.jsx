@@ -16,8 +16,8 @@ import CardFooter from "../../components/Card/CardFooter.jsx";
 
 import loginPageStyle from "../../assets/jss/material-dashboard-pro-react/views/loginPageStyle.jsx";
 
-import badge from "../assets/img/ucu_badge.png"
-import bgImage from "../assets/img/bg-pricing.jpeg";
+import badge from "../../assets/img/ucu_badge.png"
+import bgImage from "../../assets/img/bg-pricing.jpeg";
 
 import { login } from '../../util/APIUtils';
 import { ACCESS_TOKEN } from '../../constants';

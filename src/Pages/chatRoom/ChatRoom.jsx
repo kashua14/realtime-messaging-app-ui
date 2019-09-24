@@ -3,11 +3,11 @@ import React from "react";
 import ReactDOM from 'react-dom';
 import io from 'socket.io-client';
 
-import './App.css';
-import defaultImage from "../assets/img/default-avatar.png";
-import { sendMessage, getChatHistory } from "../util/APIUtils.js";
-import DisplayConversation from "./DisplayCoversation.jsx";
-import MessagingBox from "./MessagingBox";
+import '../../App.css';
+import defaultImage from "../../assets/img/default-avatar.png";
+import { sendMessage, getChatHistory } from "../../util/APIUtils.js";
+import DisplayConversation from "../DisplayConversation/DisplayCoversation";
+import MessagingBox from "../MessageBox/MessagingBox.jsx";
 
 class ChatRooom extends React.Component {
     _isMounted = false;

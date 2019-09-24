@@ -6,11 +6,11 @@ import ListItem from '@material-ui/core/ListItem';
 import dashboardStyle from "../../assets/jss/material-dashboard-pro-react/views/dashboardStyle";
 // import { getAllUsers } from '../util/APIUtils'
 import { getAllUsers } from '../../util/APIUtils'
-import ChatNav from "./ChatNav.jsx"
-import ChatRoom from "./ChatRoom.jsx";
-import bgChats from "../assets/img/register.jpeg"
-import defaultImage from "../assets/img/default-avatar.png";
-import './App.css';
+import ChatNav from "../chatNav/ChatNav.jsx"
+import ChatRoom from "../chatRoom/ChatRoom.jsx";
+import bgChats from "../../assets/img/register.jpeg"
+import defaultImage from "../../assets/img/default-avatar.png";
+
 // import Wizard from "./Wizard";
 // import Chats from "./Chats";
 
@@ -41,7 +41,7 @@ class Dashboard extends React.Component {
 
   componentDidMount(){
         this.displayUsers();
-        updateUserStatus()
+        // updateUserStatus()
   }
 
   openChatRoom(id, username){
