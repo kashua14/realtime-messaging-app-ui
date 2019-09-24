@@ -41,6 +41,7 @@ class Dashboard extends React.Component {
 
   componentDidMount(){
         this.displayUsers();
+        updateUserStatus()
   }
 
   openChatRoom(id, username){
