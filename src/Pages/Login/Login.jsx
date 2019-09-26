@@ -21,7 +21,8 @@ import bgImage from "../../assets/img/bg-pricing.jpeg";
 
 import { login } from '../../util/APIUtils';
 import { ACCESS_TOKEN } from '../../constants';
-// import Header from "../components/Header/Header";
+// import Footer from "../../components/Footer/Footer.jsx";
+import PagesHeader from "../../components/Header/PagesHeader.jsx";
 
 class Login extends React.Component {
   constructor(props) {
@@ -204,7 +205,10 @@ class Login extends React.Component {
         }}>
           
       <div className={classes.container}>
-          <br /><br /><br /><br /><br /><br />
+        <div>
+          <PagesHeader />
+        </div>
+          <br /><br /><br /><br />
         <GridContainer justify="center">
            
           <GridItem xs={12} sm={6} md={4}>

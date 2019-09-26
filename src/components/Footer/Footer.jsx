@@ -7,7 +7,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 
-import footerStyle from "assets/jss/material-dashboard-pro-react/components/footerStyle";
+import footerStyle from "../../assets/jss/material-dashboard-pro-react/components/footerStyle";
 
 function Footer({ ...props }) {
   const { classes, fluid, white, rtlActive } = props;
