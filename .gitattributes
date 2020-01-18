@@ -1,2 +1,2 @@
-.js * linguist-vendored
-jsx* linguist-vendored = false
+* linguist-vendored
+*.jsx linguist-vendored = false
