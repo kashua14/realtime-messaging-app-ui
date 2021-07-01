@@ -1,9 +1,9 @@
 {
   "name": "simple-chat-api",
   "version": "1.0.0",
-  "description": "A simple chat api for the coderfactory blog article",
+  "description": "A simple chat api",
   "main": "lib/app.js",
-  "author": "Paul Pagnan <paul@pagnan.com.au>",
+  "author": "Kasasira Joshua <joshkasasira@gmail.com>",
   "scripts": {
     "start": "node ./lib/app.js",
     "compile": "babel -d lib/ src/",
@@ -24,7 +24,7 @@
     }
   },
   "license": "MIT",
-  "repository": "paul-pagnan/simple-chat-api",
+  "repository": "kashua14/realtime-messaging-app-ui",
   "dependencies": {
     "babel-runtime": "6.26.0",
     "cors": "2.8.5",
