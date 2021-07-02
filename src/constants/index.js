@@ -1,4 +1,4 @@
- export const API_BASE_URL = 'http://localhost:5002/api';
+ export const API_BASE_URL = 'http://10.7.3.241:5001/api';
 
 export const ACCESS_TOKEN = 'accessToken';
 

@@ -56,7 +56,7 @@ class App extends Component {
   }
 
   handleLogin() {
-    alert("You're successfully logged in.")
+    alert("You're successfully logged in.");
     this.loadCurrentUser();
     this.props.history.push("/dashboard");
   }
@@ -64,12 +64,12 @@ class App extends Component {
 
   render() {
     if (this.state.isLoading) {
-      return <LoadingIndicator />
+      return (<LoadingIndicator />);
     }
     return (
       <Switch>
-        {/* <Route exact path="/"
-          render={(props) => <Login onLogin={this.handleLogin} {...props} />}></Route> */}
+        <Route exact path="/"
+          render={(props) => <Login onLogin={this.handleLogin} {...props} />}></Route>
         <Route path="/dashboard"
           render={(props) => <Dashboard component={Dashboard} currentUser={this.state.currentUser} {...props} />}></Route>
         <Route path="/signup" component={Signup}></Route>

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import http from 'http';
 import express from 'express';
 import cors from 'cors';
@@ -14,7 +15,7 @@ const socketIo = io(server);
 // Allow CORS
 app.use(cors());
 
-// Render a API index page
+// Render an API index page
 app.get('/', (req, res) => {
   res.sendFile(path.resolve('public/index.html'));
 });
@@ -29,6 +30,7 @@ socketIo.on('connection', socket => {
   console.log(`${username} connected`);
 
   socket.on('client:message', data => {
+    // eslint-disable-next-line no-console
     console.log(`${data.username}: ${data.message}`);
 
     // message received from client, now broadcast it to everyone else
