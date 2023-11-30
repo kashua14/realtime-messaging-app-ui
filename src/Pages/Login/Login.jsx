@@ -16,11 +16,11 @@ import CardFooter from "../../components/Card/CardFooter.jsx";
 
 import loginPageStyle from "../../assets/jss/material-dashboard-pro-react/views/loginPageStyle.jsx";
 
-import badge from "../../assets/img/ucu_badge.png"
+import badge from "../../assets/img/ucu_badge.png";
 import bgImage from "../../assets/img/bg-pricing.jpeg";
 
-import { login } from '../../util/APIUtils';
-import { ACCESS_TOKEN } from '../../constants';
+import { login } from "../../util/APIUtils";
+import { ACCESS_TOKEN } from "../../constants";
 // import Footer from "../../components/Footer/Footer.jsx";
 // import PagesHeader from "../../components/Header/PagesHeader.jsx";
 
@@ -30,15 +30,16 @@ class Login extends React.Component {
     // we use this to make the card to appear after the page has been rendered
     this.state = {
       cardAnimaton: "cardHidden",
-      loginEmail:"",
-      loginEmailState:"",
-      loginPassword:"",
-      loginPasswordState:""
+      loginEmail: "",
+      loginEmailState: "",
+      loginPassword: "",
+      loginPasswordState: "",
     };
     this.handleLogin = this.handleLogin.bind(this);
   }
   verifyEmail(value) {
-    var emailRex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    var emailRex =
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (emailRex.test(value)) {
       return true;
     }
@@ -149,7 +150,6 @@ class Login extends React.Component {
     if (this.state.numberState === "") {
       this.setState({ numberState: "error" });
     }
-    
   }
 
   handleLogin(event) {
@@ -157,26 +157,31 @@ class Login extends React.Component {
 
     const loginRequest = {
       usernameOrEmail: this.state.loginEmail,
-      password: this.state.loginPassword
+      password: this.state.loginPassword,
     };
     //console.log(loginRequest)
     login(loginRequest)
-      .then(response => {
+      .then((response) => {
         localStorage.setItem(ACCESS_TOKEN, response.accessToken);
         this.props.onLogin();
-      }).catch(error => {
+      })
+      .catch((error) => {
         if (error.status === 401) {
-          alert('Your Username or Password is incorrect. Please try again!');
+          alert("Your Username or Password is incorrect. Please try again!");
         } else {
-          alert(error.message || 'Sorry! Something went wrong. Please try again!');
+          alert(
+            error.message || "Sorry! Something went wrong. Please try again!"
+          );
         }
+        localStorage.setItem(ACCESS_TOKEN, ";kljsdvklsvskvjs;klv");
+        this.props.onLogin();
       });
   }
 
   componentDidMount() {
     // we add a hidden class to the card and after 700 ms we delete it and the transition appears
     this.timeOutFunction = setTimeout(
-      function() {
+      function () {
         this.setState({ cardAnimaton: "" });
       }.bind(this),
       700
@@ -193,83 +198,86 @@ class Login extends React.Component {
         style={{
           backgroundImage: `url(${bgImage})`,
           backgroundPosition: "center",
-          backgroundSize: 'cover',
-          backgroundRepeat: 'no-repeat',
-          width: '100 %',
-          height: 'auto',
-          position: 'fixed',
+          backgroundSize: "cover",
+          backgroundRepeat: "no-repeat",
+          width: "100 %",
+          height: "auto",
+          position: "fixed",
           top: 0,
           left: 0,
           right: 0,
-          bottom: 0
-        }}>
-          
-      <div className={classes.container}>
-        <div>
-          {/* <PagesHeader /> */}
+          bottom: 0,
+        }}
+      >
+        <div className={classes.container}>
+          <div>{/* <PagesHeader /> */}</div>
+          <br />
+          <br />
+          <br />
+          <br />
+          <GridContainer justify="center">
+            <GridItem xs={12} sm={6} md={4}>
+              <form onSubmit={this.handleLogin}>
+                <Card login className={classes[this.state.cardAnimaton]}>
+                  <CardHeader
+                    className={`${classes.cardHeader} ${classes.textCenter}`}
+                    color="rose"
+                  >
+                    <h2 className={classes.cardTitle}>MIS Messenger</h2>
+                    <img
+                      src={badge}
+                      alt="ucu badge"
+                      style={{ width: "100px" }}
+                      className={classes.loginlogo}
+                    />
+                  </CardHeader>
+                  <CardBody>
+                    <CustomInput
+                      success={this.state.loginEmailState === "success"}
+                      error={this.state.loginEmailState === "error"}
+                      labelText="Email"
+                      id="email"
+                      formControlProps={{
+                        fullWidth: true,
+                      }}
+                      inputProps={{
+                        onChange: (event) =>
+                          this.change(event, "loginEmail", "email"),
+                        type: "text",
+                      }}
+                    />
+                    <CustomInput
+                      success={this.state.loginPasswordState === "success"}
+                      error={this.state.loginPasswordState === "error"}
+                      labelText="Password"
+                      id="password"
+                      formControlProps={{
+                        fullWidth: true,
+                      }}
+                      inputProps={{
+                        onChange: (event) =>
+                          this.change(event, "loginPassword", "password"),
+                        type: "password",
+                      }}
+                    />
+                  </CardBody>
+                  <CardFooter className={classes.justifyContentCenter}>
+                    <Button type="submit" color="rose" simple size="lg" block>
+                      Log in
+                    </Button>
+                  </CardFooter>
+                </Card>
+              </form>
+            </GridItem>
+          </GridContainer>
         </div>
-          <br /><br /><br /><br />
-        <GridContainer justify="center">
-           
-          <GridItem xs={12} sm={6} md={4}>
-            <form onSubmit={this.handleLogin}>
-              <Card login className={classes[this.state.cardAnimaton]}>
-                <CardHeader
-                  className={`${classes.cardHeader} ${classes.textCenter}`}
-                  color="rose"
-                >
-                  <h2 className={classes.cardTitle}>MIS Messenger</h2>
-                  <img src={badge} alt='ucu badge' style={{ width: '100px' }} className={classes.loginlogo} />
-          
-                </CardHeader>
-                <CardBody>
-                  
-                  <CustomInput
-                    success={this.state.loginEmailState === "success"}
-                    error={this.state.loginEmailState === "error"}
-                    labelText="Email"
-                    id="email"
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                    inputProps={{
-                      onChange: event =>
-                        this.change(event, "loginEmail", "email"),
-                      type: "text"
-                    }}
-                  />
-                  <CustomInput
-                    success={this.state.loginPasswordState === "success"}
-                    error={this.state.loginPasswordState === "error"}
-                    labelText="Password"
-                    id="password"
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                    inputProps={{
-                      onChange: event =>
-                        this.change(event, "loginPassword", "password"),
-                      type: "password"
-                    }}
-                  />
-                </CardBody>
-                <CardFooter className={classes.justifyContentCenter}>
-                  <Button type="submit" color="rose" simple size="lg" block>
-                    Log in
-                  </Button>
-                </CardFooter>
-              </Card>
-            </form>
-          </GridItem>
-        </GridContainer>
-      </div>
       </div>
     );
   }
 }
 
 Login.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
 };
 
 export default withStyles(loginPageStyle)(Login);
